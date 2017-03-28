@@ -79,7 +79,10 @@ module.exports = function( io ){
 		for( var r = 0; r < rooms.length; r++ ){
 			var room = rooms[r];
 
-			if( room.isFull() ) continue;
+			if( room.isFull() ) {
+				console.log("room is full !!!");
+				continue;
+			}
 			else{
 				t_room = room;
 				break;
@@ -89,6 +92,7 @@ module.exports = function( io ){
 		// if all rooms are full - create new one and add it to the rooms array
 		if(t_room == null){
 			t_room = new Room();
+			console.log("NEw Room "+ t_room);
 			rooms.push(t_room);
 		}
 
