@@ -273,14 +273,15 @@ Retoosh.Game.prototype = {
 
 							// there is a block next to current tile position
 							if(blockers.lefcenter){
-								if(blockers.lefcenter.type === "indestructable") {
+                //this is only for indestructable blockers
+								// if(blockers.lefcenter.type === "indestructable") {
 									final_direction = "idle";
 									keys_direction = "none";
-								}
-								else if(in_tile_y < c_area.top)
-									final_direction = blockers.top ? keys_direction + "-idle" : blockers.leftop ? keys_direction + "-idle" : "up";
-								else if(in_tile_y > c_area.bottom)
-									final_direction = blockers.bottom ? keys_direction + "-idle" : blockers.leftop ? keys_direction + "-idle" : "down";
+								// }
+								// else if(in_tile_y < c_area.top)
+								// 	final_direction = blockers.top ? keys_direction + "-idle" : blockers.leftop ? keys_direction + "-idle" : "up";
+								// else if(in_tile_y > c_area.bottom)
+								// 	final_direction = blockers.bottom ? keys_direction + "-idle" : blockers.leftop ? keys_direction + "-idle" : "down";
 							}
 							else{
                 //this value handles the auto movement along edges
@@ -321,14 +322,14 @@ Retoosh.Game.prototype = {
 
 							// there is a block next to current tile position
 							if(blockers.rigcenter){
-								if(blockers.rigcenter.type === "indestructable") {
+								// if(blockers.rigcenter.type === "indestructable") {
 									final_direction = "idle";
 									keys_direction = "none";
-								}
-								else if(in_tile_y < c_area.top)
-									final_direction = blockers.top ? keys_direction + "-idle" : blockers.rigtop ? keys_direction + "-idle" : "up";
-								else if(in_tile_y > c_area.bottom)
-									final_direction = blockers.bottom ? keys_direction + "-idle" : blockers.rigbottom ? keys_direction + "-idle" : "down";
+								// }
+								// else if(in_tile_y < c_area.top)
+								// 	final_direction = blockers.top ? keys_direction + "-idle" : blockers.rigtop ? keys_direction + "-idle" : "up";
+								// else if(in_tile_y > c_area.bottom)
+								// 	final_direction = blockers.bottom ? keys_direction + "-idle" : blockers.rigbottom ? keys_direction + "-idle" : "down";
 							}
 							else{
 								// if(in_tile_y > c_area.bottom + 0.05 && blockers.rigbottom) final_direction = "up";
@@ -368,14 +369,14 @@ Retoosh.Game.prototype = {
 
 							// there is a block next to current tile position
 							if(blockers.topcenter){
-								if(blockers.topcenter.type === "indestructable") {
+								// if(blockers.topcenter.type === "indestructable") {
 									final_direction = "idle";
 									keys_direction = "none";
-								}
-								else if(in_tile_x < c_area.left)
-									final_direction = blockers.left ? keys_direction + "-idle" : blockers.topleft ? keys_direction + "-idle" : "left";
-								else if(in_tile_x > c_area.right)
-									final_direction = blockers.right ? keys_direction + "-idle" : blockers.topright ? keys_direction + "-idle" : "right";
+								// }
+								// else if(in_tile_x < c_area.left)
+								// 	final_direction = blockers.left ? keys_direction + "-idle" : blockers.topleft ? keys_direction + "-idle" : "left";
+								// else if(in_tile_x > c_area.right)
+								// 	final_direction = blockers.right ? keys_direction + "-idle" : blockers.topright ? keys_direction + "-idle" : "right";
 							}
 							else{
 								// if(in_tile_x > c_area.right + 0.05 && blockers.topright) final_direction = "left";
@@ -415,14 +416,14 @@ Retoosh.Game.prototype = {
 
 							// there is a block next to current tile position
 							if(blockers.botcenter){
-								if(blockers.botcenter.type === "indestructable") {
+								// if(blockers.botcenter.type === "indestructable") {
 									final_direction = "idle";
 									keys_direction = "none";
-								}
-								else if(in_tile_x < c_area.left)
-									final_direction = blockers.left ? keys_direction + "-idle" : blockers.botleft ? keys_direction + "-idle" : "left";
-								else if(in_tile_x > c_area.right)
-									final_direction = blockers.right ? keys_direction + "-idle" : blockers.botright ? keys_direction + "-idle" : "right";
+								// }
+								// else if(in_tile_x < c_area.left)
+								// 	final_direction = blockers.left ? keys_direction + "-idle" : blockers.botleft ? keys_direction + "-idle" : "left";
+								// else if(in_tile_x > c_area.right)
+								// 	final_direction = blockers.right ? keys_direction + "-idle" : blockers.botright ? keys_direction + "-idle" : "right";
 							}
 							else{
 								// if(in_tile_x > c_area.right + 0.05 && blockers.botright) final_direction = "left";
