@@ -160,6 +160,11 @@ function ExplosionSprite(game, bomb, direction, fire_delay, extinction_delay, ex
 			this.body.setSize( TILE_SIZE * 0.2, TILE_SIZE * 0.2, 9.5, 9.5 );
 
 			var obj = bomb.map.objects[explosion_data.col][explosion_data.row];
+			var powerup = bomb.map.powerups[explosion_data.col][explosion_data.row];
+
+			if(powerup){
+				powerup.disappearPowerup();
+			}
 			if(obj){
 				switch(obj.type){
 					case "bomb":

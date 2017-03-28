@@ -67,6 +67,13 @@ function PowerUp(game, type){
 			});
 		}, this);
 	};
+
+	this.disappearPowerup = function(){
+		SOCKET.emit('powerup disappear', {
+			col: this.col,
+			row: this.row
+		});
+	};
 /*
 	this.disappearAfter = function(delay){
 		var animation_iterator = 0;
