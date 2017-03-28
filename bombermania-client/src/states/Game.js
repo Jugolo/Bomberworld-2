@@ -236,7 +236,10 @@ Retoosh.Game.prototype = {
       var botcenter = tiled_pos.row + 1 >= this.map.rows?false:this.map.objects[tiled_pos.col][tiled_pos.row + 1]?this.map.objects[tiled_pos.col][tiled_pos.row + 1].type:false;
       var topcenter = tiled_pos.row - 1 < 0?false:this.map.objects[tiled_pos.col][tiled_pos.row - 1]?this.map.objects[tiled_pos.col][tiled_pos.row - 1].type:false;
       var rigcenter = tiled_pos.col + 1 >= this.map.cols?false:this.map.objects[tiled_pos.col + 1][tiled_pos.row]?this.map.objects[tiled_pos.col + 1][tiled_pos.row].type:false;
-
+      var leftop = tiled_pos.col - 1 < 0?false:this.map.objects[tiled_pos.col - 1][tiled_pos.row - 1]?this.map.objects[tiled_pos.col - 1][tiled_pos.row - 1].type:false;
+      var lefbottom = tiled_pos.col - 1 < 0?false:this.map.objects[tiled_pos.col - 1][tiled_pos.row + 1]?this.map.objects[tiled_pos.col - 1][tiled_pos.row + 1].type:false;
+      var rigtop = tiled_pos.col + 1 >= this.map.cols?false:this.map.objects[tiled_pos.col + 1][tiled_pos.row - 1]?this.map.objects[tiled_pos.col + 1][tiled_pos.row - 1].type:false;
+      var rigbottom = tiled_pos.col + 1 >= this.map.cols?false:this.map.objects[tiled_pos.col + 1][tiled_pos.row + 1]?this.map.objects[tiled_pos.col + 1][tiled_pos.row + 1].type:false;
 
 			switch(keys_direction){
 				case "none":
@@ -249,7 +252,15 @@ Retoosh.Game.prototype = {
 					// outer tile check: check next tile on the way
 					else{
 						if( tiled_pos.col - 1 < 0 ) // next tile is outside map bounds
-							final_direction = keys_direction + "-idle";
+            {
+              if(this.map.objects[tiled_pos.col + 1][tiled_pos.row] && this.map.objects[tiled_pos.col + 1][tiled_pos.row].type === "indestructable"){
+                final_direction = "idle";
+                keys_direction = "none";
+              }
+              else {
+                final_direction = keys_direction + "-idle";
+              }
+            }
 						else{ // next tile is inside map bounds - check if path is free
 
 							blockers = {
@@ -286,7 +297,15 @@ Retoosh.Game.prototype = {
 					// outer tile check: check next tile on the way
 					else{
 						if( tiled_pos.col + 1 >= this.map.cols ) // next tile is outside map bounds
-							final_direction = keys_direction + "-idle";
+            {
+              if(this.map.objects[tiled_pos.col - 1][tiled_pos.row] && this.map.objects[tiled_pos.col - 1][tiled_pos.row].type === "indestructable"){
+                final_direction = "idle";
+                keys_direction = "none";
+              }
+              else {
+                final_direction = keys_direction + "-idle";
+              }
+            }
 						else{ // next tile is inside map bounds - check if path is free
 
 							blockers = {
@@ -323,7 +342,15 @@ Retoosh.Game.prototype = {
 					// outer tile check: check next tile on the way
 					else{
 						if( tiled_pos.row - 1 < 0 ) // next tile is outside map bounds
-							final_direction = keys_direction + "-idle";
+            {
+              if(this.map.objects[tiled_pos.col][tiled_pos.row + 1] && this.map.objects[tiled_pos.col][tiled_pos.row + 1].type === "indestructable"){
+                final_direction = "idle";
+                keys_direction = "none";
+              }
+              else {
+                final_direction = keys_direction + "-idle";
+              }
+            }
 						else{ // next tile is inside map bounds - check if path is free
 
 							blockers = {
@@ -360,7 +387,15 @@ Retoosh.Game.prototype = {
 					// outer tile check: check next tile on the way
 					else{
 						if( tiled_pos.row + 1 >= this.map.rows ) // next tile is outside map bounds
-							final_direction = keys_direction + "-idle";
+            {
+              if(this.map.objects[tiled_pos.col][tiled_pos.row - 1] && this.map.objects[tiled_pos.col][tiled_pos.row - 1].type === "indestructable"){
+                final_direction = "idle";
+                keys_direction = "none";
+              }
+              else {
+                final_direction = keys_direction + "-idle";
+              }
+            }
 						else{ // next tile is inside map bounds - check if path is free
 
 							blockers = {
@@ -418,16 +453,21 @@ Retoosh.Game.prototype = {
             final_direction = "certain";
           }
           else {
-            final_direction = "uncertain";
+            var left = 0.40, right = 0.60, top = 0.40, bottom = 0.60;
+            if ((in_tile_x < left && leftop === "indestructable" && lefbottom === "indestructable") || (in_tile_x > right && rigtop === "indestructable" && rigbottom === "indestructable") || (in_tile_y < top && rigtop === "indestructable" && leftop === "indestructable") || (in_tile_y > bottom && rigbottom === "indestructable" && lefbottom === "indestructable")){
+              final_direction = "certain";
+            } else {
+              final_direction = "uncertain";
+            }
+					  break;
           }
-					break;
 			}
 
-			if(in_tile_x > c_area.left && in_tile_x < c_area.right )
-				this.avatar.x = (tiled_pos.col + 0.5) * TILE_SIZE;
-
-			if(in_tile_y > c_area.top && in_tile_y < c_area.bottom )
-				this.avatar.y = (tiled_pos.row + 0.5) * TILE_SIZE;
+			// if(in_tile_x > c_area.left && in_tile_x < c_area.right )
+			// 	this.avatar.x = (tiled_pos.col + 0.5) * TILE_SIZE;
+      //
+			// if(in_tile_y > c_area.top && in_tile_y < c_area.bottom )
+			// 	this.avatar.y = (tiled_pos.row + 0.5) * TILE_SIZE;
 
 
 
