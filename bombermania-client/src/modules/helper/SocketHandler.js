@@ -142,7 +142,8 @@ function SocketHandler( context ){
 		context.map.powerups[powerup_data.col][powerup_data.row] = false;
 		if(powerup) powerup.destroy();
 
-		context.game.add.audio('pickup_snd').play();
+		//disabled audio for other players collect powerup
+		// context.game.add.audio('pickup_snd').play();
 	};
 
 	// when ANY player loses invincibility
