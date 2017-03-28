@@ -4,7 +4,7 @@ var Map = require('./Map');
 function Room( max_players ){
 	this.id = uuid();
 
-	this.max_players = max_players ? max_players : 8;
+	this.max_players = max_players ? max_players : 3;
 	this.host_id = null;
 	this.rc_timestamp = 0; // reconnection timestamp - last time when room had a host
 
