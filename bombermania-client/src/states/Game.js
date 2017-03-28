@@ -5,7 +5,7 @@ var IS_HOST = false;
 var IS_FOCUSED = true;
 
 Retoosh.Game = function(game) {
-    this.game = game;
+  this.game = game;
 	this.map = null;
 	this.players = [];
 	this.avatar = null;
@@ -231,6 +231,13 @@ Retoosh.Game.prototype = {
 
 			var final_direction = "idle";
 
+      // checking indestructable objects
+      var lefcenter = tiled_pos.col - 1 < 0?false:this.map.objects[tiled_pos.col - 1][tiled_pos.row]?this.map.objects[tiled_pos.col - 1][tiled_pos.row].type:false;
+      var botcenter = tiled_pos.row + 1 >= this.map.rows?false:this.map.objects[tiled_pos.col][tiled_pos.row + 1]?this.map.objects[tiled_pos.col][tiled_pos.row + 1].type:false;
+      var topcenter = tiled_pos.row - 1 < 0?false:this.map.objects[tiled_pos.col][tiled_pos.row - 1]?this.map.objects[tiled_pos.col][tiled_pos.row - 1].type:false;
+      var rigcenter = tiled_pos.col + 1 >= this.map.cols?false:this.map.objects[tiled_pos.col + 1][tiled_pos.row]?this.map.objects[tiled_pos.col + 1][tiled_pos.row].type:false;
+
+
 			switch(keys_direction){
 				case "none":
 					final_direction = "idle";
@@ -386,15 +393,33 @@ Retoosh.Game.prototype = {
 				case "uncertain":
 					final_direction = "certain";
 					break;
-				default: // complex (upleft, upright, ...) direction
-						var lefcenter = tiled_pos.col - 1 < 0?false:this.map.objects[tiled_pos.col - 1][tiled_pos.row]?this.map.objects[tiled_pos.col - 1][tiled_pos.row].type:false;
-						var botcenter = tiled_pos.row + 1 >= this.map.rows?false:this.map.objects[tiled_pos.col][tiled_pos.row + 1]?this.map.objects[tiled_pos.col][tiled_pos.row + 1].type:false;
-						var topcenter = tiled_pos.row - 1 < 0?false:this.map.objects[tiled_pos.col][tiled_pos.row - 1]?this.map.objects[tiled_pos.col][tiled_pos.row - 1].type:false;
-						var rigcenter = tiled_pos.col + 1 >= this.map.cols?false:this.map.objects[tiled_pos.col + 1][tiled_pos.row]?this.map.objects[tiled_pos.col + 1][tiled_pos.row].type:false;
-					
-						if(lefcenter !== "indestructable" && botcenter !== "indestructable" && topcenter !== "indestructable" && rigcenter !== "indestructable") {
-							final_direction = "uncertain";
-						}				
+        // case "upleft":
+				// 	if(lefcenter !== "indestructable" && topcenter !== "indestructable") {
+				// 		final_direction = "uncertain";
+				// 	}
+				// 	break;
+        // case "upright":
+				// 	if(topcenter !== "indestructable" && rigcenter !== "indestructable") {
+				// 		final_direction = "uncertain";
+				// 	}
+				// 	break;
+        // case "downleft":
+				// 	if(lefcenter !== "indestructable" && botcenter !== "indestructable") {
+				// 		final_direction = "uncertain";
+				// 	}
+				// 	break;
+        // case "downright":
+				// 	if(botcenter !== "indestructable" && rigcenter !== "indestructable") {
+				// 		final_direction = "uncertain";
+				// 	}
+				// 	break;
+				default:
+          if((lefcenter === "indestructable" && rigcenter === "indestructable") || (botcenter === "indestructable" && topcenter === "indestructable")) {
+            final_direction = "certain";
+          }
+          else {
+            final_direction = "uncertain";
+          }
 					break;
 			}
 
