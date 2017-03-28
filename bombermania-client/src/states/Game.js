@@ -253,13 +253,8 @@ Retoosh.Game.prototype = {
 					else{
 						if( tiled_pos.col - 1 < 0 ) // next tile is outside map bounds
             {
-              if(this.map.objects[tiled_pos.col + 1][tiled_pos.row] && this.map.objects[tiled_pos.col + 1][tiled_pos.row].type === "indestructable"){
-                final_direction = "idle";
-                keys_direction = "none";
-              }
-              else {
-                final_direction = keys_direction + "-idle";
-              }
+              final_direction = "idle";
+              keys_direction = "none";
             }
 						else{ // next tile is inside map bounds - check if path is free
 
@@ -302,13 +297,8 @@ Retoosh.Game.prototype = {
 					else{
 						if( tiled_pos.col + 1 >= this.map.cols ) // next tile is outside map bounds
             {
-              if(this.map.objects[tiled_pos.col - 1][tiled_pos.row] && this.map.objects[tiled_pos.col - 1][tiled_pos.row].type === "indestructable"){
-                final_direction = "idle";
-                keys_direction = "none";
-              }
-              else {
-                final_direction = keys_direction + "-idle";
-              }
+              final_direction = "idle";
+              keys_direction = "none";
             }
 						else{ // next tile is inside map bounds - check if path is free
 
@@ -349,13 +339,8 @@ Retoosh.Game.prototype = {
 					else{
 						if( tiled_pos.row - 1 < 0 ) // next tile is outside map bounds
             {
-              if(this.map.objects[tiled_pos.col][tiled_pos.row + 1] && this.map.objects[tiled_pos.col][tiled_pos.row + 1].type === "indestructable"){
-                final_direction = "idle";
-                keys_direction = "none";
-              }
-              else {
-                final_direction = keys_direction + "-idle";
-              }
+              final_direction = "idle";
+              keys_direction = "none";
             }
 						else{ // next tile is inside map bounds - check if path is free
 
@@ -396,13 +381,8 @@ Retoosh.Game.prototype = {
 					else{
 						if( tiled_pos.row + 1 >= this.map.rows ) // next tile is outside map bounds
             {
-              if(this.map.objects[tiled_pos.col][tiled_pos.row - 1] && this.map.objects[tiled_pos.col][tiled_pos.row - 1].type === "indestructable"){
-                final_direction = "idle";
-                keys_direction = "none";
-              }
-              else {
-                final_direction = keys_direction + "-idle";
-              }
+              final_direction = "idle";
+              keys_direction = "none";
             }
 						else{ // next tile is inside map bounds - check if path is free
 
