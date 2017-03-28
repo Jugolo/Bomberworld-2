@@ -283,8 +283,11 @@ Retoosh.Game.prototype = {
 									final_direction = blockers.bottom ? keys_direction + "-idle" : blockers.leftop ? keys_direction + "-idle" : "down";
 							}
 							else{
-								if(in_tile_y > c_area.bottom + 0.05 && blockers.lefbottom) final_direction = "up";
-								else if(in_tile_y < c_area.top - 0.05 && blockers.leftop) final_direction = "down";
+                //this value handles the auto movement along edges
+								// if(in_tile_y > c_area.bottom + 0.05 && blockers.lefbottom) final_direction = "up";
+								// else if(in_tile_y < c_area.top - 0.05 && blockers.leftop) final_direction = "down";
+                if(in_tile_y > c_area.bottom + 0.05 && blockers.lefbottom) final_direction = "certain";
+								else if(in_tile_y < c_area.top - 0.05 && blockers.leftop) final_direction = "certain";
 								else final_direction = keys_direction;
 							}
 						}
@@ -328,8 +331,10 @@ Retoosh.Game.prototype = {
 									final_direction = blockers.bottom ? keys_direction + "-idle" : blockers.rigbottom ? keys_direction + "-idle" : "down";
 							}
 							else{
-								if(in_tile_y > c_area.bottom + 0.05 && blockers.rigbottom) final_direction = "up";
-								else if(in_tile_y < c_area.top - 0.05 && blockers.rigtop) final_direction = "down";
+								// if(in_tile_y > c_area.bottom + 0.05 && blockers.rigbottom) final_direction = "up";
+								// else if(in_tile_y < c_area.top - 0.05 && blockers.rigtop) final_direction = "down";
+								if(in_tile_y > c_area.bottom + 0.05 && blockers.rigbottom) final_direction = "certain";
+								else if(in_tile_y < c_area.top - 0.05 && blockers.rigtop) final_direction = "certain";
 								else final_direction = keys_direction;
 							}
 						}
@@ -373,8 +378,10 @@ Retoosh.Game.prototype = {
 									final_direction = blockers.right ? keys_direction + "-idle" : blockers.topright ? keys_direction + "-idle" : "right";
 							}
 							else{
-								if(in_tile_x > c_area.right + 0.05 && blockers.topright) final_direction = "left";
-								else if(in_tile_x < c_area.left - 0.05 && blockers.topleft) final_direction = "right";
+								// if(in_tile_x > c_area.right + 0.05 && blockers.topright) final_direction = "left";
+								// else if(in_tile_x < c_area.left - 0.05 && blockers.topleft) final_direction = "right";
+								if(in_tile_x > c_area.right + 0.05 && blockers.topright) final_direction = "certain";
+								else if(in_tile_x < c_area.left - 0.05 && blockers.topleft) final_direction = "certain";
 								else final_direction = keys_direction;
 							}
 						}
@@ -418,8 +425,10 @@ Retoosh.Game.prototype = {
 									final_direction = blockers.right ? keys_direction + "-idle" : blockers.botright ? keys_direction + "-idle" : "right";
 							}
 							else{
-								if(in_tile_x > c_area.right + 0.05 && blockers.botright) final_direction = "left";
-								else if(in_tile_x < c_area.left - 0.05 && blockers.botleft) final_direction = "right";
+								// if(in_tile_x > c_area.right + 0.05 && blockers.botright) final_direction = "left";
+								// else if(in_tile_x < c_area.left - 0.05 && blockers.botleft) final_direction = "right";
+								if(in_tile_x > c_area.right + 0.05 && blockers.botright) final_direction = "certain";
+								else if(in_tile_x < c_area.left - 0.05 && blockers.botleft) final_direction = "certain";
 								else final_direction = keys_direction;
 							}
 						}
