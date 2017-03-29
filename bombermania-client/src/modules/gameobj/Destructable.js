@@ -44,7 +44,7 @@ function Destructable(game){
 		}
 
 		map.objects[this.col][this.row] = false;
-		this.game.time.events.add(CONFIG.bombs_countdown - 2500,function() {this.kill();}, this );
+		this.game.time.events.add(1500,function() {this.kill();}, this );
 
 	}
 };
