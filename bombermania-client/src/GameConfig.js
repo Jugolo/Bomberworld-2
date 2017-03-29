@@ -1,6 +1,6 @@
 var CONFIG = {
 
-	bombs_countdown: 5000,
+	bombs_countdown: 4000,
 
 	base_velocity: 90,
 
