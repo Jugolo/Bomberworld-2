@@ -14,6 +14,6 @@ var CONFIG = {
 
 	invincibility_time: 15000,
 
-	powerup_disappear_countdown: 4000
+	powerup_disappear_countdown: 7000
 
 }
