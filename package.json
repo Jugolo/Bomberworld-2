@@ -19,7 +19,7 @@
     "multiplayer",
     "game"
   ],
-  "author": "Mykyta Dniprovskyi & Elvis Rozario",
+  "author": "Elvis Rozario",
   "license": "UNLICENSED",
   "homepage": "https://bitbucket.org/flowuse/bombermania-server#readme",
   "dependencies": {
