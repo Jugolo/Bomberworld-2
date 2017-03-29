@@ -4,7 +4,7 @@ var Map = require('./Map');
 function Room( max_players ){
 	this.id = uuid();
 
-	this.max_players = max_players ? max_players : 3;
+	this.max_players = 3;
 	this.host_id = null;
 	this.rc_timestamp = 0; // reconnection timestamp - last time when room had a host
 
@@ -53,7 +53,9 @@ function Room( max_players ){
 	}
 
 	this.isFull = function(){
-		return this.getPlayersCount() >= max_players;
+		console.log("checking if room is full !!!");
+		console.log("max_players "+ this.max_players);
+		return this.getPlayersCount() >= this.max_players;
 	};
 
 	this.isEmpty = function(){
@@ -65,7 +67,7 @@ function Room( max_players ){
 
 		for( var p = 0; p < this.max_players; p++ )
 			if(this.players[p]) players_count++;
-
+			console.log("       PLayer COunt "+players_count);
 		return players_count;
 	}
 
