@@ -1,4 +1,4 @@
-var EXPLOSION_TIME = 1600; // how long explosion fire remains on map
+var EXPLOSION_TIME = 1400; // how long explosion fire remains on map
 var EXPANSION_TIME = 80; // how fast explosion fire expands
 var EXTINCTION_TIME = 10; // how fast explosion fire extincs
 

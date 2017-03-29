@@ -44,7 +44,7 @@ function Destructable(game){
 		}
 
 		map.objects[this.col][this.row] = false;
-		this.game.time.events.add(1500,function() {this.kill();}, this );
+		this.game.time.events.add(1150,function() {this.kill();}, this );
 
 	}
 };
