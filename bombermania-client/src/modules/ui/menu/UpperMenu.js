@@ -40,8 +40,8 @@ function UpperMenu( game ){
 
 	signout_btn.onPress = function(){
 		webAuth.logout({
-			returnTo: 'https://bomberworld.herokuapp.com/',
-			client_id: 'uueQRQdotPc64OO3qALFN45usArovlOF'
+			returnTo: 'https://bomberworldz.herokuapp.com/',
+			client_id: 'lrFXTgeVe3VhqLht5FCFidAgwoGMb4Vz'
 		});
 	 }
 

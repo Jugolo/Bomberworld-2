@@ -90,7 +90,7 @@ function RegisterContent( game, content_width, content_height ){
 					username: login_tf.value,
 					password: password_tf.value,
 					scope: 'openid profile',
-					audience: 'https://flowuse.auth0.com/api/v2/',
+					audience: 'https://flint0.auth0.com/api/v2/',
 					avatar: null
 				},
 
@@ -106,7 +106,7 @@ function RegisterContent( game, content_width, content_height ){
 					        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
 								context.onRegularRegister( JSON.parse(xmlHttp.responseText), login_tf.value );
 					    }
-					    xmlHttp.open("GET", "https://flowuse.auth0.com/userinfo", true); // true for asynchronous
+					    xmlHttp.open("GET", "https://flint0.auth0.com/userinfo", true); // true for asynchronous
 						xmlHttp.setRequestHeader("Authorization", "Bearer "+result.accessToken)
 					    xmlHttp.send(null);
 						//var token = result.accessToken;
@@ -144,7 +144,7 @@ function RegisterContent( game, content_width, content_height ){
 			        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
 						context.onFacebookRegister( JSON.parse(xmlHttp.responseText) );
 			    }
-			    xmlHttp.open("GET", "https://flowuse.auth0.com/userinfo", true); // true for asynchronous
+			    xmlHttp.open("GET", "https://flint0.auth0.com/userinfo", true); // true for asynchronous
 				xmlHttp.setRequestHeader("Authorization", "Bearer "+result.accessToken)
 			    xmlHttp.send(null);
 			}
