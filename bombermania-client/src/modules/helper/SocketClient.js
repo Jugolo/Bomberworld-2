@@ -227,7 +227,10 @@ SocketClient.prototype.onPowerupCollect = function( powerup_data ){
 	powerup.destroy();
 
 	if(powerup_data.type == "protection")
-		this.context.players[powerup_data.collector_serial].setTemporatyInvinsible(15000);
+	var bomberman = this.context.players[powerup_data.collector_serial];
+	bomberman.x = player_data.x;
+	bomberman.y = player_data.y;
+	bomberman.setTemporatyInvinsible(15000);
 }
 
 SocketClient.prototype.onChatMessage = function( message ){
