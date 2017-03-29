@@ -80,7 +80,9 @@ function RegisterContent( game, content_width, content_height ){
 
 		function(error, result){
 			if(error){
-				console.log(error);
+				var error_msg = game.add.text(0, 0, error.description, font_style);
+				error_msg.x = ( content_width - error_msg.width ) * 0.5;
+				error_msg.y = content_height * 0.30;
 			}
 			else{
 				console.log(result);
@@ -96,7 +98,9 @@ function RegisterContent( game, content_width, content_height ){
 
 				function(error, result){
 					if(error){
-						console.log(error);
+						var error_msg = game.add.text(0, 0, error.description, font_style);
+						error_msg.x = ( content_width - error_msg.width ) * 0.5;
+						error_msg.y = content_height * 0.30;
 					}
 					else{
 						console.log(result);
@@ -116,42 +120,42 @@ function RegisterContent( game, content_width, content_height ){
 		});
 	}
 
-	var or_lbl = game.add.text(0, 0, "OR", font_style);
-	or_lbl.x = ( content_width - or_lbl.width ) * 0.5;
-	or_lbl.y = content_height * 0.74;
-	this.add(or_lbl);
-
-	var facebook_button = new UIButton( game, 330, 45, 0x0072BC, "REGISTER VIA FACEBOOK");
-	facebook_button.x = ( content_width - facebook_button.width ) * 0.5;
-	facebook_button.y = content_height * 0.83;
-	this.add(facebook_button);
-
-	facebook_button.onPress = function(){
-		webAuth.popup.authorize({
-			connection: 'facebook',
-			responseType: 'token'
-		},
-
-		function(error, result){
-			if(error){
-				console.log(error);
-			}
-			else{
-				console.log(result);
-
-				var xmlHttp = new XMLHttpRequest();
-			    xmlHttp.onreadystatechange = function() {
-			        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
-						context.onFacebookRegister( JSON.parse(xmlHttp.responseText) );
-			    }
-			    xmlHttp.open("GET", "https://flint0.auth0.com/userinfo", true); // true for asynchronous
-				xmlHttp.setRequestHeader("Authorization", "Bearer "+result.accessToken)
-			    xmlHttp.send(null);
-			}
-		});
-	};
-
-	this.onFacebookRegister = function( user_data ){};
+	// var or_lbl = game.add.text(0, 0, "OR", font_style);
+	// or_lbl.x = ( content_width - or_lbl.width ) * 0.5;
+	// or_lbl.y = content_height * 0.74;
+	// this.add(or_lbl);
+	//
+	// var facebook_button = new UIButton( game, 330, 45, 0x0072BC, "REGISTER VIA FACEBOOK");
+	// facebook_button.x = ( content_width - facebook_button.width ) * 0.5;
+	// facebook_button.y = content_height * 0.83;
+	// this.add(facebook_button);
+	//
+	// facebook_button.onPress = function(){
+	// 	webAuth.popup.authorize({
+	// 		connection: 'facebook',
+	// 		responseType: 'token'
+	// 	},
+	//
+	// 	function(error, result){
+	// 		if(error){
+	// 			console.log(error);
+	// 		}
+	// 		else{
+	// 			console.log(result);
+	//
+	// 			var xmlHttp = new XMLHttpRequest();
+	// 		    xmlHttp.onreadystatechange = function() {
+	// 		        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+	// 					context.onFacebookRegister( JSON.parse(xmlHttp.responseText) );
+	// 		    }
+	// 		    xmlHttp.open("GET", "https://flint0.auth0.com/userinfo", true); // true for asynchronous
+	// 			xmlHttp.setRequestHeader("Authorization", "Bearer "+result.accessToken)
+	// 		    xmlHttp.send(null);
+	// 		}
+	// 	});
+	// };
+	//
+	// this.onFacebookRegister = function( user_data ){};
 	this.onRegularRegister = function( user_data ){};
 }
 
