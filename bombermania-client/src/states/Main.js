@@ -37,6 +37,7 @@ Retoosh.Main.prototype = {
 
 	  lower_menu.onContactsPress = function(){
 		  context.toggleContacsPanel();
+
 	  };
 
 	  var panels_margin = 40;
@@ -124,11 +125,11 @@ Retoosh.Main.prototype = {
 	  this.contacts_panel.x = -this.contacts_panel.width;
 	  this.contacts_panel.y = this.contacts_panel.default_y;
 
-	  var friends_content = new FriendsContent( this.game, panels_width, panels_height - this.contacts_panel.tab_pane.height);
-	  this.contacts_panel.addTab( "FRIENDS", friends_content );
-
-	  var requests_content = new RequestsContent( this.game, panels_width, panels_height - this.contacts_panel.tab_pane.height);
-	  this.contacts_panel.addTab( "REQUESTS", requests_content );
+	  // var friends_content = new FriendsContent( this.game, panels_width, panels_height - this.contacts_panel.tab_pane.height);
+	  // this.contacts_panel.addTab( "FRIENDS", friends_content );
+		//
+	  // var requests_content = new RequestsContent( this.game, panels_width, panels_height - this.contacts_panel.tab_pane.height);
+	  // this.contacts_panel.addTab( "REQUESTS", requests_content );
 
 	  /*
 	  -------------------------------------------------------
@@ -184,30 +185,36 @@ Retoosh.Main.prototype = {
   },
 
   toggleContacsPanel: function(){
-	  var signip_panel = this.contacts_panel;
+		if (game.sound.mute === true) {
+			game.sound.mute = false;
+		} else {
+			game.sound.mute = true;
+		}
 
-	  if(signip_panel.is_toggled) return;
-
-	  if(signip_panel.is_shown){
-		  signip_panel.is_toggled = true;
-
-		  var animation_tween = this.game.add.tween(signip_panel).to( {x: -signip_panel.width, y: signip_panel.y},
-			  														  1000, Phaser.Easing.Back.InOut, true );
-		  animation_tween.onComplete.add( function(){
-			  signip_panel.is_toggled = false;
-			  signip_panel.is_shown = false;
-		  });
-	  }
-	  else{
-		  signip_panel.is_toggled = true;
-
-		  var animation_tween = this.game.add.tween(signip_panel).to( {x: signip_panel.default_x, y: signip_panel.default_y},
-			  														  900, Phaser.Easing.Back.Out, true );
-		  animation_tween.onComplete.add( function(){
-			  signip_panel.is_toggled = false;
-			  signip_panel.is_shown = true;
-		  });
-	  }
+	  // var signip_panel = this.contacts_panel;
+		//
+	  // if(signip_panel.is_toggled) return;
+		//
+	  // if(signip_panel.is_shown){
+		//   signip_panel.is_toggled = true;
+		//
+		//   var animation_tween = this.game.add.tween(signip_panel).to( {x: -signip_panel.width, y: signip_panel.y},
+		// 	  														  1000, Phaser.Easing.Back.InOut, true );
+		//   animation_tween.onComplete.add( function(){
+		// 	  signip_panel.is_toggled = false;
+		// 	  signip_panel.is_shown = false;
+		//   });
+	  // }
+	  // else{
+		//   signip_panel.is_toggled = true;
+		//
+		//   var animation_tween = this.game.add.tween(signip_panel).to( {x: signip_panel.default_x, y: signip_panel.default_y},
+		// 	  														  900, Phaser.Easing.Back.Out, true );
+		//   animation_tween.onComplete.add( function(){
+		// 	  signip_panel.is_toggled = false;
+		// 	  signip_panel.is_shown = true;
+		//   });
+	  // }
   },
 
   onRoomFound: function( data ){

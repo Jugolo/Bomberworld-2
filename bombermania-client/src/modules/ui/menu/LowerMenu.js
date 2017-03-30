@@ -21,7 +21,7 @@ function LowerMenu( game ){
 	}, this );
 
 	// contacts button
-	var contacts_btn = this.create( 0, 0, 'contacts_icon' );
+	var contacts_btn = this.create( 0, 0, 'soundon' );
 	contacts_btn.height = this.height * 0.8;
 	contacts_btn.scale.x = contacts_btn.scale.y;
 	contacts_btn.x = 30;
@@ -31,26 +31,27 @@ function LowerMenu( game ){
 	contacts_btn.input.useHandCursor = true;
 	contacts_btn.events.onInputDown.add( function(){
 		this.onContactsPress();
+		contacts_btn.key==='soundon'?contacts_btn.loadTexture('soundoff',0):contacts_btn.loadTexture('soundon',0);
 	}, this );
 
-	this.setState = function( state ){
-		if( this.state == state ) return;
+	// this.setState = function( state ){
+	// 	if( this.state == state ) return;
+	//
+	// 	switch( state ){
+	// 		case 'unauthorized':
+	// 			contacts_btn.visible = false;
+	//
+	// 			break;
+	// 		case 'authorized':
+	// 			contacts_btn.visible = true;
+	//
+	// 			break;
+	// 	}
+	//
+	// 	this.state = state;
+	// };
 
-		switch( state ){
-			case 'unauthorized':
-				contacts_btn.visible = false;
-
-				break;
-			case 'authorized':
-				contacts_btn.visible = true;
-
-				break;
-		}
-
-		this.state = state;
-	};
-
-	this.setState('unauthorized');
+	// this.setState('unauthorized');
 
 	this.onDonatePress = function(){};
 	this.onContactsPress = function(){};
