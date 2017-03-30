@@ -70,6 +70,7 @@ function RegisterContent( game, content_width, content_height ){
 	signup_button.x = ( content_width - signup_button.width ) * 0.5;
 	signup_button.y = content_height * 0.62;
 	this.add(signup_button);
+	var _this = this;
 
 	signup_button.onPress = function(){
 		webAuth.signup({
@@ -80,9 +81,12 @@ function RegisterContent( game, content_width, content_height ){
 
 		function(error, result){
 			if(error){
-				var error_msg = game.add.text(0, 0, error.description, font_style);
-				error_msg.x = ( content_width - error_msg.width ) * 0.5;
-				error_msg.y = content_height * 0.30;
+				_this.remove(_this.getAt(4));
+				var err = error.description.split(':');
+				var error_msg1 = game.add.text(0, 0, err[0], font_style);;
+					error_msg1.x = ( content_width - error_msg1.width * 1.6 );
+					error_msg1.y = content_height * 0.80;
+					_this.addAt(error_msg1,4);
 			}
 			else{
 				console.log(result);

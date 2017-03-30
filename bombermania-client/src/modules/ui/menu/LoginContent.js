@@ -48,8 +48,14 @@ function LoginContent( game, content_width, content_height ){
 	signin_button.x = ( content_width - signin_button.width ) * 0.5;
 	signin_button.y = content_height * 0.54;
 	this.add(signin_button);
+	var _this = this;
 
 	signin_button.onPress = function(){
+		// if(this.error_msg1){
+		// 	this.remove(error_msg1);
+		// 	this.remove(error_msg2);
+		// }
+
 		webAuth.client.login({
 			realm: 'Username-Password-Authentication',
 			username: login_tf.value,
@@ -61,9 +67,12 @@ function LoginContent( game, content_width, content_height ){
 
 		function(error, result){
 			if(error){
-				var error_msg = game.add.text(0, 0, error.description, font_style);
-				error_msg.x = ( content_width - error_msg.width ) * 0.5;
-				error_msg.y = content_height * 0.30;
+				_this.remove(_this.getAt(5));
+				var err = error.description.split(':');
+				var error_msg1 = game.add.text(0, 0, err[0], font_style);;
+					error_msg1.x = ( content_width - error_msg1.width * 1.2 );
+					error_msg1.y = content_height * 0.70;
+					_this.addAt(error_msg1,5);
 			}
 			else{
 				console.log(result);
