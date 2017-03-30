@@ -70,7 +70,7 @@ module.exports = function( io ){
 	};
 
 	// when current client asks for room to enter
-	this.onRoomRequest = function(){
+	this.onRoomRequest = function(client_data){
 		console.log("got 'room request'");
 
 		var t_room = null;
@@ -91,7 +91,7 @@ module.exports = function( io ){
 			t_room = new Room();
 			rooms.push(t_room);
 		}
-
+		this.player.name = client_data.name;
 		// associate current player with the room
 		t_room.insertPlayer( this.player );
 

@@ -145,7 +145,7 @@ Retoosh.Main.prototype = {
 		  var nickname = upper_menu.getNickname();
 		  USERNAME = nickname == "" ? upper_menu.getUsername() : nickname;
 
-		  SOCKET.emit('room request');
+		  SOCKET.emit("room request", {name: USERNAME});
 		  //this.game.state.start('Game');
 	  };
 
