@@ -60,13 +60,12 @@ Retoosh.Game.prototype = {
 			bomberman.serial = i;
 			bomberman.visible = false;
 
-			var nickname = game.add.text(0, 0, "Gue", { font: "22px Arial", fill: "#"+Phaser.Color.componentToHex(this.player_colors[i]) });
-			nickname.anchor.set( 0.5, 1 );
-
 			// update bomberman status according to data from the server
 			var player_data = this.room.players[i];
 
 			if(player_data){
+        var nickname = game.add.text(0, 0, player_data.name, { font: "22px Arial", fill: "#"+Phaser.Color.componentToHex(this.player_colors[i]) });
+  			nickname.anchor.set( 0.5, 1 );
 				console.log(player_data);
 				bomberman.i_timestamp = player_data.i_timestamp;
 				bomberman.setInvincible( player_data.is_invincible );
