@@ -116,7 +116,7 @@ function Bomberman(game){
 		this.is_dying = true;
 
 		this.death_animation = this.playAnimation('death', 1.5, false);
-		if(this.death_animation){
+		// if(this.death_animation){
 			this.death_animation.onComplete.add(function(){
 				var animation_iterator = 0;
 				var blinking_speed = 300;
@@ -135,7 +135,7 @@ function Bomberman(game){
 				}, this);
 
 			}, this);
-		}
+		// }
 
 	};
 
