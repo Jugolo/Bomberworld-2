@@ -96,6 +96,12 @@ function SocketHandler( context ){
 				break;
 			case 3: animation_key = "upwalk"; break;
 			case 4: animation_key = "downwalk"; break;
+			case 5: //dance
+				if(Date.now() % 5 == 0){
+					bomberman.scale.x *= -1;
+					animation_key = "sidewalk";
+					break;
+				}
 		}
 		if(animation_key == "idle")
 			bomberman.pauseAnimation();

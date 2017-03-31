@@ -538,6 +538,8 @@ Retoosh.Game.prototype = {
 					case "up": animation_id = 3; break;
 					case "down": animation_id = 4; break;
 				}
+        if(final_direction==="uncertain")
+          animation_id=5;
 
 				SOCKET.emit("player move", [
 					context.avatar.serial,
