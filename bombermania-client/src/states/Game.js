@@ -589,6 +589,7 @@ Retoosh.Game.prototype = {
 			victim_serial: bomberman.serial,
 			killer_serial: explosion.owner.serial
 		});
+    bomberman.is_dying = true;
 		/*
 		if(!avatar.is_dying) SOCKET_CLIENT.emit('player death', {
 			victim_serial: avatar.serial,
