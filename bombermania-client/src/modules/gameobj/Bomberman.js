@@ -116,24 +116,27 @@ function Bomberman(game){
 		this.is_dying = true;
 
 		this.death_animation = this.playAnimation('death', 1.5, false);
-		this.death_animation.onComplete.add(function(){
-			var animation_iterator = 0;
-			var blinking_speed = 300;
-			var last_iteration = 10;
+		if(this.death_animation){
+			this.death_animation.onComplete.add(function(){
+				var animation_iterator = 0;
+				var blinking_speed = 300;
+				var last_iteration = 10;
 
-			var blinking_timer = this.game.time.events.repeat(300, last_iteration, function(){
-				animation_iterator++;
+				var blinking_timer = this.game.time.events.repeat(300, last_iteration, function(){
+					animation_iterator++;
 
-				if(animation_iterator < last_iteration)
-					this.alpha = this.alpha == 1 ? 0 : 1;
-				else{
-					this.alpha = 1;
-					this.killProperly();
-					nickname_label.visible = false;
-				}
+					if(animation_iterator < last_iteration)
+						this.alpha = this.alpha == 1 ? 0 : 1;
+					else{
+						this.alpha = 1;
+						this.killProperly();
+						nickname_label.visible = false;
+					}
+				}, this);
+
 			}, this);
+		}
 
-		}, this);
 	};
 
 	this.resetUpgrades = function(){
