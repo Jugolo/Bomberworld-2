@@ -545,7 +545,8 @@ Retoosh.Game.prototype = {
 					context.avatar.serial,
 					context.avatar.x,
 					context.avatar.y,
-					animation_id
+					animation_id,
+          context.updateIterator
 				]);
 			};
 

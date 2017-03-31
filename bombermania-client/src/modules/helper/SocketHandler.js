@@ -76,6 +76,7 @@ function SocketHandler( context ){
 		var x = move_data[1];
 		var y = move_data[2];
 		var animation_id = move_data[3];
+		var iterator = move_data[4];
 
 		var bomberman = context.players[serial];
 		var nickname = context.nicknames[serial];
@@ -97,7 +98,7 @@ function SocketHandler( context ){
 			case 3: animation_key = "upwalk"; break;
 			case 4: animation_key = "downwalk"; break;
 			case 5: //dance
-				if(Date.now() % 5 == 0){
+				if(iterator % 5 == 0){
 					bomberman.scale.x *= -1;
 					animation_key = "sidewalk";
 					break;
