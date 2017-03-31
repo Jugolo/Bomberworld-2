@@ -582,7 +582,7 @@ Retoosh.Game.prototype = {
 
 	onBombermanInExplosion: function(bomberman, explosion){
 		console.log(bomberman.is_invincible, bomberman.is_dead, bomberman.is_dying);
-		if(bomberman.is_invincible || bomberman.is_dead || bomberman.is_dying) return;
+		if(bomberman.is_invincible || bomberman.is_dead) return;
 
 		bomberman.is_dying = true;
 
