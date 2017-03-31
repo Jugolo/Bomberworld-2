@@ -221,6 +221,7 @@ module.exports = function( io ){
 
 	// when current client plants bomb
 	this.onPlayerPlantBomb = function( bomb_data ){
+		// if(this.room.map.objects[bomb_data.col][bomb_data.row]) return;
 		var owner = this.room.players[bomb_data.owner_serial];
 
 		// add timestamp to bomb( to know independent time when it were planted )
@@ -233,6 +234,7 @@ module.exports = function( io ){
 		for( var l = 0; l < this.room.map.layers.length; l++ ){
 			if(this.room.map.layers[l].name == "bombs"){
 				var bomb_index = bomb_data.row * this.room.map.width + bomb_data.col;
+				if(this.room.map.layers[l].data[bomb_index]) return;
 				this.room.map.layers[l].data[bomb_index] = bomb_data.owner_serial + 1;
 				break;
 			}
