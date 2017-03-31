@@ -95,7 +95,7 @@ function Map(game, map_data){
 	this.resetShadows = function(){
 		this.shadows.removeAll();
 
-		var shadow_color =  0x35322A;
+		var shadow_color =  0x003399;
 
 		var shadow = new ColorRect(game, TILE_SIZE * this.cols, TILE_SIZE / 2, shadow_color);
 		this.shadows.add(shadow);
