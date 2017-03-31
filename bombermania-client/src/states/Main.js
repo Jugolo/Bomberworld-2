@@ -68,7 +68,7 @@ Retoosh.Main.prototype = {
 		  upper_menu.setState('authorized');
 		  upper_menu.setNickname(nickname);
 
-		  lower_menu.setState('authorized');
+		  // lower_menu.setState('authorized');
 
 		  context.toggleSignipPanel();
 	  };
@@ -80,7 +80,7 @@ Retoosh.Main.prototype = {
 		  upper_menu.setState('authorized');
 		  upper_menu.setNickname(user_name);
 
-		  lower_menu.setState('authorized');
+		  // lower_menu.setState('authorized');
 
 		  context.toggleSignipPanel();
 	  };
@@ -97,7 +97,7 @@ Retoosh.Main.prototype = {
 		  upper_menu.setState('authorized');
 		  upper_menu.setNickname(nickname);
 
-		  lower_menu.setState('authorized');
+		  // lower_menu.setState('authorized');
 
 		  context.toggleSignipPanel();
 	  };
@@ -109,7 +109,7 @@ Retoosh.Main.prototype = {
 		  upper_menu.setState('authorized');
 		  upper_menu.setNickname(user_name);
 
-		  lower_menu.setState('authorized');
+		  // lower_menu.setState('authorized');
 
 		  context.toggleSignipPanel();
 	  };
