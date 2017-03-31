@@ -152,6 +152,7 @@ module.exports = function( io ){
 		this.player.is_dead = false;
 		this.player.is_invincible = true;
 		this.player.i_timestamp = Date.now();
+		this.player.nickname = data.nickname;
 
 		data.timestamp = this.player.i_timestamp;
 

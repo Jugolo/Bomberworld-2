@@ -48,7 +48,10 @@ function SocketHandler( context ){
 
 	// when OTHER player spawns somewhere on map
 	this.onPlayerSpawn = function( player_data ){
-		console.log('Player ' + player_data.serial + " spawn at " + player_data.x + ", "+player_data.y);
+		console.log('Player ' + player_data.serial + " spawn at " + player_data.x + ", "+player_data.y + " nick: " + player_data.nickname);
+
+		var nickname = game.add.text(0, 0, player_data.nickname, { font: "22px Arial", fill: "#"+Phaser.Color.componentToHex(0x7CFC00) });
+		nickname.anchor.set( 0.5, 1 );
 
 		var bomberman = context.players[player_data.serial];
 		bomberman.x = player_data.x;
