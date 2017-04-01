@@ -4,9 +4,9 @@ var CONFIG = {
 
 	base_velocity: 90,
 
-	velocity_threshold: 150,
+	velocity_threshold: 160,
 
-	velocity_increment: 30,
+	velocity_increment: 32,
 
 	blast_threshold: 6,
 
