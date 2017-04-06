@@ -8,11 +8,11 @@ var CONFIG = {
 
 	velocity_increment: 32,
 
-	blast_threshold: 6,
+	blast_threshold: 10,
 
 	capacity_threshold: 8,
 
-	invincibility_time: 15000,
+	invincibility_time: 7500,
 
 	powerup_disappear_countdown: 7000,
 
