@@ -31,7 +31,7 @@ function ChatPanel( game, context ){
 	game.physics.arcade.enable(this.bg);
 	this.bg.body.immovable = true;
 
-	var instruction_label = game.add.text(this.bg.width - 20, 5, "Press 'C' to chat", { font: "14px Arial", fill: "#FFFFFF" } );
+	var instruction_label = game.add.text(this.bg.width - 20, 5, "www.bomberworld.io - Press the spacebar to spawn & Press 'C' to chat", { font: "16px Arial", fill: "#FFFFFF" } );
 	instruction_label.anchor.set(1, 0);
 	this.add(instruction_label);
 
