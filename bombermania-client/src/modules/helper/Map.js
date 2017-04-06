@@ -12,7 +12,7 @@ function Map(game, map_data){
 	this.tile_height = json_data.tileheight;
 	this.spawn_points = [];
 
-	this.terrain = new ColorRect(game, (this.cols - 0.5) * TILE_SIZE, (this.rows - 0.5) * TILE_SIZE, 0x514F45);
+	this.terrain = new ColorRect(game, (this.cols - 0.5) * TILE_SIZE, (this.rows - 0.5) * TILE_SIZE, 0x00035e);
 	this.terrain.x = TILE_SIZE * 0.5;
 	this.terrain.y = TILE_SIZE * 0.5;
 	this.add(this.terrain);
