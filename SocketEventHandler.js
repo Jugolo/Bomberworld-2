@@ -213,7 +213,7 @@ module.exports = function( io ){
 
 	// when ANY player loses invincibility
 	this.onPlayerLostInvicibility = function( player_data ){
-		this.room.players[player_data.serial].is_invincible = false;
+		this.room.players[player_data.serial].is_invincible = true;
 
 		// notify all that player lost invincibility
 		this.room.emitAll(io, 'player lost invincibility', player_data);
