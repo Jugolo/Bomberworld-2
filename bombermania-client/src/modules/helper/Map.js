@@ -12,7 +12,7 @@ function Map(game, map_data){
 	this.tile_height = json_data.tileheight;
 	this.spawn_points = [];
 
-	this.terrain = new ColorRect(game, (this.cols - 0.5) * TILE_SIZE, (this.rows - 0.5) * TILE_SIZE, 0x00035e);
+	this.terrain = new ColorRect(game, (this.cols - 0.5) * TILE_SIZE, (this.rows - 0.5) * TILE_SIZE, 0x003399);
 	this.terrain.x = TILE_SIZE * 0.5;
 	this.terrain.y = TILE_SIZE * 0.5;
 	this.add(this.terrain);
@@ -95,7 +95,7 @@ function Map(game, map_data){
 	this.resetShadows = function(){
 		this.shadows.removeAll();
 
-		var shadow_color =  0x003399;
+		var shadow_color =  0x00035e;
 
 		var shadow = new ColorRect(game, TILE_SIZE * this.cols, TILE_SIZE / 2, shadow_color);
 		this.shadows.add(shadow);
