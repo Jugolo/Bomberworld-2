@@ -117,7 +117,6 @@ module.exports = function( io ){
 		if( this.room.isHost( this.player ) ){
 			this.room.rc_timestamp = Date.now();
 			this.room.selectNewHost( io );
-			game.stage.disableVisibilityChange = true;
 		}
 	};
 
