@@ -10,7 +10,7 @@ module.exports = function( client_id ){
 	this.y = 0;
 	this.is_dead = true;
 	this.frags = 0;
-	this.last_message = "Press enter to chat";
+	this.last_message = "Press C to type a line and press enter";
 	this.animation_key = 0;
 	this.is_active = true; // player has focus on game
 
