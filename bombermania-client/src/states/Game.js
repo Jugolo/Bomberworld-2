@@ -5,7 +5,7 @@ var IS_HOST = false;
 var IS_FOCUSED = true;
 
 Retoosh.Game = function(game) {
-	game.stage.disableVisibilityChange = true;
+
   this.game = game;
 	this.map = null;
 	this.players = [];
@@ -63,6 +63,7 @@ Retoosh.Game.prototype = {
 
 			// update bomberman status according to data from the server
 			var player_data = this.room.players[i];
+			
 
 			if(player_data){
         var nickname = game.add.text(0, 0, player_data.name, { font: "22px Arial", fill: "#"+Phaser.Color.componentToHex(this.player_colors[i]) });
