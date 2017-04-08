@@ -15,5 +15,5 @@ module.exports = function( client_id ){
 	this.is_active = true; // player has focus on game
 
 	this.is_invincible = false;
-	this.i_timestamp = 1491684098000; // timestamp when player become invincible
+	this.i_timestamp = 0; // timestamp when player become invincible
 };
