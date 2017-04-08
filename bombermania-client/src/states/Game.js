@@ -3,8 +3,9 @@ var showDebug = false;
 var TILE_SIZE = 64;
 var IS_HOST = false;
 var IS_FOCUSED = true;
-Phaser.RequestAnimationFrame = function(game, forceSetTimeOut) {
+
 Retoosh.Game = function(game) {
+	game.stage.disableVisibilityChange = true;
   this.game = game;
 	this.map = null;
 	this.players = [];
