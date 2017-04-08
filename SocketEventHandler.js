@@ -112,7 +112,7 @@ module.exports = function( io ){
 	// when current client lost game focus
 	this.onPlayerUnavailable = function(){
 		console.log("Player "+this.id+" unavailable");
-		this.player.is_active = false;
+		this.player.is_active = true;
 
 		if( this.room.isHost( this.player ) ){
 			this.room.rc_timestamp = Date.now();
