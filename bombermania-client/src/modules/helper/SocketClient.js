@@ -86,7 +86,7 @@ SocketClient.prototype.onNewPlayer = function( player_data ){
 	this.context.nicknames[player_data.serial].text = player_data.name.substring(0, 3);
 
 	// add bomberman to game
-	bomberman.visible = !player_data.is_dead;
+	bomberman.visible = player_data.is_dead;
 	bomberman.is_dead = player_data.is_dead;
 
 	bomberman.x = player_data.x - TILE_SIZE / 2;
