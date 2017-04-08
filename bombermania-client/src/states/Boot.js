@@ -16,8 +16,7 @@ Retoosh.Boot.prototype = {
       this.game.scale.parentIsWindow = false;
       this.game.scale.pageAlignVertically = true;
       this.game.scale.pageAlignHorizontally = true;
-
-	  //this.game.stage.disableVisibilityChange = true;
+      this.game.stage.disableVisibilityChange = true;
 
 	  this.game.add.plugin(PhaserInput.Plugin);
 
