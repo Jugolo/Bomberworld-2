@@ -60,6 +60,7 @@
 		var game;
 
 	    function initGame() {
+		game.stage.disableVisibilityChange = true;
 	        game = new Phaser.Game(Retoosh.WIDTH, Retoosh.HEIGHT, Phaser.CANVAS, 'game-area');
 	        game.state.add('Boot', Retoosh.Boot);
 	        game.state.add('Preloader', Retoosh.Preloader);
