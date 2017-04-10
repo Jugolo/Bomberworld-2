@@ -150,7 +150,7 @@ module.exports = function( io ){
 		this.player.x = data.x;
 		this.player.y = data.y;
 		this.player.is_dead = false;
-		this.player.is_invincible = true;
+		this.player.is_invincible = false;
 		this.player.i_timestamp = Date.now();
 		this.player.nickname = data.nickname;
 
@@ -203,7 +203,7 @@ module.exports = function( io ){
 
 		// save invicibility timestamp( so the newly entered player would be able to resume invicibility countdowns)
 		if( powerup_data.type == 4 ){
-			this.player.is_invincible = true;
+			this.player.is_invincible = false;
 			this.player.i_timestamp = powerup_data.timestamp;
 		};
 
