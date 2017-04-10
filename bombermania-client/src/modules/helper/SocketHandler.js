@@ -62,7 +62,7 @@ function SocketHandler( context ){
 		bomberman.alpha = 1;
 		bomberman.visible = true;
 		bomberman.playAnimation("idle");
-		bomberman.setInvincible( false );
+		bomberman.setInvincible("false");
 		bomberman.i_timestamp = player_data.timestamp;
 
 		context.nicknames[player_data.serial].visible = true;
