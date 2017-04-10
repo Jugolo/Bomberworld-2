@@ -5,7 +5,7 @@ module.exports = function( client_id ){
 	this.serial = null; // serial number inside the room
 
 	// in-game properties
-	this.name = "Guest";
+	this.name = "Bomberworld";
 	this.x = 0;
 	this.y = 0;
 	this.is_dead = true;
