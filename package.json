@@ -19,9 +19,9 @@
     "multiplayer",
     "game"
   ],
-  "author": "visRozarzz",
+  "author": "Costa",
   "license": "UNLICENSED",
-  "homepage": "https://bitbucket.org/flowuse/bombermania-server#readme",
+  "homepage": "https://bomberworld.io",
   "dependencies": {
     "auth0-js": "^8.2.0",
     "express": "4.14.1",
