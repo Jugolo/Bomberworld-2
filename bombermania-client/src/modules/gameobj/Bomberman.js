@@ -75,12 +75,17 @@ function Bomberman(game){
 
 	this.setInvincible = function( flag ){
 		if(flag){
-			this.i_animation = this.game.time.events.loop(300, function(){
-				this.alpha = this.alpha == 1 ? 0 : 1;
-			}, this);
+            if (!this.i_animation) {
+			    this.i_animation = this.game.time.events.loop(300, function(){
+				    this.alpha = this.alpha == 1 ? 0 : 1;
+			    }, this);
+            }
 		}
 		else{
-			if(this.i_animation) this.game.time.events.remove(this.i_animation);
+			if(this.i_animation) { 
+                this.game.time.events.remove(this.i_animation);
+                this.i_animation = false;
+            }
 			this.alpha = 1;
 		}
 
