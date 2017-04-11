@@ -593,13 +593,12 @@ Retoosh.Game.prototype = {
 			killer_serial: explosion.owner.serial
 		});
         bomberman.is_dying = true;
-		/*
-		if(!avatar.is_dying) SOCKET_CLIENT.emit('player death', {
+		if(!bomberman.is_dying) SOCKET_CLIENT.emit('player death', {
 			victim_serial: avatar.serial,
 			killer_serial: explosion.owner.serial
-		});*/
+		});
 
-		//avatar.die( this.nicknames[this.avatar.serial] );
+		bomberman.die( this.nicknames[this.avatar.serial] );
 	},
 
 	onAvatarCollectPowerup: function(avatar, collected_powerup){
