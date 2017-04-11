@@ -72,7 +72,6 @@ Retoosh.Game.prototype = {
 				console.log(player_data);
 				bomberman.i_timestamp = player_data.i_timestamp;
 				bomberman.setInvincible( player_data.is_invincible );
-
 				bomberman.is_dead = player_data.is_dead;
 				bomberman.visible = !player_data.is_dead;
 				nickname.visible = bomberman.visible;
@@ -184,13 +183,13 @@ Retoosh.Game.prototype = {
 		this.game.onPause.add(function(){
 			SOCKET.emit('player unavailable');
 			if(IS_HOST) this.stopBeingHost();
-
 			IS_FOCUSED = false;
 		}, this);
 
 		this.game.onResume.add(function(){
 			SOCKET.emit('player available');
-
+		this.players[i].visible = !player_data.is_dead;
+ +				this.nicknames[i].visible = !player_data.is_dead;
 			IS_FOCUSED = true;
 		}, this);
 
