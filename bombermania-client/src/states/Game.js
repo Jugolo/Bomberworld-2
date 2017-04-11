@@ -6,7 +6,7 @@ var IS_FOCUSED = true;
 
 Retoosh.Game = function(game) {
 
-  this.game = game;
+    this.game = game;
 	this.map = null;
 	this.players = [];
 	this.avatar = null;
@@ -36,6 +36,7 @@ Retoosh.Game.prototype = {
 
 	init: function( room ){
 		this.room = room;
+        this.game.stage.disableVisibilityChange = true;
 
 		IS_HOST = this.room.host_id == SOCKET.id;
 		console.log("Is host? "+IS_HOST);
@@ -66,8 +67,8 @@ Retoosh.Game.prototype = {
 			
 
 			if(player_data){
-        var nickname = game.add.text(0, 0, player_data.name, { font: "22px Arial", fill: "#"+Phaser.Color.componentToHex(this.player_colors[i]) });
-  			nickname.anchor.set( 0.5, 1 );
+                var nickname = game.add.text(0, 0, player_data.name, { font: "22px Arial", fill: "#"+Phaser.Color.componentToHex(this.player_colors[i]) });
+  			    nickname.anchor.set( 0.5, 1 );
 				console.log(player_data);
 				bomberman.i_timestamp = player_data.i_timestamp;
 				bomberman.setInvincible( player_data.is_invincible );
@@ -79,7 +80,7 @@ Retoosh.Game.prototype = {
 				bomberman.x = player_data.x;
 				bomberman.y = player_data.y;
 
-        bomberman.nickname = player_data.name;
+                bomberman.nickname = player_data.name;
 
 				if(player_data.id == SOCKET.id) this.avatar = bomberman;
 			}
@@ -591,7 +592,7 @@ Retoosh.Game.prototype = {
 			victim_serial: bomberman.serial,
 			killer_serial: explosion.owner.serial
 		});
-    bomberman.is_dying = true;
+        bomberman.is_dying = true;
 		/*
 		if(!avatar.is_dying) SOCKET_CLIENT.emit('player death', {
 			victim_serial: avatar.serial,
