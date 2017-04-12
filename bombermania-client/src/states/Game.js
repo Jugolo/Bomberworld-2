@@ -183,7 +183,7 @@ Retoosh.Game.prototype = {
 		this.game.onPause.add(function(){
 			SOCKET.emit('player unavailable');
 			if(IS_HOST) this.stopBeingHost();
-			IS_FOCUSED = true;
+			IS_FOCUSED = false;
 		}, this);
 
 		this.game.onResume.add(function(){
