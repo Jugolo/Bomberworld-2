@@ -3,6 +3,11 @@
 	src: url('../assets/fonts/LuckiestGuy.ttf') format('truetype');
 }
 
+@font-face {
+    font-family: 'CooperBlack';
+    src: url('../assets/fonts/CooperBlackStd.otf') format('truetype');
+}
+
 *{
 	padding: 0;
 	margin: 0;
