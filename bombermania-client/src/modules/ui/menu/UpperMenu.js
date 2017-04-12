@@ -63,7 +63,7 @@ function UpperMenu( game ){
 		borderWidth: 0,
 		borderColor: "#575957",
 	    borderRadius: 100,
-		placeHolder: "  NickName"
+		placeHolder: "  Enter your nickname here"
 	});
 
 	nickname_tf.x = greet_group.x + greet_group.width + 30;
