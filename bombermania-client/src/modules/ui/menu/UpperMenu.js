@@ -54,7 +54,7 @@ function UpperMenu( game ){
 	nickname_group.add( nickname_lbl );
 
 	var nickname_tf = game.add.inputField(0, 0, {
-	    font: '23px CooperBlack', /*Luckiest*/,
+	    font: '23px CooperBlack', /*Luckiest*/
 	    fill: '#FFE240',
 		backgroundColor: "#575957",
 		cursorColor: "#FFE240",
