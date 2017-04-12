@@ -58,12 +58,12 @@ function UpperMenu( game ){
 	    fill: '#FFE240',
 		backgroundColor: "#575957",
 		cursorColor: "#FFE240",
-	    width: 240,
+	    width: 250,
 	    padding: 7,
 		borderWidth: 0,
 		borderColor: "#575957",
 	    borderRadius: 100,
-		placeHolder: "  Enter your nickname here"
+		placeHolder: "Enter your nickname here"
 	});
 
 	nickname_tf.x = greet_group.x + greet_group.width + 30;
