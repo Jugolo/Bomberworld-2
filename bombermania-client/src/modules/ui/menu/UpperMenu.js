@@ -54,23 +54,28 @@ function UpperMenu( game ){
 	nickname_group.add( nickname_lbl );
 
 	var nickname_tf = game.add.inputField(0, 0, {
-	    font: '28px Luckiest',
+	    font: '23px CooperBlack', /*Luckiest*/,
 	    fill: '#FFE240',
 		backgroundColor: "#575957",
 		cursorColor: "#FFE240",
 	    width: 240,
-	    padding: 4,
+	    padding: 7,
 		borderWidth: 0,
 		borderColor: "#575957",
-	    borderRadius: 100
+	    borderRadius: 100,
+		placeHolder: "  NickName"
 	});
-	nickname_tf.x = nickname_lbl.width + 20;
-	nickname_lbl.y = ( nickname_tf.height - nickname_lbl.height ) * 0.5;
-	nickname_group.add(nickname_tf);
 
-	nickname_group.x = (this.width - nickname_group.width) * 0.5;
-	nickname_group.y = (this.height - nickname_group.height) * 0.5;
-	this.add(nickname_group);
+	nickname_tf.x = greet_group.x + greet_group.width + 30;
+        nickname_tf.y = (this.height - greet_group.height) * 0.5;
+	
+	//nickname_tf.x = nickname_lbl.width + 20;
+	//nickname_lbl.y = ( nickname_tf.height - nickname_lbl.height ) * 0.5;
+	//nickname_group.add(nickname_tf);
+
+	//nickname_group.x = (this.width - nickname_group.width) * 0.5;
+	//nickname_group.y = (this.height - nickname_group.height) * 0.5;
+	//this.add(nickname_group);
 
 	// methods
 
