@@ -54,7 +54,7 @@ function UpperMenu( game ){
 	nickname_group.add( nickname_lbl );
 
 	var nickname_tf = game.add.inputField(0, 0, {
-	    font: '23px CooperBlack', /*Luckiest*/,
+	    font: '23px CooperBlack', /*Luckiest*/
 	    fill: '#FFE240',
 		backgroundColor: "#575957",
 		cursorColor: "#FFE240",
@@ -68,7 +68,25 @@ function UpperMenu( game ){
 
 	nickname_tf.x = greet_group.x + greet_group.width + 30;
         nickname_tf.y = (this.height - greet_group.height) * 0.5;
-	
+
+	nickname_tf.keyListener = function (evt) {
+        this.value = this.domElement.value;
+	if (evt.keyCode === 13) {
+	    if (this.focusOutOnEnter) {
+		this.endFocus();
+	    }
+	    var nickname = this.value;
+	    USERNAME = nickname == "" ? "Guest" : nickname;
+
+	    SOCKET.emit("room request", {name: USERNAME});
+	    return;
+	}
+	this.updateText();
+	this.updateCursor();
+	this.updateSelection();
+	evt.preventDefault();
+    }
+
 	//nickname_tf.x = nickname_lbl.width + 20;
 	//nickname_lbl.y = ( nickname_tf.height - nickname_lbl.height ) * 0.5;
 	//nickname_group.add(nickname_tf);
