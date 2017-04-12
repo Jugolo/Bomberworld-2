@@ -161,6 +161,7 @@ module.exports = function( io ){
 
 	// when current client changes its position
 	this.onPlayerMove = function( player_data ){
+		if(this.player.is_dead) return;
 		this.player.x = player_data[1];
 		this.player.y = player_data[2];
 		this.player.animation_key = player_data[3];
