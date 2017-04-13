@@ -456,20 +456,34 @@ Retoosh.Game.prototype = {
 				// 	}
 				// 	break;
 				default:
-          if((lefcenter === "indestructable" && rigcenter === "indestructable") || (botcenter === "indestructable" && topcenter === "indestructable")) {
-            final_direction = "certain";
-          }
-          else {
-            var left = 0.40, right = 0.60, top = 0.40, bottom = 0.60;
-            if ((in_tile_x < left && leftop === "indestructable" && lefbottom === "indestructable") || (in_tile_x > right && rigtop === "indestructable" && rigbottom === "indestructable") || (in_tile_y < top && rigtop === "indestructable" && leftop === "indestructable") || (in_tile_y > bottom && rigbottom === "indestructable" && lefbottom === "indestructable")){
-              final_direction = "certain";
-            } else {
-              final_direction = "uncertain";
-            }
-					  break;
-          }
+                    if(lefcenter === "indestructable" && rigcenter === "indestructable") {
+                        if (keys_direction.indexOf("up") >= 0) final_direction = "up", keys_direction = "up";
+                        else if (keys_direction.indexOf("down") >= 0) final_direction = "down", keys_direction = "down";
+                    } else if (botcenter === "indestructable" && topcenter === "indestructable") {
+                        if (keys_direction.indexOf("left") >= 0) final_direction = "left", keys_direction = "left";
+                        else if (keys_direction.indexOf("right") >= 0) final_direction = "right", keys_direction = "right";
+                    }
+                    else {
+                        var left = 0.40, right = 0.60, top = 0.40, bottom = 0.60;
+                        if (in_tile_x < left && leftop === "indestructable" && lefbottom === "indestructable") {
+                            if (keys_direction.indexOf("left") >= 0) final_direction = "left", keys_direction = "left";
+                            else if (keys_direction.indexOf("right") >= 0) final_direction = "right", keys_direction = "right";
+                        } else if (in_tile_x > right && rigtop === "indestructable" && rigbottom === "indestructable") {
+                            if (keys_direction.indexOf("left") >= 0) final_direction = "left", keys_direction = "left";
+                            else if (keys_direction.indexOf("right") >= 0) final_direction = "right", keys_direction = "right";
+                        } else if (in_tile_y < top && rigtop === "indestructable" && leftop === "indestructable") {
+                            if (keys_direction.indexOf("up") >= 0) final_direction = "up", keys_direction = "up";
+                            else if(keys_direction.indexOf("down") >= 0) final_direction = "down", keys_direction = "down";
+                        } else if (in_tile_y > bottom && rigbottom === "indestructable" && lefbottom === "indestructable") {
+                            if (keys_direction.indexOf("up") >= 0) final_direction = "up", keys_direction = "up";
+                            else if(keys_direction.indexOf("down") >= 0) final_direction = "down", keys_direction = "down";
+                        } else {
+                            final_direction = "uncertain";
+                        }
+			            break;
+                    }
 			}
-
+		
 			// if(in_tile_x > c_area.left && in_tile_x < c_area.right )
 			// 	this.avatar.x = (tiled_pos.col + 0.5) * TILE_SIZE;
       //
