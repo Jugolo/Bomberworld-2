@@ -192,12 +192,14 @@ Retoosh.Game.prototype = {
 		}, this);
 
 		// Game pause
-		window.onblur = function () {
-		    SOCKET.emit('player unavailable');
-		    if(IS_HOST) this.stopBeingHost();
+		window.onblur = (function (_this) {
+		    return function () {
+			SOCKET.emit('player unavailable');
+			if(IS_HOST) _this.stopBeingHost();
 
-		    IS_FOCUSED = false;
-		};
+			IS_FOCUSED = false;
+		    }
+		})(this);
 
 		// Game resume
 		window.onfocus = function () { 
