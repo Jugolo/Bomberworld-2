@@ -88,6 +88,7 @@ Retoosh.Game.prototype = {
 			this.nicknames[i] = nickname;
 		}
 
+	    
 		/*
 		-----------------------------------------------------
 				Initialize interface
