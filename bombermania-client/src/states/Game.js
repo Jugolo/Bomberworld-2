@@ -36,7 +36,7 @@ Retoosh.Game.prototype = {
 
 	init: function( room ){
 		this.room = room;
-        this.game.stage.disableVisibilityChange = true;
+        //this.game.stage.disableVisibilityChange = true;
 
 		IS_HOST = this.room.host_id == SOCKET.id;
 		console.log("Is host? "+IS_HOST);
@@ -191,6 +191,20 @@ Retoosh.Game.prototype = {
 			IS_FOCUSED = true;
 		}, this);
 
+		// Game pause
+		window.onblur = function () {
+		    SOCKET.emit('player unavailable');
+		    if(IS_HOST) this.stopBeingHost();
+
+		    IS_FOCUSED = false;
+		};
+
+		// Game resume
+		window.onfocus = function () { 
+		    SOCKET.emit('player available');
+
+		    IS_FOCUSED = true;
+		}; 
 		// --------------------------------------------------
 
 		this.is_game_started = true;
