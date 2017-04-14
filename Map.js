@@ -17,6 +17,7 @@ var PowerUpType = {
 var map = JSON.parse(JSON.stringify(require('./defaultmap.json')));
 
 function Map(){
+
 	// get tiles and spawns information
 	var tile_info, spawn_info, powerup_info;
 	for( var l = 0; l < map.layers.length; l++ ){
@@ -111,7 +112,7 @@ Map.prototype.getAvailableTiles = function( tile_id, tile_map, spawn_points ){
 					break;
 				}
 			}
-
+            
             if (tile_id == TileType.Destructable) 
             { 
                 if (col - 1 < 0 &&
@@ -160,7 +161,7 @@ Map.prototype.getAvailableTiles = function( tile_id, tile_map, spawn_points ){
                     tile_map[col][row - 1] = tile_id;
                 }
             }
-			
+
 			if(is_tile_available)
 				available_tiles.push({ col: col, row: row});
 		}
