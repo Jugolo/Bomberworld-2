@@ -112,7 +112,7 @@ Map.prototype.getAvailableTiles = function( tile_id, tile_map, spawn_points ){
 					break;
 				}
 			}
-            /*
+
             if (tile_id == TileType.Destructable) 
             { 
                 if (col - 1 < 0 &&
@@ -161,7 +161,7 @@ Map.prototype.getAvailableTiles = function( tile_id, tile_map, spawn_points ){
                     tile_map[col][row - 1] = tile_id;
                 }
             }
-	    */
+	
 
 			if(is_tile_available)
 				available_tiles.push({ col: col, row: row});
