@@ -118,8 +118,8 @@ ExplosionChain.prototype.appendBomb = function( bomb, excluded_direction ){
 			else {
 				// add tile if object is destructable
 				if(object_in_tile.type == "destructable" || object_in_tile.type == "bomb") {
-					this.steps[relative_step].push( { col: t_col, row: t_row, last: bomb.force, start: e_step, direction: direction_key } );
-                    break;
+                    if(object_in_tile.type == "bomb") this.steps[relative_step].push( { col: t_col, row: t_row, last: bomb.force - 1, start: e_step, direction: direction_key } );
+					else this.steps[relative_step].push( { col: t_col, row: t_row, last: bomb.force, start: e_step, direction: direction_key } );
                	}
 
 				// break loop in current direction
