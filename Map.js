@@ -13,10 +13,10 @@ var PowerUpType = {
 	Protection: 4
 };
 
-function Map(){
-	// load default map template
-	var map = JSON.parse(JSON.stringify(require('./defaultmap.json')));
+// load default map template
+var map = JSON.parse(JSON.stringify(require('./defaultmap.json')));
 
+function Map(){
 	// get tiles and spawns information
 	var tile_info, spawn_info, powerup_info;
 	for( var l = 0; l < map.layers.length; l++ ){
@@ -57,6 +57,7 @@ function Map(){
 	var fillWith = function(tile_id, count){
 		var available_tiles = context.getAvailableTiles( tile_id, tile_map, spawns );
 		count = Math.min(count, available_tiles.length);
+        if (tile_id == TileType.Destructable) count = available_tiles.length;
 
 		for(var i = 0; i < count; i++){
 			var random_index = Math.floor(Math.random() * available_tiles.length);
@@ -88,7 +89,7 @@ function Map(){
 };
 
 Map.prototype.getAvailableTiles = function( tile_id, tile_map, spawn_points ){
-	var available_tiles = [];
+	var available_tiles = [], ri = 0;
 
 	for(var col = 0; col < tile_map.cols; col++){
 		for(var row = 0; row < tile_map.rows; row++){
@@ -104,18 +105,62 @@ Map.prototype.getAvailableTiles = function( tile_id, tile_map, spawn_points ){
 				    (col + 1 < tile_map.cols && row == sp.row && col + 1 == sp.col) || // on the left
 				 	(col - 1 < tile_map.cols && row == sp.row && col - 1 == sp.col) || // on the right
 					(row + 1 < tile_map.rows && row + 1 == sp.row && col == sp.col) || // below
-					(row - 1 < tile_map.rows && row - 1 == sp.row && col == sp.col) || // above
-                    (tile_id == TileType.Destructable && 
-                    tile_map[col][row - 1] == TileType.Indestructable && 
-                    tile_map[col][row + 1] == TileType.Indestructable &&
-                    tile_map[col + 1][row] == TileType.Indestructable && 
-                    tile_map[col - 1][row] == TileType.Indestructable)) // blocked
+					(row - 1 < tile_map.rows && row - 1 == sp.row && col == sp.col)) // above
 				{
 					is_tile_available = false;
 					break;
 				}
 			}
 
+            if (tile_id == TileType.Destructable) 
+            { 
+                if (col - 1 < 0 &&
+                    tile_map[col][row - 1] == TileType.Indestructable && 
+                    tile_map[col][row + 1] == TileType.Indestructable &&
+                    tile_map[col + 1][row] == TileType.Indestructable)
+                {
+                    ri = (row - 1) * map.width + col;
+                    tile_info[ri] = tile_id;
+                    tile_map[col][row - 1] = tile_id;
+                }
+                else if (row - 1 < 0 && 
+                    tile_map[col][row + 1] == TileType.Indestructable &&
+                    tile_map[col + 1][row] == TileType.Indestructable && 
+                    tile_map[col - 1][row] == TileType.Indestructable)
+                {
+                    ri = row * map.width + col + 1;
+                    tile_info[ri] = tile_id;
+                    tile_map[col + 1][row] = tile_id;
+                }
+                else if (col + 1 == tile_map.cols && 
+                    tile_map[col][row - 1] == TileType.Indestructable &&
+                    tile_map[col][row + 1] == TileType.Indestructable &&
+                    tile_map[col - 1][row] == TileType.Indestructable)
+                {
+                    ri = (row + 1) * map.width + col;
+                    tile_info[ri] = tile_id;
+                    tile_map[col][row + 1] = tile_id;
+                }
+                else if (row + 1 == tile_map.rows && 
+                    tile_map[col][row - 1] == TileType.Indestructable &&
+                    tile_map[col + 1][row] == TileType.Indestructable && 
+                    tile_map[col - 1][row] == TileType.Indestructable)
+                {
+                    ri = row * map.width + (col - 1);
+                    tile_info[ri] = tile_id;
+                    tile_map[col - 1][row + 1] = tile_id;
+                }
+                else if (tile_map[col][row - 1] == TileType.Indestructable && 
+                    tile_map[col][row + 1] == TileType.Indestructable &&
+                    tile_map[col + 1][row] == TileType.Indestructable && 
+                    tile_map[col - 1][row] == TileType.Indestructable) 
+                {
+                    ri = (row - 1) * map.width + col;
+                    tile_info[ri] = tile_id;
+                    tile_map[col][row - 1] = tile_id;
+                }
+            }
+			
 			if(is_tile_available)
 				available_tiles.push({ col: col, row: row});
 		}
