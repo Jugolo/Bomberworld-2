@@ -12,7 +12,7 @@ var CONFIG = {
 
 	capacity_threshold: 8,
 
-	invincibility_time: 7500,
+	invincibility_time: 10000,
 
 	powerup_disappear_countdown: 7000,
 
