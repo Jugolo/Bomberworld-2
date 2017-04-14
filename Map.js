@@ -55,7 +55,7 @@ function Map(){
 	// fill map with objects
 	var context = this;
 	var fillWith = function(tile_id, count){
-		var available_tiles = context.getAvailableTiles( tile_map, spawns );
+		var available_tiles = context.getAvailableTiles( tile_id, tile_map, spawns );
 		count = Math.min(count, available_tiles.length);
 
 		for(var i = 0; i < count; i++){
@@ -87,7 +87,7 @@ function Map(){
 	return map;
 };
 
-Map.prototype.getAvailableTiles = function( tile_map, spawn_points ){
+Map.prototype.getAvailableTiles = function( tile_id, tile_map, spawn_points ){
 	var available_tiles = [];
 
 	for(var col = 0; col < tile_map.cols; col++){
@@ -104,7 +104,12 @@ Map.prototype.getAvailableTiles = function( tile_map, spawn_points ){
 				    (col + 1 < tile_map.cols && row == sp.row && col + 1 == sp.col) || // on the left
 				 	(col - 1 < tile_map.cols && row == sp.row && col - 1 == sp.col) || // on the right
 					(row + 1 < tile_map.rows && row + 1 == sp.row && col == sp.col) || // below
-					(row - 1 < tile_map.rows && row - 1 == sp.row && col == sp.col) ) // above
+					(row - 1 < tile_map.rows && row - 1 == sp.row && col == sp.col) || // above
+                    (tile_id == TileType.Destructable && 
+                    tile_map[col][row - 1] == TileType.Indestructable && 
+                    tile_map[col][row + 1] == TileType.Indestructable &&
+                    tile_map[col + 1][row] == TileType.Indestructable && 
+                    tile_map[col - 1][row] == TileType.Indestructable)) // blocked
 				{
 					is_tile_available = false;
 					break;
