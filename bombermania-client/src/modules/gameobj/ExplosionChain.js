@@ -80,9 +80,9 @@ ExplosionChain.prototype.appendBomb = function( bomb, excluded_direction ){
 			case 3: direction_key = "bottom"; break;
 		}
 
-        if (direction_key == excluded_direction) continue;
 		// loop through every tile in chosen direction as far as bomb force allows
 		for( var i = 1; i <= bomb.force; i++ ){
+            if (direction_key == excluded_direction && i == 3) break;
 			var relative_step = e_step + i;
 
 			var t_col = bomb.col + i * mc;
