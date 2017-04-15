@@ -157,7 +157,6 @@ Map.prototype.getAvailableTiles = function( tile_id, tile_map, tile_info, spawn_
                         tile_map[col + 1][row] == TileType.Indestructable && 
                         tile_map[col - 1][row] == TileType.Indestructable) 
                     {
-                        console.log("closed", row, col);
                         ri = (row - 1) * tile_map.cols + col;
                         tile_info[ri] = tile_id;
                         tile_map[col][row - 1] = tile_id;
