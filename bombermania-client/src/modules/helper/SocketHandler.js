@@ -182,7 +182,7 @@ function SocketHandler( context ){
 	// when ANY bomb had exploded on the map
 	this.onBombExplode = function( bomb_data ){
 		var bomb = context.map.objects[bomb_data.col][bomb_data.row];
-		if(bomb && bomb.explode) bomb.explode(bomb_data.timestamp);
+		if(bomb && bomb.explode) bomb.explode(bomb_data.timestamp, bomb_data.excluded_dir);
 	};
 
 	// when ANY powerup had started blinking
