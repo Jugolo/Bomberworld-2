@@ -11,6 +11,7 @@ Retoosh.Game = function(game) {
 	this.players = [];
 	this.avatar = null;
 	this.nicknames = [];
+    this.direction = "none";
 
 	this.player_colors = [
 		0x7CFC00,
@@ -710,6 +711,16 @@ Retoosh.Game.prototype = {
 	getKeysDirection: function(){
 		var keys_direction = "none";
 
+        if( this.direction == "right" && this.cursors.left.isDown && this.cursors.right.isDown) {
+            keys_direction = "left";
+            return keys_direction;    
+        } else if( this.direction == "down" && this.cursors.up.isDown && this.cursors.down.isDown) {
+            keys_direction = "up";
+            return keys_direction;    
+        } else {
+            this.direction = "none";
+        }
+        
 		if( this.cursors.left.isDown ){
 			if( this.cursors.up.isDown )
 				keys_direction = "upleft";
@@ -726,8 +737,10 @@ Retoosh.Game.prototype = {
 				keys_direction = "upright";
 			else if( this.cursors.down.isDown)
 				keys_direction = "downright";
-			else
+			else {
 				keys_direction = "right";
+                this.direction = keys_direction;
+            }
 
 		}
 		else if( this.cursors.up.isDown ){
@@ -739,6 +752,7 @@ Retoosh.Game.prototype = {
 		}
 		else if( this.cursors.down.isDown ){
 			keys_direction = "down";
+            this.direction = keys_direction;
 		}
 
 		return keys_direction;
