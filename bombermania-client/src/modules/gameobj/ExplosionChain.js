@@ -34,7 +34,7 @@
 
 */
 
-function ExplosionChain( bomb, map ){
+function ExplosionChain( bomb, map, excluded_direction ){
 	this.map = map;
 	this.steps = [ [] ];
 	this.directions = [
@@ -45,7 +45,7 @@ function ExplosionChain( bomb, map ){
 	];
 
 	this.steps[0].push( { col: bomb.col, row: bomb.row, last: bomb.force, start: 0 } );
-	this.appendBomb( bomb );
+	this.appendBomb( bomb, excluded_direction );
 }
 
 ExplosionChain.prototype.appendBomb = function( bomb, excluded_direction ){
@@ -80,6 +80,7 @@ ExplosionChain.prototype.appendBomb = function( bomb, excluded_direction ){
 			case 3: direction_key = "bottom"; break;
 		}
 
+        if (direction_key == excluded_direction) continue;
 		// loop through every tile in chosen direction as far as bomb force allows
 		for( var i = 1; i <= bomb.force; i++ ){
 			var relative_step = e_step + i;
@@ -118,8 +119,7 @@ ExplosionChain.prototype.appendBomb = function( bomb, excluded_direction ){
 			else {
 				// add tile if object is destructable
 				if(object_in_tile.type == "destructable" || object_in_tile.type == "bomb") {
-                    if(object_in_tile.type == "bomb") this.steps[relative_step].push( { col: t_col, row: t_row, last: bomb.force - 1, start: e_step, direction: direction_key } );
-					else this.steps[relative_step].push( { col: t_col, row: t_row, last: bomb.force, start: e_step, direction: direction_key } );
+					this.steps[relative_step].push( { col: t_col, row: t_row, last: bomb.force, start: e_step, direction: direction_key } );
                	}
 
 				// break loop in current direction
