@@ -13,10 +13,9 @@ var PowerUpType = {
 	Protection: 4
 };
 
-// load default map template
-var map = JSON.parse(JSON.stringify(require('./defaultmap.json')));
-
 function Map(){
+	// load default map template
+	var map = JSON.parse(JSON.stringify(require('./defaultmap.json')));
 
 	// get tiles and spawns information
 	var tile_info, spawn_info, powerup_info;
@@ -56,7 +55,7 @@ function Map(){
 	// fill map with objects
 	var context = this;
 	var fillWith = function(tile_id, count){
-		var available_tiles = context.getAvailableTiles( tile_id, tile_map, spawns );
+		var available_tiles = context.getAvailableTiles( tile_id, tile_map, tile_info, spawns );
 		count = Math.min(count, available_tiles.length);
         if (tile_id == TileType.Destructable) count = available_tiles.length;
 
@@ -89,7 +88,7 @@ function Map(){
 	return map;
 };
 
-Map.prototype.getAvailableTiles = function( tile_id, tile_map, spawn_points ){
+Map.prototype.getAvailableTiles = function( tile_id, tile_map, tile_info, spawn_points ){
 	var available_tiles = [], ri = 0;
 
 	for(var col = 0; col < tile_map.cols; col++){
@@ -112,7 +111,7 @@ Map.prototype.getAvailableTiles = function( tile_id, tile_map, spawn_points ){
 					break;
 				}
 			}
-
+            
             if (tile_id == TileType.Destructable) 
             { 
                 if (col - 1 < 0 &&
@@ -120,7 +119,7 @@ Map.prototype.getAvailableTiles = function( tile_id, tile_map, spawn_points ){
                     tile_map[col][row + 1] == TileType.Indestructable &&
                     tile_map[col + 1][row] == TileType.Indestructable)
                 {
-                    ri = (row - 1) * map.width + col;
+                    ri = (row - 1) * tile_map.cols + col;
                     tile_info[ri] = tile_id;
                     tile_map[col][row - 1] = tile_id;
                 }
@@ -129,7 +128,7 @@ Map.prototype.getAvailableTiles = function( tile_id, tile_map, spawn_points ){
                     tile_map[col + 1][row] == TileType.Indestructable && 
                     tile_map[col - 1][row] == TileType.Indestructable)
                 {
-                    ri = row * map.width + col + 1;
+                    ri = row * tile_map.cols + col + 1;
                     tile_info[ri] = tile_id;
                     tile_map[col + 1][row] = tile_id;
                 }
@@ -138,7 +137,7 @@ Map.prototype.getAvailableTiles = function( tile_id, tile_map, spawn_points ){
                     tile_map[col][row + 1] == TileType.Indestructable &&
                     tile_map[col - 1][row] == TileType.Indestructable)
                 {
-                    ri = (row + 1) * map.width + col;
+                    ri = (row + 1) * tile_map.cols + col;
                     tile_info[ri] = tile_id;
                     tile_map[col][row + 1] = tile_id;
                 }
@@ -147,21 +146,24 @@ Map.prototype.getAvailableTiles = function( tile_id, tile_map, spawn_points ){
                     tile_map[col + 1][row] == TileType.Indestructable && 
                     tile_map[col - 1][row] == TileType.Indestructable)
                 {
-                    ri = row * map.width + (col - 1);
+                    ri = row * tile_map.cols + (col - 1);
                     tile_info[ri] = tile_id;
                     tile_map[col - 1][row + 1] = tile_id;
                 }
-                else if (tile_map[col][row - 1] == TileType.Indestructable && 
-                    tile_map[col][row + 1] == TileType.Indestructable &&
-                    tile_map[col + 1][row] == TileType.Indestructable && 
-                    tile_map[col - 1][row] == TileType.Indestructable) 
+                else if (col > 0 && col + 1 < tile_map.cols && row > 0 && row + 1 < tile_map.rows)  
                 {
-                    ri = (row - 1) * map.width + col;
-                    tile_info[ri] = tile_id;
-                    tile_map[col][row - 1] = tile_id;
+                    if (tile_map[col][row - 1] == TileType.Indestructable && 
+                        tile_map[col][row + 1] == TileType.Indestructable &&
+                        tile_map[col + 1][row] == TileType.Indestructable && 
+                        tile_map[col - 1][row] == TileType.Indestructable) 
+                    {
+                        ri = (row - 1) * tile_map.cols + col;
+                        tile_info[ri] = tile_id;
+                        tile_map[col][row - 1] = tile_id;
+                    }
                 }
             }
-	
+	    
 
 			if(is_tile_available)
 				available_tiles.push({ col: col, row: row});
