@@ -49,8 +49,10 @@ function Bomb(game, owner, map, force){
 
 Bomb.prototype = Object.create(Phaser.Sprite.prototype);
 
-Bomb.prototype.emitExplosion = function(){
-	var explosion_chain = new ExplosionChain( this, this.map );
+Bomb.prototype.emitExplosion = function(excluded_direction){
+    excluded_direction == undefined && (excluded_direction = "none");
+
+	var explosion_chain = new ExplosionChain( this, this.map, excluded_direction);
 
 	var explosion_indexes = [];
 
@@ -64,12 +66,13 @@ Bomb.prototype.emitExplosion = function(){
 	if(IS_HOST)	SOCKET.emit("bomb explode", {
 		row: this.row,
 		col: this.col,
-		e_indexes: explosion_indexes
+		e_indexes: explosion_indexes,
+        excluded_dir: excluded_direction,
 	});
 }
 
-Bomb.prototype.explode = function( timestamp ){
-	var explosion_chain = new ExplosionChain( this, this.map );
+Bomb.prototype.explode = function( timestamp, excluded_direction ){
+	var explosion_chain = new ExplosionChain( this, this.map, excluded_direction );
 
 	for( var s = 0; s < explosion_chain.steps.length; s++ ){
 		for( var t = 0; t < explosion_chain.steps[s].length; t++ ){
@@ -168,7 +171,11 @@ function ExplosionSprite(game, bomb, direction, fire_delay, extinction_delay, ex
 			if(obj){
 				switch(obj.type){
 					case "bomb":
-						obj.emitExplosion();
+                        if (direction == "left") direction = "right";
+                        else if (direction == "right") direction = "left";
+                        else if (direction == "top") direction = "bottom";
+                        else if (direction == "bottom") direction = "top";
+						obj.emitExplosion(direction);
 						break;
 					case "destructable":
 						obj.destroyWithDrop(bomb.map, timestamp);
