@@ -457,60 +457,90 @@ Retoosh.Game.prototype = {
 				// 	break;
 				default:
                     if(lefcenter && rigcenter) {
-                        if (keys_direction.indexOf("up") >= 0) final_direction = "up", keys_direction = "up";
-                        else if (keys_direction.indexOf("down") >= 0) final_direction = "down", keys_direction = "down";
+                        if (keys_direction.indexOf("up") >= 0) {
+                            if (topcenter) final_direction = "idle", keys_direction = "none";
+                            else final_direction = "up", keys_direction = "up";
+                        } else if (keys_direction.indexOf("down") >= 0) {
+                            if (botcenter) final_direction = "idle", keys_direction = "none";
+                            else final_direction = "down", keys_direction = "down";
+                        }
                     } else if (botcenter && topcenter) {
-                        if (keys_direction.indexOf("left") >= 0) final_direction = "left", keys_direction = "left";
-                        else if (keys_direction.indexOf("right") >= 0) final_direction = "right", keys_direction = "right";
+                        if (keys_direction.indexOf("left") >= 0) {
+                            if (lefcenter) final_direction = "idle", keys_direction = "none";
+                            else final_direction = "left", keys_direction = "left";
+                        } else if (keys_direction.indexOf("right") >= 0) {
+                            if (rigcenter) final_direction = "idle", keys_direction = "none";
+                            else final_direction = "right", keys_direction = "right";
+                        }
                     } else if(lefcenter && tiled_pos.col + 1 >= this.map.cols) {
-                        if (keys_direction.indexOf("up") >= 0) final_direction = "up", keys_direction = "up";
-                        else if (keys_direction.indexOf("down") >= 0) final_direction = "down", keys_direction = "down";
+                        if (keys_direction.indexOf("up") >= 0) {
+                            if (topcenter) final_direction = "idle", keys_direction = "none";
+                            else final_direction = "up", keys_direction = "up";
+                        } else if (keys_direction.indexOf("down") >= 0) {
+                            if (botcenter) final_direction = "idle", keys_direction = "none";
+                            else final_direction = "down", keys_direction = "down";
+                        }
                     } else if(rigcenter && tiled_pos.col - 1 < 0) {
-                        if (keys_direction.indexOf("up") >= 0) final_direction = "up", keys_direction = "up";
-                        else if (keys_direction.indexOf("down") >= 0) final_direction = "down", keys_direction = "down";
+                        if (keys_direction.indexOf("up") >= 0) {
+                            if (topcenter) final_direction = "idle", keys_direction = "none";
+                            else final_direction = "up", keys_direction = "up";
+                        } else if (keys_direction.indexOf("down") >= 0) {
+                            if (botcenter) final_direction = "idle", keys_direction = "none";
+                            else final_direction = "down", keys_direction = "down";
+                        }
                     } else if(botcenter && tiled_pos.row - 1 < 0) {
-                        if (keys_direction.indexOf("left") >= 0) final_direction = "left", keys_direction = "left";
-                        else if (keys_direction.indexOf("right") >= 0) final_direction = "right", keys_direction = "right";
+                        if (keys_direction.indexOf("left") >= 0) {
+                            if (lefcenter) final_direction = "idle", keys_direction = "none";
+                            else final_direction = "left", keys_direction = "left";
+                        } else if (keys_direction.indexOf("right") >= 0) {
+                            if (rigcenter) final_direction = "idle", keys_direction = "none";
+                            else final_direction = "right", keys_direction = "right";
+                        }
                     } else if(topcenter && tiled_pos.row + 1 >= this.map.rows) {
-                        if (keys_direction.indexOf("left") >= 0) final_direction = "left", keys_direction = "left";
-                        else if (keys_direction.indexOf("right") >= 0) final_direction = "right", keys_direction = "right";
+                        if (keys_direction.indexOf("left") >= 0) {
+                            if (lefcenter) final_direction = "idle", keys_direction = "none";
+                            else final_direction = "left", keys_direction = "left";
+                        } else if (keys_direction.indexOf("right") >= 0) {
+                            if (rigcenter) final_direction = "idle", keys_direction = "none";
+                            else final_direction = "right", keys_direction = "right";
+                        }
                     }
-                    else {
+                     else {
                         var left = 0.40, right = 0.60, top = 0.40, bottom = 0.60;
-                        if (in_tile_x < left && leftop === "indestructable" && lefbottom === "indestructable") {
+                        if (in_tile_x < left && leftop && lefbottom) {
                             if (keys_direction.indexOf("left") >= 0) final_direction = "left", keys_direction = "left";
                             else if (keys_direction.indexOf("right") >= 0) final_direction = "right", keys_direction = "right";
-                        } else if (in_tile_x > right && rigtop === "indestructable" && rigbottom === "indestructable") {
+                        } else if (in_tile_x > right && rigtop && rigbottom) {
                             if (keys_direction.indexOf("left") >= 0) final_direction = "left", keys_direction = "left";
                             else if (keys_direction.indexOf("right") >= 0) final_direction = "right", keys_direction = "right";
-                        } else if (in_tile_y < top && rigtop === "indestructable" && leftop === "indestructable") {
+                        } else if (in_tile_y < top && rigtop && leftop) {
                             if (keys_direction.indexOf("up") >= 0) final_direction = "up", keys_direction = "up";
                             else if(keys_direction.indexOf("down") >= 0) final_direction = "down", keys_direction = "down";
-                        } else if (in_tile_y > bottom && rigbottom === "indestructable" && lefbottom === "indestructable") {
+                        } else if (in_tile_y > bottom && rigbottom && lefbottom) {
                             if (keys_direction.indexOf("up") >= 0) final_direction = "up", keys_direction = "up";
                             else if(keys_direction.indexOf("down") >= 0) final_direction = "down", keys_direction = "down";
-                        } else if (in_tile_x < left && leftop === "indestructable" && tiled_pos.row + 1 >= this.map.rows) {
+                        } else if (in_tile_x < left && leftop && tiled_pos.row + 1 >= this.map.rows) {
                             if (keys_direction.indexOf("left") >= 0) final_direction = "left", keys_direction = "left";
                             else if (keys_direction.indexOf("right") >= 0) final_direction = "right", keys_direction = "right";
-                        } else if (in_tile_x > right && rigtop === "indestructable" && tiled_pos.row + 1 >= this.map.rows) {
+                        } else if (in_tile_x > right && rigtop && tiled_pos.row + 1 >= this.map.rows) {
                             if (keys_direction.indexOf("left") >= 0) final_direction = "left", keys_direction = "left";
                             else if (keys_direction.indexOf("right") >= 0) final_direction = "right", keys_direction = "right";
-                        } else if (in_tile_x < left && lefbottom === "indestructable" && tiled_pos.row - 1 < 0) {
+                        } else if (in_tile_x < left && lefbottom && tiled_pos.row - 1 < 0) {
                             if (keys_direction.indexOf("left") >= 0) final_direction = "left", keys_direction = "left";
                             else if (keys_direction.indexOf("right") >= 0) final_direction = "right", keys_direction = "right";
-                        } else if (in_tile_x > right && rigbottom === "indestructable" && tiled_pos.row - 1 < 0) {
+                        } else if (in_tile_x > right && rigbottom && tiled_pos.row - 1 < 0) {
                             if (keys_direction.indexOf("left") >= 0) final_direction = "left", keys_direction = "left";
                             else if (keys_direction.indexOf("right") >= 0) final_direction = "right", keys_direction = "right";
-                        } else if (in_tile_y < top && rigtop === "indestructable" && tiled_pos.col - 1 < 0) {
+                        } else if (in_tile_y < top && rigtop && tiled_pos.col - 1 < 0) {
                             if (keys_direction.indexOf("up") >= 0) final_direction = "up", keys_direction = "up";
                             else if(keys_direction.indexOf("down") >= 0) final_direction = "down", keys_direction = "down";
-                        } else if (in_tile_y > bottom && rigbottom === "indestructable" && tiled_pos.col - 1 < 0) {
+                        } else if (in_tile_y > bottom && rigbottom && tiled_pos.col - 1 < 0) {
                             if (keys_direction.indexOf("up") >= 0) final_direction = "up", keys_direction = "up";
                             else if(keys_direction.indexOf("down") >= 0) final_direction = "down", keys_direction = "down";
-                        } else if (in_tile_y < top && leftop === "indestructable" && tiled_pos.col + 1 >= this.map.cols) {
+                        } else if (in_tile_y < top && leftop && tiled_pos.col + 1 >= this.map.cols) {
                             if (keys_direction.indexOf("up") >= 0) final_direction = "up", keys_direction = "up";
                             else if(keys_direction.indexOf("down") >= 0) final_direction = "down", keys_direction = "down";
-                        } else if (in_tile_y > bottom && lefbottom === "indestructable" && tiled_pos.col + 1 >= this.map.cols) {
+                        } else if (in_tile_y > bottom && lefbottom && tiled_pos.col + 1 >= this.map.cols) {
                             if (keys_direction.indexOf("up") >= 0) final_direction = "up", keys_direction = "up";
                             else if(keys_direction.indexOf("down") >= 0) final_direction = "down", keys_direction = "down";
                         } else {
@@ -716,7 +746,7 @@ Retoosh.Game.prototype = {
 			else if( this.cursors.down.isDown)
 				keys_direction = "downleft";
 			else if( this.cursors.right.isDown )
-				keys_direction = "uncertain";
+				keys_direction = "right";
 			else
 				keys_direction = "left";
 
@@ -732,7 +762,7 @@ Retoosh.Game.prototype = {
 		}
 		else if( this.cursors.up.isDown ){
 			if( this.cursors.down.isDown)
-				keys_direction = "uncertain";
+				keys_direction = "down";
 			else
 				keys_direction = "up";
 
