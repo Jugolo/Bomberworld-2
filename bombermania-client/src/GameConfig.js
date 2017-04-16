@@ -2,7 +2,7 @@ var CONFIG = {
 
 	bombs_countdown: 4300,
 
-	base_velocity: 90,
+	base_velocity: 100,
 
 	velocity_threshold: 160,
 
