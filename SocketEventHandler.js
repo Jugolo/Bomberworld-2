@@ -174,7 +174,7 @@ module.exports = function( io ){
 		var victim = this.room.players[death_data.victim_serial];
 		var killer = this.room.players[death_data.killer_serial];
 
-		victim.frags--;
+		death_data.victim_serial == death_data.killer_serial && (victim.frags--);
 		killer.frags = victim == killer ? killer.frags : killer.frags + 1;
 
 		victim.is_dead = true;
