@@ -150,7 +150,7 @@ module.exports = function( io ){
 		this.player.x = data.x;
 		this.player.y = data.y;
 		this.player.is_dead = false;
-		this.player.is_invincible = false;
+		this.player.is_invincible = true;
 		this.player.i_timestamp = Date.now();
 		this.player.nickname = data.nickname;
 
@@ -214,7 +214,7 @@ module.exports = function( io ){
 
 	// when ANY player loses invincibility
 	this.onPlayerLostInvicibility = function( player_data ){
-		this.room.players[player_data.serial].is_invincible = true;
+		this.room.players[player_data.serial].is_invincible = false;
 
 		// notify all that player lost invincibility
 		this.room.emitAll(io, 'player lost invincibility', player_data);
