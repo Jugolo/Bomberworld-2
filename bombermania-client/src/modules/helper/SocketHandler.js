@@ -42,8 +42,8 @@ function SocketHandler( context ){
 	}
 
 	// when CURRENT player becomes host
-	this.onBecomeHost = function( timestamp ){
-		context.startBeingHost( timestamp );
+	this.onBecomeHost = function( data/*timestamp*/ ){
+		context.startBeingHost( data/*timestamp*/ );
 	}
 
 	// when OTHER player spawns somewhere on map
@@ -62,7 +62,7 @@ function SocketHandler( context ){
 		bomberman.alpha = 1;
 		bomberman.visible = true;
 		bomberman.playAnimation("idle");
-		bomberman.setInvincible("true");
+		bomberman.setInvincible(true);
 		bomberman.i_timestamp = player_data.timestamp;
 
 		context.nicknames[player_data.serial].visible = true;
@@ -199,7 +199,7 @@ function SocketHandler( context ){
 	};
 
 	this.onMapReset = function( room ){
-		console.log(room)
+		console.log("map reset", room);
 		context.room = room;
 		context.resetMap();
 	}
