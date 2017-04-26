@@ -14,8 +14,8 @@ var PowerUpType = {
 };
 
 function Map(){
-	// load default map template
-	var map = JSON.parse(JSON.stringify(require('./defaultmap.json')));
+    // load default map template
+    var map = JSON.parse(JSON.stringify(require('./defaultmap.json')));
 
 	// get tiles and spawns information
 	var tile_info, spawn_info, powerup_info;
@@ -51,6 +51,15 @@ function Map(){
 			if(spawn_info[i] !=0) spawns.push({ col: col, row: row });
 		}
 	}
+    map.spawn_order = [{col: 0, row: 0},
+        {col: 7, row:0},
+        {col: 14, row:0},
+        {col: 0, row:7},
+        {col: 14, row:7},
+        {col: 0, row:14},
+        {col: 7, row:14},
+        {col: 14, row:14}
+    ];
 
 	// fill map with objects
 	var context = this;
@@ -111,7 +120,7 @@ Map.prototype.getAvailableTiles = function( tile_id, tile_map, tile_info, spawn_
 					break;
 				}
 			}
-            
+
             if (tile_id == TileType.Destructable) 
             { 
                 if (col - 1 < 0 &&
@@ -163,7 +172,6 @@ Map.prototype.getAvailableTiles = function( tile_id, tile_map, tile_info, spawn_
                     }
                 }
             }
-	    
 
 			if(is_tile_available)
 				available_tiles.push({ col: col, row: row});
