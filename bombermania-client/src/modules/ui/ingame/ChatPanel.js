@@ -72,6 +72,12 @@ function ChatPanel( game, context ){
 		if( preview ) preview.setFrags( frags_count );
 	}
 
+    this.setColor = function( player_id, color) {
+        var preview = this.getPreviewByID( player_id );
+
+        if( preview ) preview.setColor( color );
+    }
+
 	this.sortPreviews = function(){
 		// calculate priority of each preview
 		for( var p = 0; p < this.previews.length; p++ ){
@@ -151,6 +157,10 @@ function PlayerPreview( game, id, name, serial, frags, color ){
 		this.frags = frags_count;
 		points_label.text = "POINTS: " + frags_count;
 	}
+
+    this.setColor = function( color ) {
+        points_label.fill = color;
+    }
 }
 
 PlayerPreview.prototype = Object.create(Phaser.Group.prototype);
