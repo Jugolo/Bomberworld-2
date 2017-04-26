@@ -147,8 +147,10 @@ module.exports = function( io ){
 
 	// when current client spawns in some place on the map
 	this.onPlayerSpawn = function( data ){
-		this.player.x = data.x;
-		this.player.y = data.y;
+        var tile_size = data.x;
+        this.player.x = data.x = (this.room.map.spawn_order[this.room.next_spawn_index].col + 0.5) * tile_size;
+        this.player.y = data.y = (this.room.map.spawn_order[this.room.next_spawn_index].row + 0.5) * tile_size;
+        this.room.next_spawn_index == 7 ? this.room.next_spawn_index = 0 : this.room.next_spawn_index++;
 		this.player.is_dead = false;
 		this.player.is_invincible = true;
 		this.player.i_timestamp = Date.now();
