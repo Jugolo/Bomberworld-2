@@ -113,6 +113,8 @@ function SocketHandler( context ){
 
 	// when ANY player becomes dead
 	this.onPlayerDeath = function( death_data ){
+        if (death_data.victim_frags < 0) context.chat_panel.setColor(death_data.victim_id, "#ff0000");
+        if (death_data.killer_frags >= 0) context.chat_panel.setColor(death_data.killer_id, "#ffffff");
 		context.chat_panel.setFrags(death_data.victim_id, death_data.victim_frags);
 		context.chat_panel.setFrags(death_data.killer_id, death_data.killer_frags);
 		context.chat_panel.sortPreviews();
