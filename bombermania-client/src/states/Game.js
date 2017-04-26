@@ -722,7 +722,7 @@ Retoosh.Game.prototype = {
 
 		SOCKET.emit("player spawn", {
 			serial: this.avatar.serial,
-			x: (spawn_point.col + 0.5) * TILE_SIZE,
+			x: TILE_SIZE,
 			y: (spawn_point.row + 0.5) * TILE_SIZE,
             nickname: this.avatar.nickname
 		})
