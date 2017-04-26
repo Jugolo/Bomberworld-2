@@ -159,6 +159,42 @@ Map.prototype.getAvailableTiles = function( tile_id, tile_map, tile_info, spawn_
                     tile_info[ri] = tile_id;
                     tile_map[col - 1][row + 1] = tile_id;
                 }
+                else if (col == 0 && row == 0 &&  
+                    tile_map[col][row + 2] == TileType.Indestructable &&
+                    tile_map[col + 2][row] == TileType.Indestructable && 
+                    tile_map[col + 1][row + 1] == TileType.Indestructable)
+                {
+                    ri = (row + 2) * tile_map.cols + col;
+                    tile_info[ri] = tile_id;
+                    tile_map[col][row + 2] = tile_id;
+                }
+                else if (col + 1 == tile_map.cols && row == 0 &&  
+                    tile_map[col][row + 2] == TileType.Indestructable &&
+                    tile_map[col - 2][row] == TileType.Indestructable && 
+                    tile_map[col - 1][row + 1] == TileType.Indestructable)
+                {
+                    ri = (row + 2) * tile_map.cols + col;
+                    tile_info[ri] = tile_id;
+                    tile_map[col][row + 2] = tile_id;
+                }
+                else if (col + 1 == tile_map.cols && row + 1 == tile_map.rows &&  
+                    tile_map[col][row - 2] == TileType.Indestructable &&
+                    tile_map[col - 2][row] == TileType.Indestructable && 
+                    tile_map[col - 1][row - 1] == TileType.Indestructable)
+                {
+                    ri = row * tile_map.cols + (col - 2);
+                    tile_info[ri] = tile_id;
+                    tile_map[col - 2][row] = tile_id;
+                }
+                else if (col == 0 && row + 1 == tile_map.rows &&  
+                    tile_map[col][row - 2] == TileType.Indestructable &&
+                    tile_map[col + 2][row] == TileType.Indestructable && 
+                    tile_map[col + 1][row - 1] == TileType.Indestructable)
+                {
+                    ri = (row - 2) * tile_map.cols + col;
+                    tile_info[ri] = tile_id;
+                    tile_map[col][row - 2] = tile_id;
+                }
                 else if (col > 0 && col + 1 < tile_map.cols && row > 0 && row + 1 < tile_map.rows)  
                 {
                     if (tile_map[col][row - 1] == TileType.Indestructable && 
