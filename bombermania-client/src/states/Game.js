@@ -47,6 +47,7 @@ Retoosh.Game.prototype = {
 		var context = this;
 		this.is_game_started = false;
 		this.updateIterator = 0;
+        this.isSpaceKeyPressed = false;
 
 		/*
 		-----------------------------------------------------
@@ -143,10 +144,12 @@ Retoosh.Game.prototype = {
 
 		this.spaceKey.onDown.add(function(){
 			if(!this.is_game_started) return;
-			this.avatar.plantBomb(this.map)
+            this.isSpaceKeyPressed = true;
+			//this.avatar.plantBomb(this.map);
 		}, this);
 
 		this.spaceKey.onUp.add(function() {
+            this.isSpaceKeyPressed = false;
 			if(this.is_game_started && this.avatar.is_dead) this.respawnAvatar();
 		}, this);
 
@@ -219,6 +222,8 @@ Retoosh.Game.prototype = {
 
     update: function() {
   		if(!this.is_game_started) return;
+        
+        if(this.isSpaceKeyPressed) this.avatar.plantBomb(this.map);
 
 		this.game.physics.arcade.collide(this.avatar, this.chat_panel);
   		this.game.physics.arcade.collide(this.avatar, this.map.objects);
