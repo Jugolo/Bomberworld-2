@@ -892,8 +892,18 @@ Retoosh.Game.prototype = {
 		IS_HOST = false;
 	},
 
-	startBeingHost: function( timestamp ){
+	startBeingHost: function( data ){
 		console.log('Resume host countdowns!');
+        if (data != undefined) {
+            timestamp = data.timestamp;
+            for (var i = 0; i < data.players.length; i++) {
+                var player = data.players[i];
+                if (player) {
+                    this.players[i].is_dead = player.is_dead;
+                    this.players[i].is_invincible = player.is_invincible;
+                }
+            }
+        }
 
 		// resume countdowns of all bombs and powerups
 		for( var col = 0; col < this.map.cols; col++ ){
