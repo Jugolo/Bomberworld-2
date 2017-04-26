@@ -124,7 +124,7 @@ module.exports = function( io ){
 	this.onPlayerAvailable = function(){
 		console.log("Player "+this.id+" available");
 		this.player.is_active = true;
-
+        
 		if( !this.room.hasHost() )
 			this.room.selectNewHost( io );
 
@@ -147,10 +147,16 @@ module.exports = function( io ){
 
 	// when current client spawns in some place on the map
 	this.onPlayerSpawn = function( data ){
+        /*
 		this.player.x = data.x;
 		this.player.y = data.y;
+        */
+        var tile_size = data.x;
+        this.player.x = data.x = (this.room.map.spawn_order[this.room.next_spawn_index].col + 0.5) * tile_size;
+        this.player.y = data.y = (this.room.map.spawn_order[this.room.next_spawn_index].row + 0.5) * tile_size;
+        this.room.next_spawn_index == 7 ? this.room.next_spawn_index = 0 : this.room.next_spawn_index++;
 		this.player.is_dead = false;
-		this.player.is_invincible = true;
+		this.player.is_invincible = true;//false;
 		this.player.i_timestamp = Date.now();
 		this.player.nickname = data.nickname;
 
@@ -161,7 +167,7 @@ module.exports = function( io ){
 
 	// when current client changes its position
 	this.onPlayerMove = function( player_data ){
-		if(this.player.is_dead) return;
+        if(this.player.is_dead) return;
 		this.player.x = player_data[1];
 		this.player.y = player_data[2];
 		this.player.animation_key = player_data[3];
@@ -174,7 +180,7 @@ module.exports = function( io ){
 		var victim = this.room.players[death_data.victim_serial];
 		var killer = this.room.players[death_data.killer_serial];
 
-		victim.frags--;
+		death_data.victim_serial == death_data.killer_serial && (victim.frags--);
 		killer.frags = victim == killer ? killer.frags : killer.frags + 1;
 
 		victim.is_dead = true;
@@ -214,7 +220,7 @@ module.exports = function( io ){
 
 	// when ANY player loses invincibility
 	this.onPlayerLostInvicibility = function( player_data ){
-		this.room.players[player_data.serial].is_invincible = false;
+		this.room.players[player_data.serial].is_invincible = false;//true;
 
 		// notify all that player lost invincibility
 		this.room.emitAll(io, 'player lost invincibility', player_data);
@@ -246,6 +252,7 @@ module.exports = function( io ){
 	};
 
 	this.onBombExplode = function( bomb_data ){
+        console.log("onBombExplode")
 		var objects_layer, bombs_layer;
 		for(var l = 0; l < this.room.map.layers.length; l++){
 			switch(this.room.map.layers[l].name){
