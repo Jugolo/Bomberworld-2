@@ -722,7 +722,7 @@ Retoosh.Game.prototype = {
 
 		SOCKET.emit("player spawn", {
 			serial: this.avatar.serial,
-			x: (spawn_point.col + 0.5) * TILE_SIZE,
+			x: TILE_SIZE,//(spawn_point.col + 0.5) * TILE_SIZE,
 			y: (spawn_point.row + 0.5) * TILE_SIZE,
             nickname: this.avatar.nickname
 		})
@@ -892,7 +892,7 @@ Retoosh.Game.prototype = {
 		IS_HOST = false;
 	},
 
-	startBeingHost: function( data ){
+	startBeingHost: function( data/*timestamp*/ ){
 		console.log('Resume host countdowns!');
         if (data != undefined) {
             timestamp = data.timestamp;
@@ -904,6 +904,7 @@ Retoosh.Game.prototype = {
                 }
             }
         }
+            
 
 		// resume countdowns of all bombs and powerups
 		for( var col = 0; col < this.map.cols; col++ ){
