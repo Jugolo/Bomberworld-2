@@ -42,8 +42,8 @@ function SocketHandler( context ){
 	}
 
 	// when CURRENT player becomes host
-	this.onBecomeHost = function( timestamp ){
-		context.startBeingHost( timestamp );
+	this.onBecomeHost = function( data ){
+		context.startBeingHost( data );
 	}
 
 	// when OTHER player spawns somewhere on map
