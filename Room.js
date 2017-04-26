@@ -44,8 +44,12 @@ function Room( max_players ){
 
 		// notify new host that he is 'the one', with timestamp of operation
 		// so he is able to correctly resume all of the countdowns
-		if( io && this.hasHost() )
-			this.emitSpecific( io, 'become host', this.rc_timestamp, this.host_id );
+		if( io && this.hasHost() ) {
+            var data = {};
+            data.timestamp = this.rc_timestamp;
+            data.players = this.players;
+			this.emitSpecific( io, 'become host', data, this.host_id );
+        }
 	};
 
 	this.resetMap = function(){
