@@ -51,6 +51,15 @@ function Map(){
 			if(spawn_info[i] !=0) spawns.push({ col: col, row: row });
 		}
 	}
+    map.spawn_order = [{col: 0, row: 0},
+        {col: 7, row:0},
+        {col: 14, row:0},
+        {col: 0, row:7},
+        {col: 14, row:7},
+        {col: 0, row:14},
+        {col: 7, row:14},
+        {col: 14, row:14}
+    ];
 
 	// fill map with objects
 	var context = this;
