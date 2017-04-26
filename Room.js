@@ -10,6 +10,7 @@ function Room( max_players ){
 
 	this.players = [];
 	this.map = new Map();
+    this.next_spawn_index = 0; // next spawning position index
 
 	// fill players with false values
 	for( var p = 0; p < this.max_players; p++ )
