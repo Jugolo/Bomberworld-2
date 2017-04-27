@@ -228,9 +228,12 @@ Retoosh.Game.prototype = {
 		this.game.physics.arcade.collide(this.avatar, this.chat_panel);
   		this.game.physics.arcade.collide(this.avatar, this.map.objects);
 
-		if(IS_HOST)
+		if(IS_HOST) {
 	  		this.game.physics.arcade.overlap(this.map.characters, this.map.explosions,
 	  										 this.onBombermanInExplosion, null, this);
+            this.game.physics.arcade.overlap(this.map.objects, this.map.explosions,
+                                           this.onBombInExplosion, null, this);
+        }
 
   		this.game.physics.arcade.overlap(this.avatar, this.map.powerups,
   										 this.onAvatarCollectPowerup, null, this);
@@ -705,6 +708,11 @@ Retoosh.Game.prototype = {
 
 		//avatar.die( this.nicknames[this.avatar.serial] );
 	},
+    
+    onBombInExplosion: function(object, explosion) {
+        //console.log("onBombInExplosion", object);
+        if (object.type == "bomb") object.emitExplosion();    
+    },
 
 	onAvatarCollectPowerup: function(avatar, collected_powerup){
 		if(avatar.is_dead || avatar.is_dying) return;
