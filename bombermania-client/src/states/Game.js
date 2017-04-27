@@ -689,14 +689,14 @@ Retoosh.Game.prototype = {
 
 	onBombermanInExplosion: function(bomberman, explosion){
 		console.log(bomberman.is_invincible, bomberman.is_dead, bomberman.is_dying);
-		if(bomberman.is_invincible || bomberman.is_dead || bomberman.is_dying) return;
+        if(bomberman.is_infire) return;
 
 		console.log(bomberman.serial," in explosion")
 		SOCKET.emit('player death', {
 			victim_serial: bomberman.serial,
 			killer_serial: explosion.owner.serial
 		});
-        bomberman.is_dying = true;
+        bomberman.is_infire = true;
 		/*
 		if(!avatar.is_dying) SOCKET_CLIENT.emit('player death', {
 			victim_serial: avatar.serial,
@@ -901,13 +901,6 @@ Retoosh.Game.prototype = {
 		console.log('Resume host countdowns!');
         if (data != undefined) {
             timestamp = data.timestamp;
-            for (var i = 0; i < data.players.length; i++) {
-                var player = data.players[i];
-                if (player) {
-                    this.players[i].is_dead = player.is_dead;
-                    this.players[i].is_invincible = player.is_invincible;
-                }
-            }
         }
             
 
