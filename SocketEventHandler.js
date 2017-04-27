@@ -180,6 +180,8 @@ module.exports = function( io ){
 		var victim = this.room.players[death_data.victim_serial];
 		var killer = this.room.players[death_data.killer_serial];
 
+        if( victim.is_invincible || victim.is_dead ) return;
+        
 		death_data.victim_serial == death_data.killer_serial && (victim.frags--);
 		killer.frags = victim == killer ? killer.frags : killer.frags + 1;
 
@@ -209,8 +211,8 @@ module.exports = function( io ){
 		powerup_data.c_serial = this.player.serial;
 
 		// save invicibility timestamp( so the newly entered player would be able to resume invicibility countdowns)
-		if( powerup_data.type == 4 ){
-			this.player.is_invincible = false;
+		if( powerup_data.type == "protection" ){
+			this.player.is_invincible = true;
 			this.player.i_timestamp = powerup_data.timestamp;
 		};
 
