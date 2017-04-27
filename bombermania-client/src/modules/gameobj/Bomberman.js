@@ -123,7 +123,7 @@ function Bomberman(game){
 	};
 
 	this.die = function( nickname_label ){
-        this.i_deathtimer = game.time.events.add( 1000, function(){
+        this.i_deathtimer = game.time.events.add( 200, function(){
             this.game.add.audio('death_snd').play();
 
             this.is_dying = true;
