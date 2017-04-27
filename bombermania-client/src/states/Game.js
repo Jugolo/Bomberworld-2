@@ -145,7 +145,7 @@ Retoosh.Game.prototype = {
 		this.spaceKey.onDown.add(function(){
 			if(!this.is_game_started) return;
             this.isSpaceKeyPressed = true;
-			//this.avatar.plantBomb(this.map);
+			this.avatar.plantBomb(this.map);
 		}, this);
 
 		this.spaceKey.onUp.add(function() {
@@ -223,7 +223,7 @@ Retoosh.Game.prototype = {
     update: function() {
   		if(!this.is_game_started) return;
         
-        if(this.isSpaceKeyPressed) this.avatar.plantBomb(this.map);
+        //if(this.isSpaceKeyPressed) this.avatar.plantBomb(this.map);
 
 		this.game.physics.arcade.collide(this.avatar, this.chat_panel);
   		this.game.physics.arcade.collide(this.avatar, this.map.objects);
