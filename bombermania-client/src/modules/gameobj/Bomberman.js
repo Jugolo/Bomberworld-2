@@ -22,10 +22,12 @@ function Bomberman(game){
 	this.is_invincible = false;
 	this.i_animation = false;
 	this.i_countdown = false;
+    this.i_deathtimer = false;
 	this.i_timestamp = 0;
 
 	this.is_dying = false;
 	this.is_dead = true;
+    this.is_infire = true;
 
 	this.width = TILE_SIZE * 1.15;
 	this.scale.y = this.scale.x;
@@ -121,31 +123,35 @@ function Bomberman(game){
 	};
 
 	this.die = function( nickname_label ){
-		this.game.add.audio('death_snd').play();
+        this.i_deathtimer = game.time.events.add( 1000, function(){
+            this.game.add.audio('death_snd').play();
 
-		this.is_dying = true;
+            this.is_dying = true;
+            console.log("die", this.is_dying);
 
-		this.death_animation = this.playAnimation('death', 1.5, false);
-		// if(this.death_animation){
-			this.death_animation.onComplete.add(function(){
-				var animation_iterator = 0;
-				var blinking_speed = 300;
-				var last_iteration = 10;
+            this.death_animation = this.playAnimation('death', 1.5, false);
+            // if(this.death_animation){
+                this.death_animation.onComplete.add(function(){
+                    var animation_iterator = 0;
+                    var blinking_speed = 300;
+                    var last_iteration = 10;
 
-				var blinking_timer = this.game.time.events.repeat(300, last_iteration, function(){
-					animation_iterator++;
+                    var blinking_timer = this.game.time.events.repeat(300, last_iteration, function(){
+                        animation_iterator++;
 
-					if(animation_iterator < last_iteration)
-						this.alpha = this.alpha == 1 ? 0 : 1;
-					else{
-						this.alpha = 1;
-						this.killProperly();
-						nickname_label.visible = false;
-					}
-				}, this);
+                        console.log("death_animation", animation_iterator);
+                        if(animation_iterator < last_iteration)
+                            this.alpha = this.alpha == 1 ? 0 : 1;
+                        else {
+                            this.alpha = 1;
+                            this.killProperly();
+                            nickname_label.visible = false;
+                        }
+                    }, this);
 
-			}, this);
-		// }
+                }, this);
+            // }
+        }, this );
 
 	};
 
@@ -157,6 +163,7 @@ function Bomberman(game){
 
 	this.revive = function(col, row){
 		this.is_dead = false;
+        this.is_infire = false;
 		this.resetUpgrades();
 		this.reset(col * TILE_SIZE + TILE_SIZE / 2, row * TILE_SIZE + TILE_SIZE / 2);
 
@@ -167,6 +174,7 @@ function Bomberman(game){
 
 	this.killProperly = function(){
 		if(this.death_animation) this.death_animation.onComplete.removeAll();
+        if(this.i_deathtimer) this.game.time.events.remove( this.i_deathtimer );
 		this.is_dead = true;
 		this.is_dying = false;
 		this.kill();
