@@ -70,10 +70,10 @@ Retoosh.Main.prototype = {
         var upper_menu = new UpperMenu( this.game );
 
         upper_menu.onSignipPress = function(){
-            if (window.sessionStorage["nickname"] == undefined) { 
+            if (window.sessionStorage['nickname'] == undefined) { 
 	            context.toggleSignipPanel();
             } else {
-                var nickname = window.sessionStorage["nickname"];
+                var nickname = window.sessionStorage['nickname'];
                 SOCKET.emit("room request", {name: nickname});
             }
         };
@@ -119,10 +119,10 @@ Retoosh.Main.prototype = {
         community_btn.y = ( Retoosh.HEIGHT - community_btn.height ) * 0.5 + 310;
 
         community_btn.onPress = function(){
-            window.open("http://www.bomberworld.io", "_blank");
+            window.open("http://www.bomberworld.io/forum/news.php", "_blank");
         };
 
-        var panels_margin = 40;
+        var panels_margin = 100;
         var panels_height = Retoosh.HEIGHT * 0.8; //- upper_menu.height - lower_menu.height - panels_margin * 2;
         var panels_width = 550;
 
@@ -134,7 +134,7 @@ Retoosh.Main.prototype = {
 
         this.signip_panel = new TabbedPanel( this.game, panels_width, panels_height );
         this.signip_panel.default_x = Retoosh.WIDTH - this.signip_panel.width - panels_margin / 2;
-        this.signip_panel.default_y = upper_menu.height + panels_margin;
+        this.signip_panel.default_y = panels_margin;
         this.signip_panel.x = Retoosh.WIDTH;
         this.signip_panel.y = this.signip_panel.default_y;
 
