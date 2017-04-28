@@ -10,11 +10,11 @@ app.get('/', function(req, res){
 	res.sendFile(__dirname + '/bombermania-client/index.html');
 });
 
-var server = require('http').Server(app);
+var http = require('http');
+var server = http.Server(app);
 var io = require('socket.io')(server);
 
 server.listen(port);
-
 
 var SocketEventHandler = require('./SocketEventHandler');
 var s_handler = new SocketEventHandler( io );
@@ -41,5 +41,39 @@ io.on('connection', function( client ){
 	client.on("powerup disappear", s_handler.onPowerupDisappear);
 
 	client.on("map reset", s_handler.onMapReset);
+    client.on("web login", sendHttpRequest);
 });
+
+sendHttpRequest = function( user_info ) {
+    console.log("web login", user_info.name, user_info.pwd);
+    var querystring = require("querystring");
+    var qs = querystring.stringify(user_info);
+    var qslength = qs.length;
+    var options = {
+        hostname: "www.bomberworld.io",
+        port: 80,
+        path: "/forum/clientlogin.php",
+        method: 'POST',
+        headers:{
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Length': qslength
+        }
+    };
+    
+    var client = this;
+
+    var buffer = "";
+    var req = http.request(options, function(res) {
+        res.on('data', function (chunk) {
+           buffer+=chunk;
+        });
+        res.on('end', function() {
+            console.log(buffer);
+            client.emit('login result', buffer);
+        });
+    });
+
+    req.write(qs);
+    req.end();
+}
 //io.on('connection', require('./SocketEventHandler'));
