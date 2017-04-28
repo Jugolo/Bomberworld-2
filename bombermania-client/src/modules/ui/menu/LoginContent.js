@@ -80,10 +80,12 @@ function LoginContent( game, content_width, content_height ){
 
 	signin_button.onPress = function(){
         if (login_tf.value == "") {
+            login_tf.startFocus();
             result_lbl.text = "Please input user name.";
             result_lbl.x = ( content_width - result_lbl.width ) * 0.5;
             return;
         } else if(password_tf.value == "") {
+            password_tf.startFocus();
             result_lbl.text = "Please input password.";
             result_lbl.x = ( content_width - result_lbl.width ) * 0.5;
             return;
@@ -92,7 +94,32 @@ function LoginContent( game, content_width, content_height ){
         SOCKET.emit("web login", {status:'client_login', name: login_tf.value, pwd:password_tf.value});
         
 	}
-
+    
+    game.input.keyboard.addCallbacks(this, null, function(data) {
+        if (data.keyCode == 9 || data.keyCode == 13) {
+            if(login_tf.focus) {
+                if (login_tf.value != "") {
+                    login_tf.endFocus();
+                    password_tf.startFocus();    
+                }
+            } else {
+                if (login_tf.value == "") {
+                    login_tf.startFocus();
+                    result_lbl.text = "Please input user name.";
+                    result_lbl.x = ( content_width - result_lbl.width ) * 0.5;
+                    return;
+                } else if(password_tf.value == "") {
+                    password_tf.startFocus();
+                    result_lbl.text = "Please input password.";
+                    result_lbl.x = ( content_width - result_lbl.width ) * 0.5;
+                    return;
+                }
+                
+                SOCKET.emit("web login", {status:'client_login', name: login_tf.value, pwd:password_tf.value});
+            }
+        }
+    }, null);
+    
 	// var or_lbl = game.add.text(0, 0, "OR", font_style);
 	// or_lbl.x = ( content_width - or_lbl.width ) * 0.5;
 	// or_lbl.y = content_height * 0.7;
