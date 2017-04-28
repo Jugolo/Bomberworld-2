@@ -4,7 +4,6 @@ function UpperMenu( game ){
 	var context = this;
 	this.state; // 'unauthorized' or 'authorized'
 
-    /*
 	this.bg = new ColorRect(this.game, Retoosh.WIDTH, 50, 0x000000);
 	this.bg.alpha = 0.8;
 	this.add(this.bg);
@@ -12,20 +11,31 @@ function UpperMenu( game ){
 	// greeting labels
 	var greet_group = this.game.add.group();
 
-	var font_style = { font: "28px Luckiest", fill: "#FFFFFF" };
+	var font_style = { font: "28px CooperBlack", fill: "#FFFFFF" };
 	var welcome_lbl = game.add.text(0, 0, "WELCOME", font_style);
 	greet_group.add(welcome_lbl);
 
 	font_style.fill = "#FFE240";
-	var name_lbl = game.add.text(welcome_lbl.width + 5, 0, "GUEST", font_style);
+	var name_lbl = game.add.text(welcome_lbl.width + 5, 0, " GUEST", font_style);
 	greet_group.add(name_lbl);
 
 	greet_group.x = 30;
 	greet_group.y = (this.height - greet_group.height) * 0.5;
 
 	this.add(greet_group);
-    */
     
+    // sign out button
+    var signout_btn = new UIButton(this.game, 180, 40, 0x575859, 'LOG OUT');
+    signout_btn.x = Retoosh.WIDTH - signout_btn.width - 20;
+    signout_btn.y = ( this.height - signout_btn.height ) * 0.5;
+    this.add(signout_btn);
+
+    signout_btn.onPress = function(){
+        //location.reload();
+        window.sessionStorage.removeItem('nickname');
+        context.setState('unauthorized');
+    }
+
 	// sign in / signi up button
 	var signip_btn = new UIButton(this.game, 350, 70, 0x575859, '', 'member');
 	signip_btn.x = ( Retoosh.WIDTH - signip_btn.width ) * 0.5;
@@ -33,20 +43,6 @@ function UpperMenu( game ){
 	this.add(signip_btn);
 
 	signip_btn.onPress = function(){ context.onSignipPress(); }
-
-	// sign out button
-	var signout_btn = new UIButton(this.game, 180, 40, 0x575859, 'LOG OUT');
-	signout_btn.x = this.width - signout_btn.width - 20;
-	signout_btn.y = ( this.height - signout_btn.height ) * 0.5;
-	this.add(signout_btn);
-
-	signout_btn.onPress = function(){
-		location.reload();
-		// webAuth.logout({
-		// 	returnTo: 'https://.bomberworldz.herokuapp.com/',
-		// 	client_id: 'lrFXTgeVe3VhqLht5FCFidAgwoGMb4Vz'
-		// });
-	 }
 
 	/*/ nickname fields
 	var nickname_group = game.add.group();
@@ -120,11 +116,11 @@ function UpperMenu( game ){
 
 	this.setState = function( state ){
 		if( this.state == state ) return;
-
 		switch( state ){
 			case 'unauthorized':
 				signip_btn.visible = true;
 				signout_btn.visible = false;
+                greet_group.visible = false;
 				//nickname_group.visible = false;
 
 				//name_lbl.text = "Guest";
@@ -133,14 +129,20 @@ function UpperMenu( game ){
 			case 'authorized':
 				signip_btn.visible = false;
 				signout_btn.visible = true;
-				nickname_group.visible = true;
+                greet_group.visible = true;
+				//nickname_group.visible = true;
 				break;
 		}
 
 		this.state = state;
 	};
-
-	this.setState('unauthorized');
+    
+    var nickname = window.sessionStorage['nickname'];
+    if (nickname == undefined) {     
+	    this.setState('unauthorized');
+    } else {
+        name_lbl.text = "  " + nickname;
+    }
 }
 
 UpperMenu.prototype = Object.create(Phaser.Group.prototype);
