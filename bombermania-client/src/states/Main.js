@@ -5,221 +5,298 @@ Retoosh.Main = function (game) {
 };
 
 Retoosh.Main.prototype = {
-  create: function () {
-	  var bg = this.game.add.sprite(0, 0, 'background');
-	  bg.height = Retoosh.HEIGHT;
-	  bg.scale.x = bg.scale.y;
-	  bg.x = ( Retoosh.WIDTH - bg.width ) * 0.5;
+    create: function () {
+        var bg_group = this.game.add.group();
+        
+        var header = this.game.add.sprite(0, 0, 'header');
+        header.width = Retoosh.WIDTH;
+        header.height = Retoosh.HEIGHT * 0.4;
+        bg_group.add(header);
 
-	  var context = this;
+        var left = this.game.add.sprite(0, 0, 'left');
+        left.width = Retoosh.WIDTH * 0.31;
+        left.height = Retoosh.HEIGHT * 0.53;
+        left.y = header.height;
+        left.inputEnabled = true;
+        left.events.onInputDown.add(this.eventListener, this);
+        bg_group.add(left);
 
-	  /*
-	  -------------------------------------------------------
-	  	Socket event
-	  -------------------------------------------------------
-	  */
+        var center = this.game.add.sprite(0, 0, 'center');
+        center.width = Retoosh.WIDTH * 0.38;
+        center.height = Retoosh.HEIGHT * 0.53;
+        center.x = left.width;
+        center.y = header.height;
+        center.inputEnabled = true;
+        center.events.onInputDown.add(this.eventListener, this);
+        bg_group.add(center);
 
-	  SOCKET.on("room found", this.onRoomFound);
+        var right = this.game.add.sprite(0, 0, 'right');
+        right.width = Retoosh.WIDTH * 0.31;
+        right.height = Retoosh.HEIGHT * 0.53;
+        right.x = (left.width + center.width);
+        right.y = header.height;
+        right.inputEnabled = true;
+        right.events.onInputDown.add(this.eventListener, this);
+        bg_group.add(right);
+        
+        var footer = this.game.add.sprite(0, 0, 'footer');
+        footer.width = Retoosh.WIDTH;
+        footer.height = Retoosh.HEIGHT * 0.07;
+        footer.y = (header.height + center.height);
+        footer.inputEnabled = true;
+        footer.input.useHandCursor = true; 
+        footer.events.onInputDown.add(function() {
+            window.open("http://www.bomberworld.io", "_blank");
+        }, this);
+        bg_group.add(footer);
 
-	  /*
-	  -------------------------------------------------------
-	  	Upper and lower menus
-	  -------------------------------------------------------
-	  */
-	  var upper_menu = new UpperMenu( this.game );
+        bg_group.scale.x = bg_group.scale.y;
 
-	  upper_menu.onSignipPress = function(){
-		  context.toggleSignipPanel();
-	  };
+        var context = this;
 
-	  var lower_menu = new LowerMenu( this.game );
-	  lower_menu.y = Retoosh.HEIGHT - lower_menu.height;
+        /*
+        -------------------------------------------------------
+        Socket event
+        -------------------------------------------------------
+        */
 
-	  lower_menu.onContactsPress = function(){
-		  context.toggleContacsPanel();
+        SOCKET.on("room found", this.onRoomFound);
 
-	  };
+        /*
+        -------------------------------------------------------
+        Upper and lower menus
+        -------------------------------------------------------
+        */
+        var upper_menu = new UpperMenu( this.game );
 
-	  var panels_margin = 40;
-	  var panels_height = Retoosh.HEIGHT - upper_menu.height - lower_menu.height - panels_margin * 2;
-	  var panels_width = 550;
+        upper_menu.onSignipPress = function(){
+            if (window.sessionStorage["nickname"] == undefined) { 
+	            context.toggleSignipPanel();
+            } else {
+                var nickname = window.sessionStorage["nickname"];
+                SOCKET.emit("room request", {name: nickname});
+            }
+        };
 
-	  /*
-	  -------------------------------------------------------
-	  	Sign in/up panel
-	  -------------------------------------------------------
-	  */
+        /*
+        var lower_menu = new LowerMenu( this.game );
+        lower_menu.y = Retoosh.HEIGHT - lower_menu.height;
 
-	  this.signip_panel = new TabbedPanel( this.game, panels_width, panels_height );
-	  this.signip_panel.default_x = Retoosh.WIDTH - this.signip_panel.width - panels_margin / 2;
-	  this.signip_panel.default_y = upper_menu.height + panels_margin;
-	  this.signip_panel.x = Retoosh.WIDTH;
-	  this.signip_panel.y = this.signip_panel.default_y;
+        lower_menu.onContactsPress = function(){
+          context.toggleContactsPanel();
 
-	  var login_content = new LoginContent( this.game, panels_width, panels_height - this.signip_panel.tab_pane.height);
-	  this.signip_panel.addTab( "LOG IN", login_content );
+        };
+        */
 
-	  login_content.onFacebookLogin = function( user_data ){
-		  upper_menu.setUsername(user_data.name);
+        /*
+        -------------------------------------------------------
+        Play button
+        -------------------------------------------------------
+        */
 
-		  var nickname = user_data.given_name.substring(0,1);
-		  nickname += user_data.family_name.substring(0, Math.min(6, user_data.family_name.length));
+        var play_btn = new UIButton( this.game, 350, 70, 0x000000, '', 'guest');
+        play_btn.bg.alpha = 0.8;
+        play_btn.x = ( Retoosh.WIDTH - play_btn.width ) * 0.5;
+        play_btn.y = ( Retoosh.HEIGHT - play_btn.height ) * 0.5 + 130;
 
-		  upper_menu.setState('authorized');
-		  upper_menu.setNickname(nickname);
+        play_btn.onPress = function(){
+          //var nickname = upper_menu.getNickname();
+          USERNAME = "Guest"; //nickname == "" ? upper_menu.getUsername() : nickname;
 
-		  // lower_menu.setState('authorized');
+          SOCKET.emit("room request", {name: USERNAME});
+          //this.game.state.start('Game');
+        };
 
-		  context.toggleSignipPanel();
-	  };
+        /*
+        -------------------------------------------------------
+          Community button
+        -------------------------------------------------------
+        */
 
-	  login_content.onRegularLogin = function( user_data, user_mail ){
-		  var user_name = user_mail.substring(0, user_mail.indexOf('@'));
-		  upper_menu.setUsername(user_name);
+        var community_btn = new UIButton( this.game, 350, 70, 0x000000, '', 'community');
+        community_btn.bg.alpha = 0.8;
+        community_btn.x = ( Retoosh.WIDTH - community_btn.width ) * 0.5;
+        community_btn.y = ( Retoosh.HEIGHT - community_btn.height ) * 0.5 + 310;
 
-		  upper_menu.setState('authorized');
-		  upper_menu.setNickname(user_name);
+        community_btn.onPress = function(){
+            window.open("http://www.bomberworld.io", "_blank");
+        };
 
-		  // lower_menu.setState('authorized');
+        var panels_margin = 40;
+        var panels_height = Retoosh.HEIGHT * 0.8; //- upper_menu.height - lower_menu.height - panels_margin * 2;
+        var panels_width = 550;
 
-		  context.toggleSignipPanel();
-	  };
+        /*
+        -------------------------------------------------------
+        Sign in/up panel
+        -------------------------------------------------------
+        */
 
-	  var register_content = new RegisterContent( this.game, panels_width, panels_height - this.signip_panel.tab_pane.height);
-	  this.signip_panel.addTab( "REGISTER", register_content );
+        this.signip_panel = new TabbedPanel( this.game, panels_width, panels_height );
+        this.signip_panel.default_x = Retoosh.WIDTH - this.signip_panel.width - panels_margin / 2;
+        this.signip_panel.default_y = upper_menu.height + panels_margin;
+        this.signip_panel.x = Retoosh.WIDTH;
+        this.signip_panel.y = this.signip_panel.default_y;
 
-	  register_content.onFacebookRegister = function( user_data ){
-		  upper_menu.setUsername(user_data.name);
+        var login_content = new LoginContent( this.game, panels_width, panels_height - this.signip_panel.tab_pane.height);
+        this.signip_panel.addTab( "LOG IN", login_content );
 
-		  var nickname = user_data.given_name.substring(0,1);
-		  nickname += user_data.family_name.substring(0, Math.min(6, user_data.family_name.length));
+        login_content.onFacebookLogin = function( user_data ){
+          upper_menu.setUsername(user_data.name);
 
-		  upper_menu.setState('authorized');
-		  upper_menu.setNickname(nickname);
+          var nickname = user_data.given_name.substring(0,1);
+          nickname += user_data.family_name.substring(0, Math.min(6, user_data.family_name.length));
 
-		  // lower_menu.setState('authorized');
+          upper_menu.setState('authorized');
+          upper_menu.setNickname(nickname);
 
-		  context.toggleSignipPanel();
-	  };
+          // lower_menu.setState('authorized');
 
-	  register_content.onRegularRegister = function( user_data, user_mail ){
-		  var user_name = user_mail.substring(0, user_mail.indexOf('@'));
-		  upper_menu.setUsername(user_name);
+          context.toggleSignipPanel();
+        };
 
-		  upper_menu.setState('authorized');
-		  upper_menu.setNickname(user_name);
+        login_content.onRegularLogin = function( user_data, user_mail ){
+          var user_name = user_mail.substring(0, user_mail.indexOf('@'));
+          upper_menu.setUsername(user_name);
 
-		  // lower_menu.setState('authorized');
+          upper_menu.setState('authorized');
+          upper_menu.setNickname(user_name);
 
-		  context.toggleSignipPanel();
-	  };
+          // lower_menu.setState('authorized');
 
-	  /*
-	  -------------------------------------------------------
-	  	Contacts panel
-	  -------------------------------------------------------
-	  */
-	  this.contacts_panel = new TabbedPanel( this.game, panels_width, panels_height );
-	  this.contacts_panel.default_x = panels_margin / 2;
-	  this.contacts_panel.default_y = upper_menu.height + panels_margin;
-	  this.contacts_panel.x = -this.contacts_panel.width;
-	  this.contacts_panel.y = this.contacts_panel.default_y;
+          context.toggleSignipPanel();
+        };
 
-	  // var friends_content = new FriendsContent( this.game, panels_width, panels_height - this.contacts_panel.tab_pane.height);
-	  // this.contacts_panel.addTab( "FRIENDS", friends_content );
-		//
-	  // var requests_content = new RequestsContent( this.game, panels_width, panels_height - this.contacts_panel.tab_pane.height);
-	  // this.contacts_panel.addTab( "REQUESTS", requests_content );
+        /*
+        var register_content = new RegisterContent( this.game, panels_width, panels_height - this.signip_panel.tab_pane.height);
+        this.signip_panel.addTab( "REGISTER", register_content );
 
-	  /*
-	  -------------------------------------------------------
-	  	Play button
-	  -------------------------------------------------------
-	  */
+        register_content.onFacebookRegister = function( user_data ){
+          upper_menu.setUsername(user_data.name);
 
-	  var play_btn = new UIButton( this.game, 150, 60, 0x000000, 'PLAY!' );
-	  play_btn.bg.alpha = 0.8;
-	  play_btn.x = ( Retoosh.WIDTH - play_btn.width ) * 0.5;
-	  play_btn.y = ( Retoosh.HEIGHT - play_btn.height ) * 0.5;
+          var nickname = user_data.given_name.substring(0,1);
+          nickname += user_data.family_name.substring(0, Math.min(6, user_data.family_name.length));
 
-	  play_btn.onPress = function(){
-		  var nickname = upper_menu.getNickname();
-		  USERNAME = nickname == "" ? upper_menu.getUsername() : nickname;
+          upper_menu.setState('authorized');
+          upper_menu.setNickname(nickname);
 
-		  SOCKET.emit("room request", {name: USERNAME});
-		  //this.game.state.start('Game');
-	  };
+          // lower_menu.setState('authorized');
 
-	  /*
-	  -------------------------------------------------------
-	  	Socket
-	  -------------------------------------------------------
-	  */
-  },
+          context.toggleSignipPanel();
+        };
 
-  toggleSignipPanel: function(){
-	  var signip_panel = this.signip_panel;
+        register_content.onRegularRegister = function( user_data, user_mail ){
+          var user_name = user_mail.substring(0, user_mail.indexOf('@'));
+          upper_menu.setUsername(user_name);
 
-	  if(signip_panel.is_toggled) return;
+          upper_menu.setState('authorized');
+          upper_menu.setNickname(user_name);
 
-	  if(signip_panel.is_shown){
-		  signip_panel.is_toggled = true;
+          // lower_menu.setState('authorized');
 
-		  var animation_tween = this.game.add.tween(signip_panel).to( {x: Retoosh.WIDTH, y: signip_panel.y},
-			  														  1000, Phaser.Easing.Back.InOut, true );
-		  animation_tween.onComplete.add( function(){
-			  signip_panel.is_toggled = false;
-			  signip_panel.is_shown = false;
-		  });
-	  }
-	  else{
-		  signip_panel.is_toggled = true;
+          context.toggleSignipPanel();
+        };
+        */
 
-		  var animation_tween = this.game.add.tween(signip_panel).to( {x: signip_panel.default_x, y: signip_panel.default_y},
-			  														  900, Phaser.Easing.Back.Out, true );
-		  animation_tween.onComplete.add( function(){
-			  signip_panel.is_toggled = false;
-			  signip_panel.is_shown = true;
-		  });
-	  }
-  },
+        /*
+        -------------------------------------------------------
+        Contacts panel
+        -------------------------------------------------------
+        */
+        
+        this.contacts_panel = new TabbedPanel( this.game, panels_width, panels_height );
+        this.contacts_panel.default_x = panels_margin / 2;
+        this.contacts_panel.default_y = upper_menu.height + panels_margin;
+        this.contacts_panel.x = -this.contacts_panel.width;
+        this.contacts_panel.y = this.contacts_panel.default_y;
 
-  toggleContacsPanel: function(){
-		if (game.sound.mute === true) {
-			game.sound.mute = false;
-		} else {
-			game.sound.mute = true;
-		}
+        // var friends_content = new FriendsContent( this.game, panels_width, panels_height - this.contacts_panel.tab_pane.height);
+        // this.contacts_panel.addTab( "FRIENDS", friends_content );
+        //
+        // var requests_content = new RequestsContent( this.game, panels_width, panels_height - this.contacts_panel.tab_pane.height);
+        // this.contacts_panel.addTab( "REQUESTS", requests_content );
+    },
 
-	  // var signip_panel = this.contacts_panel;
-		//
-	  // if(signip_panel.is_toggled) return;
-		//
-	  // if(signip_panel.is_shown){
-		//   signip_panel.is_toggled = true;
-		//
-		//   var animation_tween = this.game.add.tween(signip_panel).to( {x: -signip_panel.width, y: signip_panel.y},
-		// 	  														  1000, Phaser.Easing.Back.InOut, true );
-		//   animation_tween.onComplete.add( function(){
-		// 	  signip_panel.is_toggled = false;
-		// 	  signip_panel.is_shown = false;
-		//   });
-	  // }
-	  // else{
-		//   signip_panel.is_toggled = true;
-		//
-		//   var animation_tween = this.game.add.tween(signip_panel).to( {x: signip_panel.default_x, y: signip_panel.default_y},
-		// 	  														  900, Phaser.Easing.Back.Out, true );
-		//   animation_tween.onComplete.add( function(){
-		// 	  signip_panel.is_toggled = false;
-		// 	  signip_panel.is_shown = true;
-		//   });
-	  // }
-  },
+    toggleSignipPanel: function(){
+      var signip_panel = this.signip_panel;
 
-  onRoomFound: function( data ){
-	  console.log("room found");
-	  game.state.start('Game', true, false, data);
-  }
+      if(signip_panel.is_toggled) return;
+
+      if(signip_panel.is_shown){
+	      signip_panel.is_toggled = true;
+
+	      var animation_tween = this.game.add.tween(signip_panel).to( {x: Retoosh.WIDTH, y: signip_panel.y},
+			  													      1000, Phaser.Easing.Back.InOut, true );
+	      animation_tween.onComplete.add( function(){
+		      signip_panel.is_toggled = false;
+		      signip_panel.is_shown = false;
+	      });
+      }
+      else{
+	      signip_panel.is_toggled = true;
+
+	      var animation_tween = this.game.add.tween(signip_panel).to( {x: signip_panel.default_x, y: signip_panel.default_y},
+			  													      900, Phaser.Easing.Back.Out, true );
+	      animation_tween.onComplete.add( function(){
+		      signip_panel.is_toggled = false;
+		      signip_panel.is_shown = true;
+	      });
+      }
+    },
+
+    eventListener: function(sprite){
+        var signip_panel = this.signip_panel;
+        if(signip_panel.is_shown){
+            if (this.input.x > signip_panel.x && this.input.x < signip_panel.x + signip_panel.width
+            && this.input.y > signip_panel.y && this.input.y < signip_panel.y + signip_panel.height) return;
+             
+            signip_panel.is_toggled = true;
+
+            var animation_tween = this.game.add.tween(signip_panel).to( {x: Retoosh.WIDTH, y: signip_panel.y},
+                                                                        1000, Phaser.Easing.Back.InOut, true );
+            animation_tween.onComplete.add( function(){
+                signip_panel.is_toggled = false;
+                signip_panel.is_shown = false;
+            });
+        }
+    },
+
+    toggleContactsPanel: function(){
+	    if (game.sound.mute === true) {
+		    game.sound.mute = false;
+	    } else {
+		    game.sound.mute = true;
+	    }
+
+      // var signip_panel = this.contacts_panel;
+	    //
+      // if(signip_panel.is_toggled) return;
+	    //
+      // if(signip_panel.is_shown){
+	    //   signip_panel.is_toggled = true;
+	    //
+	    //   var animation_tween = this.game.add.tween(signip_panel).to( {x: -signip_panel.width, y: signip_panel.y},
+	    // 	  														  1000, Phaser.Easing.Back.InOut, true );
+	    //   animation_tween.onComplete.add( function(){
+	    // 	  signip_panel.is_toggled = false;
+	    // 	  signip_panel.is_shown = false;
+	    //   });
+      // }
+      // else{
+	    //   signip_panel.is_toggled = true;
+	    //
+	    //   var animation_tween = this.game.add.tween(signip_panel).to( {x: signip_panel.default_x, y: signip_panel.default_y},
+	    // 	  														  900, Phaser.Easing.Back.Out, true );
+	    //   animation_tween.onComplete.add( function(){
+	    // 	  signip_panel.is_toggled = false;
+	    // 	  signip_panel.is_shown = true;
+	    //   });
+      // }
+    },
+
+    onRoomFound: function( data ){
+      console.log("room found");
+      game.state.start('Game', true, false, data);
+    }
 
 };
