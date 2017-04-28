@@ -1,15 +1,15 @@
 function LoginContent( game, content_width, content_height ){
 	Phaser.Group.call(this, game);
 
-	var font_style = { font: "28px Luckiest", fill: "#FFFFFF" };
+	var font_style = { font: "28px CooperBlack", fill: "#FFFFFF" };
 
-	var login_lbl = game.add.text(0, 0, "EMAIL", font_style);
+	var login_lbl = game.add.text(0, 0, "User Name", font_style);
 	login_lbl.x = ( content_width - login_lbl.width ) * 0.5;
 	login_lbl.y = content_height * 0.1;
 	this.add(login_lbl);
 
 	var login_tf = game.add.inputField(10, 90, {
-	    font: '23px Luckiest',
+	    font: '23px CooperBlack',
 	    fill: '#FFFFFF',
 		backgroundColor: "#575957",
 		cursorColor: "#FFFFFF",
@@ -23,13 +23,13 @@ function LoginContent( game, content_width, content_height ){
 	login_tf.y = login_lbl.y + content_height * 0.07;
 	this.add(login_tf);
 
-	var password_lbl = game.add.text(0, 0, "PASSWORD", font_style);
+	var password_lbl = game.add.text(0, 0, "Password", font_style);
 	password_lbl.x = ( content_width - password_lbl.width ) * 0.5;
 	password_lbl.y = content_height * 0.30;
 	this.add(password_lbl);
 
 	var password_tf = game.add.inputField(10, 90, {
-	    font: '23px Luckiest',
+	    font: '23px CooperBlack',
 	    fill: '#FFFFFF',
 		backgroundColor: "#575957",
 		cursorColor: "#FFFFFF",
@@ -50,44 +50,47 @@ function LoginContent( game, content_width, content_height ){
 	this.add(signin_button);
 	var _this = this;
 
+    var font_style = { font: "23px", fill: "#FFFFFF" };
+    var result_lbl = game.add.text(0, 0, "", font_style);
+    result_lbl.x = ( content_width - result_lbl.width ) * 0.5;
+    result_lbl.y = content_height * 0.7;
+    this.add(result_lbl);
+
+    SOCKET.on('login result', function(data) {
+        var json = JSON.parse(data);
+        //console.log("login result:", json['status']);
+        if (json['status'] == 0) {
+            result_lbl.text = "The current account is invalid.";
+            result_lbl.x = ( content_width - result_lbl.width ) * 0.5;
+        } else if(json['status'] == 1) {
+            var nickname = json['nickname'];
+            window.sessionStorage["nickname"] = nickname;
+            SOCKET.emit("room request", {name: nickname});
+            //result_lbl.text = json['nickname'];
+            //result_lbl.x = ( content_width - result_lbl.width ) * 0.5;
+        } else if(json['status'] == 2) {
+            result_lbl.text = "Your account wasn't still allowed.";
+            result_lbl.x = ( content_width - result_lbl.width ) * 0.5;
+        } else if(json['status'] == 3) {
+            result_lbl.text = "The current password is invalid.\n           Please input again.";
+            result_lbl.x = ( content_width - result_lbl.width ) * 0.5;
+        }
+        
+    });
+
 	signin_button.onPress = function(){
-		// if(this.error_msg1){
-		// 	this.remove(error_msg1);
-		// 	this.remove(error_msg2);
-		// }
-
-		webAuth.client.login({
-			realm: 'Username-Password-Authentication',
-			username: login_tf.value,
-			password: password_tf.value,
-			scope: 'openid profile',
-			audience: 'https://flint0.auth0.com/api/v2/',
-			avatar: null
-		},
-
-		function(error, result){
-			if(error){
-				_this.remove(_this.getAt(5));
-				var err = error.description.split(':');
-				var error_msg1 = game.add.text(0, 0, err[0], font_style);;
-					error_msg1.x = ( content_width - error_msg1.width * 1.2 );
-					error_msg1.y = content_height * 0.70;
-					_this.addAt(error_msg1,5);
-			}
-			else{
-				console.log(result);
-
-				var xmlHttp = new XMLHttpRequest();
-			    xmlHttp.onreadystatechange = function() {
-			        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
-						context.onRegularLogin( JSON.parse(xmlHttp.responseText), login_tf.value );
-			    }
-			    xmlHttp.open("GET", "https://flint0.auth0.com/userinfo", true); // true for asynchronous
-				xmlHttp.setRequestHeader("Authorization", "Bearer "+result.accessToken)
-			    xmlHttp.send(null);
-				//var token = result.accessToken;
-			}
-		});
+        if (login_tf.value == "") {
+            result_lbl.text = "Please input user name.";
+            result_lbl.x = ( content_width - result_lbl.width ) * 0.5;
+            return;
+        } else if(password_tf.value == "") {
+            result_lbl.text = "Please input password.";
+            result_lbl.x = ( content_width - result_lbl.width ) * 0.5;
+            return;
+        }
+        
+        SOCKET.emit("web login", {status:'client_login', name: login_tf.value, pwd:password_tf.value});
+        
 	}
 
 	// var or_lbl = game.add.text(0, 0, "OR", font_style);
@@ -127,7 +130,8 @@ function LoginContent( game, content_width, content_height ){
 	// }
 
 	// this.onFacebookLogin = function( user_data ){};
-	this.onRegularLogin = function( user_data ){};
+	this.onRegularLogin = function( user_data ) {
+    };
 }
 
 LoginContent.prototype = Object.create(Phaser.Group.prototype);

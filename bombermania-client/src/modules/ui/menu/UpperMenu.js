@@ -4,6 +4,7 @@ function UpperMenu( game ){
 	var context = this;
 	this.state; // 'unauthorized' or 'authorized'
 
+    /*
 	this.bg = new ColorRect(this.game, Retoosh.WIDTH, 50, 0x000000);
 	this.bg.alpha = 0.8;
 	this.add(this.bg);
@@ -23,11 +24,12 @@ function UpperMenu( game ){
 	greet_group.y = (this.height - greet_group.height) * 0.5;
 
 	this.add(greet_group);
-
+    */
+    
 	// sign in / signi up button
-	var signip_btn = new UIButton(this.game, 240, 40, 0x575859, 'REGISTER / LOG IN');
-	signip_btn.x = this.width - signip_btn.width - 20;
-	signip_btn.y = ( this.height - signip_btn.height ) * 0.5;
+	var signip_btn = new UIButton(this.game, 350, 70, 0x575859, '', 'member');
+	signip_btn.x = ( Retoosh.WIDTH - signip_btn.width ) * 0.5;
+	signip_btn.y = ( Retoosh.HEIGHT - signip_btn.height ) * 0.5 + 220;
 	this.add(signip_btn);
 
 	signip_btn.onPress = function(){ context.onSignipPress(); }
@@ -46,7 +48,7 @@ function UpperMenu( game ){
 		// });
 	 }
 
-	// nickname fields
+	/*/ nickname fields
 	var nickname_group = game.add.group();
 
 	font_style.fill = "#FFFFFF";
@@ -54,39 +56,39 @@ function UpperMenu( game ){
 	nickname_group.add( nickname_lbl );
 
 	var nickname_tf = game.add.inputField(0, 0, {
-	    font: '23px CooperBlack', /*Luckiest*/
+	    font: '23px CooperBlack', /*Luckiest* /
 	    fill: '#FFE240',
 		backgroundColor: "#575957",
 		cursorColor: "#FFE240",
-	    width: 250,
+	    width: 240,
 	    padding: 7,
 		borderWidth: 0,
 		borderColor: "#575957",
 	    borderRadius: 100,
-		placeHolder: "Enter your nickname here"
+        placeHolder: "  NickName"
 	});
-
-	nickname_tf.x = greet_group.x + greet_group.width + 30;
-        nickname_tf.y = (this.height - greet_group.height) * 0.5;
-
-	nickname_tf.keyListener = function (evt) {
+    
+    nickname_tf.x = greet_group.x + greet_group.width + 30;
+    nickname_tf.y = (this.height - greet_group.height) * 0.5;
+    
+    nickname_tf.keyListener = function (evt) {
         this.value = this.domElement.value;
-	if (evt.keyCode === 13) {
-	    if (this.focusOutOnEnter) {
-		this.endFocus();
-	    }
-	    var nickname = this.value;
-	    USERNAME = nickname == "" ? "Guest" : nickname;
+        if (evt.keyCode === 13) {
+            if (this.focusOutOnEnter) {
+                this.endFocus();
+            }
+            var nickname = this.value;
+            USERNAME = nickname == "" ? "Guest" : nickname;
 
-	    SOCKET.emit("room request", {name: USERNAME});
-	    return;
-	}
-	this.updateText();
-	this.updateCursor();
-	this.updateSelection();
-	evt.preventDefault();
-    }
-
+            SOCKET.emit("room request", {name: USERNAME});
+            return;
+        }
+        this.updateText();
+        this.updateCursor();
+        this.updateSelection();
+        evt.preventDefault();
+    }*/
+    
 	//nickname_tf.x = nickname_lbl.width + 20;
 	//nickname_lbl.y = ( nickname_tf.height - nickname_lbl.height ) * 0.5;
 	//nickname_group.add(nickname_tf);
@@ -123,9 +125,9 @@ function UpperMenu( game ){
 			case 'unauthorized':
 				signip_btn.visible = true;
 				signout_btn.visible = false;
-				nickname_group.visible = false;
+				//nickname_group.visible = false;
 
-				name_lbl.text = "Guest";
+				//name_lbl.text = "Guest";
 
 				break;
 			case 'authorized':
