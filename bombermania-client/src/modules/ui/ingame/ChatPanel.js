@@ -37,8 +37,8 @@ function ChatPanel( game, context ){
 
 	this.previews = [];
 
-	this.addPlayer = function( id, name, serial, frags ){
-		var player_preview = new PlayerPreview(game, id, name, serial, frags, context.player_colors[serial] );
+	this.addPlayer = function( id, name, serial, frags, self = false ){
+		var player_preview = new PlayerPreview(game, id, name, serial, frags, context.player_colors[serial], self );
 		this.previews.push(player_preview);
 		this.add(player_preview);
 
@@ -109,7 +109,7 @@ ChatPanel.prototype.getPreviewByID = function( id ){
 	}
 }
 
-function PlayerPreview( game, id, name, serial, frags, color ){
+function PlayerPreview( game, id, name, serial, frags, color, self = false ){
 	Phaser.Group.call(this, game);
 
 	this.id = id;
@@ -135,6 +135,25 @@ function PlayerPreview( game, id, name, serial, frags, color ){
 	var name_label = game.add.text(bm_body.width + 10, 0, name, font_style);
 	this.add(name_label);
 
+    if(self) {
+        var mute_btn = this.create( 0, 0, 'soundon' );
+        mute_btn.height = this.height * 0.5;
+        mute_btn.scale.x = mute_btn.scale.y;
+        mute_btn.x = name_label.x + name_label.width + 20;
+        mute_btn.y = ( this.height - mute_btn.height ) * 0.5;
+
+        mute_btn.inputEnabled = true;
+        mute_btn.input.useHandCursor = true;
+        mute_btn.events.onInputDown.add( function(){
+            if (game.sound.mute === true) {
+                game.sound.mute = false;
+            } else {
+                game.sound.mute = true;
+            }
+            mute_btn.key==='soundon'?mute_btn.loadTexture('soundoff',0):mute_btn.loadTexture('soundon',0);
+        }, this );
+    }
+
 	font_style.fontWeight = "normal";
 	font_style.fontSize = 16;
 	var points_label = game.add.text(bm_body.width + 11, 30, "POINTS: 0", font_style);
@@ -144,7 +163,7 @@ function PlayerPreview( game, id, name, serial, frags, color ){
 	font_style.wordWrapWidth = Retoosh.WIDTH - Retoosh.HEIGHT - 60;
 	var message_label = game.add.text(0, 56, "", font_style);
 	this.add(message_label);
-
+    
 	this.setName = function( name ){
 		name_label.text = name;
 	}
