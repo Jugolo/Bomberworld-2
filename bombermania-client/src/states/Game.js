@@ -12,6 +12,7 @@ Retoosh.Game = function(game) {
 	this.avatar = null;
 	this.nicknames = [];
     this.direction = "none";
+    this.key_timer = false;
 
 	this.player_colors = [
 		0x7CFC00,
@@ -104,7 +105,10 @@ Retoosh.Game.prototype = {
 			if(!this.room.players[p]) continue;
 
 			var player = this.room.players[p];
-			this.chat_panel.addPlayer( player.id, player.name, player.serial, player.frags );
+            if(this.avatar.serial == player.serial)
+			    this.chat_panel.addPlayer( player.id, player.name, player.serial, player.frags, true);
+            else
+                this.chat_panel.addPlayer( player.id, player.name, player.serial, player.frags );
 			this.chat_panel.setMessage( player.id, player.last_message );
 		}
 
@@ -146,10 +150,19 @@ Retoosh.Game.prototype = {
 			if(!this.is_game_started) return;
             this.isSpaceKeyPressed = true;
 			this.avatar.plantBomb(this.map);
+            if (!this.key_timer) {
+                this.key_timer = this.game.time.events.loop( 500, function(){
+                    this.avatar.plantBomb(this.map);
+                }, this );
+            }
 		}, this);
 
 		this.spaceKey.onUp.add(function() {
             this.isSpaceKeyPressed = false;
+            if(this.key_timer) { 
+                this.game.time.events.remove(this.key_timer);
+                this.key_timer = false;
+            }
 			if(this.is_game_started && this.avatar.is_dead) this.respawnAvatar();
 		}, this);
 
@@ -691,7 +704,8 @@ Retoosh.Game.prototype = {
 	},
 
 	onBombermanInExplosion: function(bomberman, explosion){
-		console.log(bomberman.is_invincible, bomberman.is_dead, bomberman.is_dying);
+		console.log(bomberman.is_invincible, bomberman.is_dead, bomberman.is_dying, bomberman.is_infire);
+		//if(bomberman.is_invincible || bomberman.is_dead || bomberman.is_dying) return;
         if(bomberman.is_invincible || bomberman.is_infire) return;
 
 		console.log(bomberman.serial," in explosion")
@@ -700,6 +714,7 @@ Retoosh.Game.prototype = {
 			killer_serial: explosion.owner.serial
 		});
         bomberman.is_infire = true;
+        //bomberman.is_dying = true;
 		/*
 		if(!avatar.is_dying) SOCKET_CLIENT.emit('player death', {
 			victim_serial: avatar.serial,
@@ -909,6 +924,15 @@ Retoosh.Game.prototype = {
 		console.log('Resume host countdowns!');
         if (data != undefined) {
             timestamp = data.timestamp;
+            /*
+            for (var i = 0; i < data.players.length; i++) {
+                var player = data.players[i];
+                if (player) {
+                    this.players[i].is_dead = player.is_dead;
+                    this.players[i].is_invincible = player.is_invincible;
+                }
+            }
+            */
         }
             
 
