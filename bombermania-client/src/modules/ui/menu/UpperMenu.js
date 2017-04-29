@@ -36,6 +36,16 @@ function UpperMenu( game ){
         context.setState('unauthorized');
     }
 
+    // sign out button
+    var profilelink_btn = new UIButton(this.game, 200, 40, 0x575859, 'EDIT PROFILE');
+    profilelink_btn.x = Retoosh.WIDTH - profilelink_btn.width - signout_btn.width - 40;
+    profilelink_btn.y = ( this.height - profilelink_btn.height ) * 0.5;
+    this.add(profilelink_btn);
+
+    profilelink_btn.onPress = function(){
+        window.open("http://bomberworld.io/forum/edit_profile.php", "_blank");
+    }
+
 	// sign in / signi up button
 	var signip_btn = new UIButton(this.game, 250, 40, 0x575859, 'LOG IN/REGISTER');
 	signip_btn.x = Retoosh.WIDTH - signip_btn.width - 20;
@@ -120,6 +130,7 @@ function UpperMenu( game ){
 			case 'unauthorized':
 				signip_btn.visible = true;
 				signout_btn.visible = false;
+                profilelink_btn.visible = false;
                 this.setUsername("  Guest");
                 //greet_group.visible = false;
 				//nickname_group.visible = false;
@@ -130,6 +141,7 @@ function UpperMenu( game ){
 			case 'authorized':
 				signip_btn.visible = false;
 				signout_btn.visible = true;
+                profilelink_btn.visible = true;
                 //greet_group.visible = true;
 				//nickname_group.visible = true;
 				break;
