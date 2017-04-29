@@ -218,6 +218,10 @@ Retoosh.Game.prototype = {
                 if(IS_HOST) _this.stopBeingHost();
 
                 IS_FOCUSED = false;
+            if(_this.key_timer) { 
+                _this.game.time.events.remove(_this.key_timer);
+                _this.key_timer = false;
+            }
             }
         })(this);
 
