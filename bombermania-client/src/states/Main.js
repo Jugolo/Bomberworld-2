@@ -69,15 +69,6 @@ Retoosh.Main.prototype = {
         */
         var upper_menu = new UpperMenu( this.game );
 
-        upper_menu.onSignipPress = function(){
-            if (window.sessionStorage['nickname'] == undefined) { 
-	            context.toggleSignipPanel();
-            } else {
-                var nickname = window.sessionStorage['nickname'];
-                SOCKET.emit("room request", {name: nickname});
-            }
-        };
-
         /*
         var lower_menu = new LowerMenu( this.game );
         lower_menu.y = Retoosh.HEIGHT - lower_menu.height;
@@ -95,12 +86,10 @@ Retoosh.Main.prototype = {
         */
 
         var play_btn = new UIButton( this.game, 350, 70, 0x000000, '', 'guest');
-        play_btn.bg.alpha = 0.8;
         play_btn.x = ( Retoosh.WIDTH - play_btn.width ) * 0.5;
         play_btn.y = ( Retoosh.HEIGHT - play_btn.height ) * 0.5 + 130;
 
         play_btn.onPress = function(){
-          //var nickname = upper_menu.getNickname();
           USERNAME = "Guest"; //nickname == "" ? upper_menu.getUsername() : nickname;
 
           SOCKET.emit("room request", {name: USERNAME});
@@ -109,12 +98,21 @@ Retoosh.Main.prototype = {
 
         /*
         -------------------------------------------------------
+        Member button
+        -------------------------------------------------------
+        */
+
+        var member_btn = new UIButton(this.game, 350, 70, 0x575859, '', 'member');
+        member_btn.x = ( Retoosh.WIDTH - member_btn.width ) * 0.5;
+        member_btn.y = ( Retoosh.HEIGHT - member_btn.height ) * 0.5 + 220;
+
+        /*
+        -------------------------------------------------------
           Community button
         -------------------------------------------------------
         */
 
         var community_btn = new UIButton( this.game, 350, 70, 0x000000, '', 'community');
-        community_btn.bg.alpha = 0.8;
         community_btn.x = ( Retoosh.WIDTH - community_btn.width ) * 0.5;
         community_btn.y = ( Retoosh.HEIGHT - community_btn.height ) * 0.5 + 310;
 
@@ -122,7 +120,7 @@ Retoosh.Main.prototype = {
             window.open("http://www.bomberworld.io/forum/news.php", "_blank");
         };
 
-        var panels_margin = 100;
+        var panels_margin = 40;
         var panels_height = Retoosh.HEIGHT * 0.8; //- upper_menu.height - lower_menu.height - panels_margin * 2;
         var panels_width = 550;
 
@@ -134,7 +132,7 @@ Retoosh.Main.prototype = {
 
         this.signip_panel = new TabbedPanel( this.game, panels_width, panels_height );
         this.signip_panel.default_x = Retoosh.WIDTH - this.signip_panel.width - panels_margin / 2;
-        this.signip_panel.default_y = panels_margin;
+        this.signip_panel.default_y = upper_menu.height + panels_margin;
         this.signip_panel.x = Retoosh.WIDTH;
         this.signip_panel.y = this.signip_panel.default_y;
 
@@ -167,7 +165,6 @@ Retoosh.Main.prototype = {
           context.toggleSignipPanel();
         };
 
-        /*
         var register_content = new RegisterContent( this.game, panels_width, panels_height - this.signip_panel.tab_pane.height);
         this.signip_panel.addTab( "REGISTER", register_content );
 
@@ -196,7 +193,26 @@ Retoosh.Main.prototype = {
 
           context.toggleSignipPanel();
         };
-        */
+
+        member_btn.onPress = function(){
+            if (window.sessionStorage['nickname'] == undefined) {
+                login_content.showLoginField() 
+                context.toggleSignipPanel();
+            } else {
+                var nickname = window.sessionStorage['nickname'];
+                if(nickname == "") {
+                    login_content.showNickNameField();
+                    context.toggleSignipPanel();
+                } else {
+                    SOCKET.emit("room request", {name: nickname});
+                }
+            }
+        };
+
+        upper_menu.onSignipPress = function(){
+            login_content.showLoginField() 
+            context.toggleSignipPanel();
+        };
 
         /*
         -------------------------------------------------------
