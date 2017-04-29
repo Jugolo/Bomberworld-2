@@ -24,7 +24,7 @@ function UIButton( game, width, height, color, label, image = ""){
         image != "" && this.bg.loadTexture(image, 0);
     }, this );
 
-	var font_style = { font: "28px CooperBlack", fill: "#FFFFFF" };
+	var font_style = { font: "28px Luckiest", fill: "#FFFFFF" };
 
 	this.label = game.add.text(0, 0, label, font_style);
 	this.label.x = ( this.bg.width - this.label.width ) * 0.5;
