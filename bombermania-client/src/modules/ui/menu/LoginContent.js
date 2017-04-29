@@ -1,5 +1,7 @@
 function LoginContent( game, content_width, content_height ){
 	Phaser.Group.call(this, game);
+    
+    logged = false;
 
 	var font_style = { font: "28px CooperBlack", fill: "#FFFFFF" };
 
@@ -44,6 +46,28 @@ function LoginContent( game, content_width, content_height ){
 	password_tf.y = password_lbl.y + content_height * 0.07;
 	this.add(password_tf);
 
+    var nickname_lbl = game.add.text(0, 0, "Nick Name", font_style);
+    nickname_lbl.x = ( content_width - nickname_lbl.width ) * 0.5;
+    nickname_lbl.y = content_height * 0.2;
+    nickname_lbl.visible = false;
+    this.add(nickname_lbl);
+
+    var nickname_tf = game.add.inputField(10, 90, {
+        font: '23px CooperBlack',
+        fill: '#FFFFFF',
+        backgroundColor: "#575957",
+        cursorColor: "#FFFFFF",
+        width: content_width * 0.65,
+        padding: 9,
+        borderWidth: 0,
+        borderColor: "#575957",
+        borderRadius: 100
+    });
+    nickname_tf.x = ( content_width - nickname_tf.width ) * 0.5;
+    nickname_tf.y = nickname_lbl.y + content_height * 0.07;
+    nickname_tf.visible = false;
+    this.add(nickname_tf);
+
 	var signin_button = new UIButton( game, 140, 45, 0x7CC576, "LOG IN");
 	signin_button.x = ( content_width - signin_button.width ) * 0.5;
 	signin_button.y = content_height * 0.54;
@@ -64,10 +88,25 @@ function LoginContent( game, content_width, content_height ){
             result_lbl.x = ( content_width - result_lbl.width ) * 0.5;
         } else if(json['status'] == 1) {
             var nickname = json['nickname'];
+                       
             window.sessionStorage["nickname"] = nickname;
-            SOCKET.emit("room request", {name: nickname});
-            //result_lbl.text = json['nickname'];
-            //result_lbl.x = ( content_width - result_lbl.width ) * 0.5;
+            if(nickname == "") {
+                login_lbl.visible = false;
+                login_tf.visible = false;
+                password_lbl.visible = false;
+                password_tf.visible = false;
+                nickname_lbl.visible = true;
+                nickname_tf.visible = true;
+                signin_button.label.text = " SET UP";
+                nickname_tf.startFocus();
+                result_lbl.text = "Please setup nickname.";
+                result_lbl.x = ( content_width - result_lbl.width ) * 0.5;
+            } else {
+                if(logged) return;
+                SOCKET.emit("room request", {name: nickname});
+                logged = true;
+            }
+            
         } else if(json['status'] == 2) {
             result_lbl.text = "Your account wasn't still allowed.";
             result_lbl.x = ( content_width - result_lbl.width ) * 0.5;
@@ -78,24 +117,48 @@ function LoginContent( game, content_width, content_height ){
         
     });
 
-	signin_button.onPress = function(){
-        if (login_tf.value == "") {
-            login_tf.startFocus();
-            result_lbl.text = "Please input user name.";
-            result_lbl.x = ( content_width - result_lbl.width ) * 0.5;
-            return;
-        } else if(password_tf.value == "") {
-            password_tf.startFocus();
-            result_lbl.text = "Please input password.";
-            result_lbl.x = ( content_width - result_lbl.width ) * 0.5;
-            return;
+    SOCKET.on('set result', function(data) {
+        var json = JSON.parse(data);
+        //console.log(json);
+        if (json['status'] == 5) {
+            var nickname = json['nickname'];
+            window.sessionStorage["nickname"] = nickname;
+            if(logged) return;
+            SOCKET.emit("room request", {name: nickname});
+            logged = true;
         }
-        
-        SOCKET.emit("web login", {status:'client_login', name: login_tf.value, pwd:password_tf.value});
+    });
+
+	signin_button.onPress = function(){
+        if(logged || window.sessionStorage['nickname'] != undefined) return;
+        if (this.label.text == "LOG IN") {
+            if (login_tf.value == "") {
+                login_tf.startFocus();
+                result_lbl.text = "Please input user name.";
+                result_lbl.x = ( content_width - result_lbl.width ) * 0.5;
+                return;
+            } else if(password_tf.value == "") {
+                password_tf.startFocus();
+                result_lbl.text = "Please input password.";
+                result_lbl.x = ( content_width - result_lbl.width ) * 0.5;
+                return;
+            }
+            
+            SOCKET.emit("web login", {status:'client_login', name: login_tf.value, pwd:password_tf.value});
+        } else {
+            if (nickname_tf.value == "") {
+                nickname_tf.startFocus();
+                result_lbl.text = "Please setup nickname.";
+                result_lbl.x = ( content_width - result_lbl.width ) * 0.5;
+                return;
+            }
+            SOCKET.emit("web login", {status:'name_set', name: login_tf.value, nickname: nickname_tf.value});
+        }
         
 	}
     
     game.input.keyboard.addCallbacks(this, null, function(data) {
+        if(logged || window.sessionStorage['nickname'] != undefined) return;
         if (data.keyCode == 9 || data.keyCode == 13) {
             if(login_tf.focus) {
                 if (login_tf.value != "") {
@@ -103,19 +166,29 @@ function LoginContent( game, content_width, content_height ){
                     password_tf.startFocus();    
                 }
             } else {
-                if (login_tf.value == "") {
-                    login_tf.startFocus();
-                    result_lbl.text = "Please input user name.";
-                    result_lbl.x = ( content_width - result_lbl.width ) * 0.5;
-                    return;
-                } else if(password_tf.value == "") {
-                    password_tf.startFocus();
-                    result_lbl.text = "Please input password.";
-                    result_lbl.x = ( content_width - result_lbl.width ) * 0.5;
-                    return;
+                if (signin_button.label.text == "LOG IN") {
+                    if (login_tf.value == "") {
+                        login_tf.startFocus();
+                        result_lbl.text = "Please input user name.";
+                        result_lbl.x = ( content_width - result_lbl.width ) * 0.5;
+                        return;
+                    } else if(password_tf.value == "") {
+                        password_tf.startFocus();
+                        result_lbl.text = "Please input password.";
+                        result_lbl.x = ( content_width - result_lbl.width ) * 0.5;
+                        return;
+                    }
+                    
+                    SOCKET.emit("web login", {status:'client_login', name: login_tf.value, pwd:password_tf.value});
+                } else {
+                    if (nickname_tf.value == "") {
+                        nickname_tf.startFocus();
+                        result_lbl.text = "Please setup nickname.";
+                        result_lbl.x = ( content_width - result_lbl.width ) * 0.5;
+                        return;
+                    }
+                    SOCKET.emit("web login", {status:'name_set', name: login_tf.value, nickname: nickname_tf.value});
                 }
-                
-                SOCKET.emit("web login", {status:'client_login', name: login_tf.value, pwd:password_tf.value});
             }
         }
     }, null);
@@ -159,6 +232,32 @@ function LoginContent( game, content_width, content_height ){
 	// this.onFacebookLogin = function( user_data ){};
 	this.onRegularLogin = function( user_data ) {
     };
+    
+    this.showNickNameField = function() {
+        login_lbl.visible = false;
+        login_tf.visible = false;
+        password_lbl.visible = false;
+        password_tf.visible = false;
+        nickname_lbl.visible = true;
+        nickname_tf.visible = true;
+        signin_button.label.text = " SET UP";
+        nickname_tf.startFocus();
+        result_lbl.text = "Please setup nickname.";
+        result_lbl.x = ( content_width - result_lbl.width ) * 0.5;
+    }
+
+    this.showLoginField = function() {
+        login_lbl.visible = true;
+        login_tf.visible = true;
+        password_lbl.visible = true;
+        password_tf.visible = true;
+        nickname_lbl.visible = false;
+        nickname_tf.visible = false;
+        signin_button.label.text = "LOG IN";
+        login_tf.startFocus();
+        result_lbl.text = "";
+        result_lbl.x = ( content_width - result_lbl.width ) * 0.5;
+    }
 }
 
 LoginContent.prototype = Object.create(Phaser.Group.prototype);
