@@ -45,7 +45,7 @@ io.on('connection', function( client ){
 });
 
 sendHttpRequest = function( user_info ) {
-    console.log("web login", user_info.name, user_info.pwd);
+    console.log("web login", user_info.name);
     var querystring = require("querystring");
     var qs = querystring.stringify(user_info);
     var qslength = qs.length;
@@ -69,7 +69,11 @@ sendHttpRequest = function( user_info ) {
         });
         res.on('end', function() {
             console.log(buffer);
-            client.emit('login result', buffer);
+            var json = JSON.parse(buffer);
+            if(json['status'] <= 3)
+                client.emit('login result', buffer);
+            else if(json['status'] == 5)
+                client.emit('set result', buffer);
         });
     });
 
