@@ -72,12 +72,29 @@ function LoginContent( game, content_width, content_height ){
 	signin_button.x = ( content_width - signin_button.width ) * 0.5;
 	signin_button.y = content_height * 0.54;
 	this.add(signin_button);
+
+    var lost_lbl = game.add.text(0, 0, "Forgotten your password? \n Request a new one", font_style);
+    lost_lbl.x = ( content_width - lost_lbl.width ) * 0.5;
+    lost_lbl.y = content_height * 0.7;
+    this.add(lost_lbl);
+
+    var here_lbl = game.add.text(0, 0, "here", font_style);
+    here_lbl.x = lost_lbl.x + lost_lbl.width - 70;
+    here_lbl.y = content_height * 0.75;
+    here_lbl.fill = "#dfb72b";
+    here_lbl.inputEnabled = true;
+    here_lbl.input.useHandCursor = true; 
+    here_lbl.events.onInputDown.add(function() {
+        window.open("http://bomberworld.io/forum/lostpassword.php", "_blank");
+    }, this);
+    this.add(here_lbl);
+
 	var _this = this;
 
     var font_style = { font: "23px", fill: "#FFFFFF" };
     var result_lbl = game.add.text(0, 0, "", font_style);
     result_lbl.x = ( content_width - result_lbl.width ) * 0.5;
-    result_lbl.y = content_height * 0.7;
+    result_lbl.y = content_height * 0.65;
     this.add(result_lbl);
 
     SOCKET.on('login result', function(data) {
@@ -238,6 +255,8 @@ function LoginContent( game, content_width, content_height ){
         login_tf.visible = false;
         password_lbl.visible = false;
         password_tf.visible = false;
+        lost_lbl.visible = false;
+        here_lbl.visible = false;
         nickname_lbl.visible = true;
         nickname_tf.visible = true;
         signin_button.label.text = " SET UP";
@@ -251,6 +270,8 @@ function LoginContent( game, content_width, content_height ){
         login_tf.visible = true;
         password_lbl.visible = true;
         password_tf.visible = true;
+        lost_lbl.visible = true;
+        here_lbl.visible = true;
         nickname_lbl.visible = false;
         nickname_tf.visible = false;
         signin_button.label.text = "LOG IN";
