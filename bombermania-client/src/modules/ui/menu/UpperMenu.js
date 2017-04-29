@@ -16,7 +16,7 @@ function UpperMenu( game ){
 	greet_group.add(welcome_lbl);
 
 	font_style.fill = "#FFE240";
-	var name_lbl = game.add.text(welcome_lbl.width + 5, 0, " GUEST", font_style);
+	var name_lbl = game.add.text(welcome_lbl.width + 5, 0, "  Guest", font_style);
 	greet_group.add(name_lbl);
 
 	greet_group.x = 30;
@@ -37,9 +37,9 @@ function UpperMenu( game ){
     }
 
 	// sign in / signi up button
-	var signip_btn = new UIButton(this.game, 350, 70, 0x575859, '', 'member');
-	signip_btn.x = ( Retoosh.WIDTH - signip_btn.width ) * 0.5;
-	signip_btn.y = ( Retoosh.HEIGHT - signip_btn.height ) * 0.5 + 220;
+	var signip_btn = new UIButton(this.game, 250, 40, 0x575859, 'LOG IN/REGISTER');
+	signip_btn.x = Retoosh.WIDTH - signip_btn.width - 20;
+	signip_btn.y = ( this.height - signip_btn.height ) * 0.5;;
 	this.add(signip_btn);
 
 	signip_btn.onPress = function(){ context.onSignipPress(); }
@@ -120,7 +120,8 @@ function UpperMenu( game ){
 			case 'unauthorized':
 				signip_btn.visible = true;
 				signout_btn.visible = false;
-                greet_group.visible = false;
+                this.setUsername("  Guest");
+                //greet_group.visible = false;
 				//nickname_group.visible = false;
 
 				//name_lbl.text = "Guest";
@@ -129,7 +130,7 @@ function UpperMenu( game ){
 			case 'authorized':
 				signip_btn.visible = false;
 				signout_btn.visible = true;
-                greet_group.visible = true;
+                //greet_group.visible = true;
 				//nickname_group.visible = true;
 				break;
 		}
@@ -142,6 +143,7 @@ function UpperMenu( game ){
 	    this.setState('unauthorized');
     } else {
         name_lbl.text = "  " + nickname;
+        this.setState('authorized');
     }
 }
 
