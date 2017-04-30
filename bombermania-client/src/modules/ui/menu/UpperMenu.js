@@ -37,7 +37,7 @@ function UpperMenu( game ){
     }
 
     // profile button
-    var profilelink_btn = new UIButton(this.game, 200, 40, 0x575859, 'EDIT PROFILE');
+    var profilelink_btn = new UIButton(this.game, 250, 40, 0x575859, 'EDIT PROFILE');
     profilelink_btn.x = Retoosh.WIDTH - profilelink_btn.width - signout_btn.width - 40;
     profilelink_btn.y = ( this.height - profilelink_btn.height ) * 0.5;
     this.add(profilelink_btn);
