@@ -77,23 +77,23 @@ function Bomberman(game){
 
 	this.setInvincible = function( flag ){
 		if(flag){
-		    if (!this.i_animation) {
+            if (!this.i_animation) {
 			    this.i_animation = this.game.time.events.loop(300, function(){
 				    this.alpha = this.alpha == 1 ? 0 : 1;
 			    }, this);
-		    } else {
-			this.game.time.events.remove(this.i_animation);
-			this.i_animation = this.game.time.events.loop(300, function(){
-			    this.alpha = this.alpha == 1 ? 0 : 1;
-			}, this);
-		    }
+            } else {
+                this.game.time.events.remove(this.i_animation);
+                this.i_animation = this.game.time.events.loop(300, function(){
+                    this.alpha = this.alpha == 1 ? 0 : 1;
+                }, this);
+            }
 		}
 		else{
-		    if(this.i_animation) { 
-			this.game.time.events.remove(this.i_animation);
-			this.i_animation = false;
-            	    }
-		    this.alpha = 1;
+			if(this.i_animation) { 
+                this.game.time.events.remove(this.i_animation);
+                this.i_animation = false;
+            }
+			this.alpha = 1;
 		}
 
 		this.is_invincible = flag;
@@ -104,7 +104,7 @@ function Bomberman(game){
 		this.tint_sprite.tint = tint_color;
 	};
 
-	this.plantBomb = function( map ){
+	this.plantBomb = function( map, direction ){
 		if(this.is_dead || this.is_dying) return;
 
 		var tp = this.getTiledPosition();
@@ -114,7 +114,8 @@ function Bomberman(game){
 			owner_serial: this.serial,
 			blast_power: this.blast_power,
 			col: tp.col,
-			row: tp.row
+			row: tp.row,
+            dir: direction
 		});
 
 		this.bombs_planted++;
@@ -173,6 +174,7 @@ function Bomberman(game){
 	};
 
 	this.killProperly = function(){
+        console.log("killProperly");
 		if(this.death_animation) this.death_animation.onComplete.removeAll();
         if(this.i_deathtimer) this.game.time.events.remove( this.i_deathtimer );
 		this.is_dead = true;
