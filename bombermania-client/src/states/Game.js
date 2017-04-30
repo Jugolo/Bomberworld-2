@@ -886,6 +886,7 @@ Retoosh.Game.prototype = {
 		for(var i = 0; i < this.players.length; i++){
 			var bomberman = this.players[i];
 			bomberman.is_dead = true;
+            bomberman.is_dying = false;
 			bomberman.visible = false;
 			this.map.characters.add(bomberman);
 
