@@ -170,7 +170,7 @@ function SocketHandler( context ){
 
 		var owner = context.players[bomb_data.owner_serial];
 
-		var bomb = new Bomb(context.game, owner, context.map, bomb_data.blast_power);
+		var bomb = new Bomb(context.game, owner, context.map, bomb_data.blast_power, bomb_data.owner_serial);
 		bomb.setTiledPosition({col: bomb_data.col, row: bomb_data.row});
 		bomb.p_timestamp = bomb_data.timestamp;
 
