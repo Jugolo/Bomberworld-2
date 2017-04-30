@@ -149,10 +149,10 @@ Retoosh.Game.prototype = {
 		this.spaceKey.onDown.add(function(){
 			if(!this.is_game_started) return;
             this.isSpaceKeyPressed = true;
-			this.avatar.plantBomb(this.map);
+			this.avatar.plantBomb(this.map, this.getKeysDirection());
             if (!this.key_timer) {
                 this.key_timer = this.game.time.events.loop( 500, function(){
-                    this.avatar.plantBomb(this.map);
+                    this.avatar.plantBomb(this.map, this.getKeysDirection());
                 }, this );
             }
 		}, this);
@@ -580,10 +580,12 @@ Retoosh.Game.prototype = {
 
             var object = this.map.objects[tiled_pos.col][tiled_pos.row];
 
-            if (object.type == "bomb") { 
-                this.avatar.serial > object.serial && (final_direction = "idle", keys_direction = "none");
+            if (object.type == "bomb") {
+                if(this.avatar.serial > object.serial && keys_direction == object.dir) {
+                    final_direction = "idle", keys_direction = "none";
+                }
             };
-            
+             
 			// if(in_tile_x > c_area.left && in_tile_x < c_area.right )
 			// 	this.avatar.x = (tiled_pos.col + 0.5) * TILE_SIZE;
       
