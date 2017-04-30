@@ -303,7 +303,6 @@ Retoosh.Game.prototype = {
                              keys_direction = "none";
                         }
 						else { // next tile is inside map bounds - check if path is free
-
 							blockers = {
 								leftop: tiled_pos.row - 1 >= 0 ? this.map.objects[tiled_pos.col - 1][tiled_pos.row - 1] : false,
 								lefcenter: this.map.objects[tiled_pos.col - 1][tiled_pos.row],
@@ -579,6 +578,12 @@ Retoosh.Game.prototype = {
                     break;
 			}
 
+            var object = this.map.objects[tiled_pos.col][tiled_pos.row];
+
+            if (object.type == "bomb") { 
+                this.avatar.serial > object.serial && (final_direction = "idle", keys_direction = "none");
+            };
+            
 			// if(in_tile_x > c_area.left && in_tile_x < c_area.right )
 			// 	this.avatar.x = (tiled_pos.col + 0.5) * TILE_SIZE;
       
