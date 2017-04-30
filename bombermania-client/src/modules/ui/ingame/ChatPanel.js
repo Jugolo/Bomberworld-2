@@ -82,7 +82,7 @@ function ChatPanel( game, context ){
 		// calculate priority of each preview
 		for( var p = 0; p < this.previews.length; p++ ){
 			var preview = this.previews[p];
-			preview.priority = preview.frags - (preview.serial) * 0.1;
+			preview.priority = preview.frags;
 		}
 
 		// sort array of previews
