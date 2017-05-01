@@ -325,7 +325,7 @@ Retoosh.Game.prototype = {
 							}
 							else {
                                 //this value handles the auto movement along edges
-								if(in_tile_y > c_area.bottom + 0.06 && blockers.lefbottom) final_direction = "up", keys_direction = "up";
+								if(in_tile_y > c_area.bottom + 0.05 && blockers.lefbottom) final_direction = "up", keys_direction = "up";
 								else if(in_tile_y < c_area.top - 0.05 && blockers.leftop) final_direction = "down", keys_direction = "down";
                                 // if(in_tile_y > c_area.bottom + 0.05 && blockers.lefbottom) final_direction = "certain";
 								// else if(in_tile_y < c_area.top - 0.05 && blockers.leftop) final_direction = "certain";
@@ -498,6 +498,7 @@ Retoosh.Game.prototype = {
                             else final_direction = "left", keys_direction = "left";
                         } else if (keys_direction.indexOf("right") >= 0) {
                             if (rigcenter) final_direction = "idle", keys_direction = "none";
+                            else if(botcenter === "bomb") final_direction = "up", keys_direction = "up";
                             else final_direction = "right", keys_direction = "right";
                         }
                     } else if(lefcenter && tiled_pos.col + 1 >= this.map.cols) {
@@ -514,7 +515,7 @@ Retoosh.Game.prototype = {
                             else final_direction = "up", keys_direction = "up";
                         } else if (keys_direction.indexOf("down") >= 0) {
                             if (botcenter) final_direction = "idle", keys_direction = "none";
-                            else final_direction = "down", keys_direction = "down";
+                           else final_direction = "down", keys_direction = "down";
                         }
                     } else if(botcenter && tiled_pos.row - 1 < 0) {
                         if (keys_direction.indexOf("left") >= 0) {
@@ -522,6 +523,7 @@ Retoosh.Game.prototype = {
                             else final_direction = "left", keys_direction = "left";
                         } else if (keys_direction.indexOf("right") >= 0) {
                             if (rigcenter) final_direction = "idle", keys_direction = "none";
+                           else if(botcenter === "bomb") final_direction = "up", keys_direction = "up";
                             else final_direction = "right", keys_direction = "right";
                         }
                     } else if(topcenter && tiled_pos.row + 1 >= this.map.rows) {
