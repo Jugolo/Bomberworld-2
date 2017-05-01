@@ -105,7 +105,7 @@ function Bomberman(game){
 	};
 
 	this.plantBomb = function( map ){
-		if(this.is_dead || this.is_dying) return;
+		if(this.is_dead || this.is_dying || this.is_invincible) return;
 
 		var tp = this.getTiledPosition();
 		if(map.objects[tp.col][tp.row] || this.bombs_planted >= this.bombs_capacity) return;
