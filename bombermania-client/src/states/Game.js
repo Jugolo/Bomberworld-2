@@ -325,7 +325,7 @@ Retoosh.Game.prototype = {
 							}
 							else {
                                 //this value handles the auto movement along edges
-								if(in_tile_y > c_area.bottom + 0.05 && blockers.lefbottom) final_direction = "up", keys_direction = "up";
+								if(in_tile_y > c_area.bottom + 0.06 && blockers.lefbottom) final_direction = "up", keys_direction = "up";
 								else if(in_tile_y < c_area.top - 0.05 && blockers.leftop) final_direction = "down", keys_direction = "down";
                                 // if(in_tile_y > c_area.bottom + 0.05 && blockers.lefbottom) final_direction = "certain";
 								// else if(in_tile_y < c_area.top - 0.05 && blockers.leftop) final_direction = "certain";
