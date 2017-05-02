@@ -484,7 +484,7 @@ Retoosh.Game.prototype = {
 		                // 	}
 		                // 	break;
 				default:
-                    if(lefcenter && rigcenter) {
+                    if((lefcenter === "indestructable" || lefcenter === "destructable") && (rigcenter === "indestructable" || rigcenter === "destructable")) {
                         if (keys_direction.indexOf("up") >= 0) {
                             if (topcenter) final_direction = "idle", keys_direction = "none";
                             else final_direction = "up", keys_direction = "up";
@@ -492,16 +492,15 @@ Retoosh.Game.prototype = {
                             if (botcenter) final_direction = "idle", keys_direction = "none";
                             else final_direction = "down", keys_direction = "down";
                         }
-                    } else if (botcenter && topcenter) {
+                    } else if ((botcenter === "indestructable" || botcenter === "destructable") && (topcenter === "indestructable" || topcenter === "destructable")) {
                         if (keys_direction.indexOf("left") >= 0) {
                             if (lefcenter) final_direction = "idle", keys_direction = "none";
                             else final_direction = "left", keys_direction = "left";
                         } else if (keys_direction.indexOf("right") >= 0) {
                             if (rigcenter) final_direction = "idle", keys_direction = "none";
-                            else if(botcenter === "bomb") final_direction = "up", keys_direction = "up";
                             else final_direction = "right", keys_direction = "right";
                         }
-                    } else if(lefcenter && tiled_pos.col + 1 >= this.map.cols) {
+                    } else if((lefcenter === "indestructable" || lefcenter === "destructable" ) && tiled_pos.col + 1 >= this.map.cols) {
                         if (keys_direction.indexOf("up") >= 0) {
                             if (topcenter) final_direction = "idle", keys_direction = "none";
                             else final_direction = "up", keys_direction = "up";
@@ -509,24 +508,23 @@ Retoosh.Game.prototype = {
                             if (botcenter) final_direction = "idle", keys_direction = "none";
                             else final_direction = "down", keys_direction = "down";
                         }
-                    } else if(rigcenter && tiled_pos.col - 1 < 0) {
+                    } else if((rigcenter === "indestructable" || rigcenter === "destructable") && tiled_pos.col - 1 < 0) {
                         if (keys_direction.indexOf("up") >= 0) {
                             if (topcenter) final_direction = "idle", keys_direction = "none";
                             else final_direction = "up", keys_direction = "up";
                         } else if (keys_direction.indexOf("down") >= 0) {
                             if (botcenter) final_direction = "idle", keys_direction = "none";
-                           else final_direction = "down", keys_direction = "down";
+                            else final_direction = "down", keys_direction = "down";
                         }
-                    } else if(botcenter && tiled_pos.row - 1 < 0) {
+                    } else if((botcenter === "indestructable" || botcenter === "destructable") && tiled_pos.row - 1 < 0) {
                         if (keys_direction.indexOf("left") >= 0) {
                             if (lefcenter) final_direction = "idle", keys_direction = "none";
                             else final_direction = "left", keys_direction = "left";
                         } else if (keys_direction.indexOf("right") >= 0) {
                             if (rigcenter) final_direction = "idle", keys_direction = "none";
-                           else if(botcenter === "bomb") final_direction = "up", keys_direction = "up";
                             else final_direction = "right", keys_direction = "right";
                         }
-                    } else if(topcenter && tiled_pos.row + 1 >= this.map.rows) {
+                    } else if((topcenter === "indestructable" || topcenter === "destructable") && tiled_pos.row + 1 >= this.map.rows) {
                         if (keys_direction.indexOf("left") >= 0) {
                             if (lefcenter) final_direction = "idle", keys_direction = "none";
                             else final_direction = "left", keys_direction = "left";
