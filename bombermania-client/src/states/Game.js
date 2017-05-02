@@ -936,6 +936,7 @@ Retoosh.Game.prototype = {
 
 	startBeingHost: function( data/*timestamp*/ ){
 		console.log('Resume host countdowns!');
+        var timestamp = 0;
         if (data != undefined) {
             timestamp = data.timestamp;
             /*
