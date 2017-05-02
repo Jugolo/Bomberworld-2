@@ -105,7 +105,7 @@ function Bomberman(game){
 	};
 
 	this.plantBomb = function( map ){
-		if(this.is_dead || this.is_dying || this.is_invincible) return;
+		if(this.is_dead || this.is_dying) return;
 
 		var tp = this.getTiledPosition();
 		if(map.objects[tp.col][tp.row] || this.bombs_planted >= this.bombs_capacity) return;
@@ -123,36 +123,62 @@ function Bomberman(game){
 	};
 
 	this.die = function( nickname_label ){
-        this.i_deathtimer = game.time.events.add( 200, function(){
-            this.game.add.audio('death_snd').play();
+		if (this.is_invincible) {
+		    this.game.add.audio('death_snd').play();
 
-            this.is_dying = true;
-            console.log("die", this.is_dying);
+		    this.is_dying = true;
+		    console.log("die", this.is_dying);
 
-            this.death_animation = this.playAnimation('death', 1.5, false);
-            // if(this.death_animation){
-                this.death_animation.onComplete.add(function(){
-                    var animation_iterator = 0;
-                    var blinking_speed = 300;
-                    var last_iteration = 10;
+		    this.death_animation = this.playAnimation('death', 1.5, false);
+		    this.death_animation.onComplete.add(function(){
+			var animation_iterator = 0;
+			var blinking_speed = 300;
+			var last_iteration = 10;
 
-                    var blinking_timer = this.game.time.events.repeat(300, last_iteration, function(){
-                        animation_iterator++;
+			var blinking_timer = this.game.time.events.repeat(300, last_iteration, function(){
+			    animation_iterator++;
 
-                        console.log("death_animation", animation_iterator);
-                        if(animation_iterator < last_iteration)
-                            this.alpha = this.alpha == 1 ? 0 : 1;
-                        else {
-                            this.alpha = 1;
-                            this.killProperly();
-                            nickname_label.visible = false;
-                        }
-                    }, this);
+			    console.log("death_animation", animation_iterator);
+			    if(animation_iterator < last_iteration)
+				this.alpha = this.alpha == 1 ? 0 : 1;
+			    else {
+				this.alpha = 1;
+				this.killProperly();
+				nickname_label.visible = false;
+			    }
+			}, this);
+		    }, this);
+		} else {
+		    this.i_deathtimer = game.time.events.add( 200, function(){
+			this.game.add.audio('death_snd').play();
 
-                }, this);
-            // }
-        }, this );
+			this.is_dying = true;
+			console.log("die", this.is_dying);
 
+			this.death_animation = this.playAnimation('death', 1.5, false);
+			// if(this.death_animation){
+			    this.death_animation.onComplete.add(function(){
+				var animation_iterator = 0;
+				var blinking_speed = 300;
+				var last_iteration = 10;
+
+				var blinking_timer = this.game.time.events.repeat(300, last_iteration, function(){
+				    animation_iterator++;
+
+				    console.log("death_animation", animation_iterator);
+				    if(animation_iterator < last_iteration)
+					this.alpha = this.alpha == 1 ? 0 : 1;
+				    else {
+					this.alpha = 1;
+					this.killProperly();
+					nickname_label.visible = false;
+				    }
+				}, this);
+
+			    }, this);
+			// }
+		    }, this );
+		}
 	};
 
 	this.resetUpgrades = function(){
