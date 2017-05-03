@@ -12,7 +12,7 @@ function Bomb(game, owner, map, force, serial){
 	this.type = "bomb";
     this.serial = serial;
 	this.anchor = { x: 0.5, y: 0.5 };
-	this.width = TILE_SIZE * 0.95;
+	this.width = TILE_SIZE * 1;
 	this.scale.y = this.scale.x;
 	this.smoothed = false;
 
