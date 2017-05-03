@@ -1,6 +1,6 @@
 var EXPLOSION_TIME = 1075; // how long explosion fire remains on map
 var EXPANSION_TIME = 71; // how fast explosion fire expands
-var EXTINCTION_TIME = 9; // how fast explosion fire extincs
+var EXTINCTION_TIME = 8.85; // how fast explosion fire extincs
 
 function Bomb(game, owner, map, force, serial){
 	Phaser.Sprite.call(this, game, 0, 0, 'ingame', "bomb/000");
