@@ -111,7 +111,7 @@ function Bomberman(game){
 		this.tint_sprite.tint = tint_color;
 	};
 
-	this.plantBomb = function( map ){
+	this.plantBomb = function( map, direction ){
 		if(this.is_dead || this.is_dying) return;
 
 		var tp = this.getTiledPosition();
@@ -121,7 +121,8 @@ function Bomberman(game){
 			owner_serial: this.serial,
 			blast_power: this.blast_power,
 			col: tp.col,
-			row: tp.row
+			row: tp.row,
+            dir: direction
 		});
 
 		this.bombs_planted++;
