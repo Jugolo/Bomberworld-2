@@ -49,6 +49,7 @@ Retoosh.Game.prototype = {
 		this.is_game_started = false;
 		this.updateIterator = 0;
         this.isSpaceKeyPressed = false;
+        this.nextRound = false;
 
 		/*
 		-----------------------------------------------------
@@ -859,6 +860,7 @@ Retoosh.Game.prototype = {
 			}
 
 			this.map.destroy();
+            		this.nextRound = true;
 		}
 
 		var map_data = this.room.map;
@@ -904,6 +906,7 @@ Retoosh.Game.prototype = {
 
 		this.game.world.bringToTop(this.chat_panel);
 		this.game.world.bringToTop(this.message_sender);
+        	if(this.nextRound) this.respawnAvatar();
 	},
 
 	stopBeingHost: function(){
