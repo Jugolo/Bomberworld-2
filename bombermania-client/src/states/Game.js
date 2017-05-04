@@ -49,7 +49,6 @@ Retoosh.Game.prototype = {
 		this.is_game_started = false;
 		this.updateIterator = 0;
         this.isSpaceKeyPressed = false;
-        this.nextRound = false;
 
 		/*
 		-----------------------------------------------------
@@ -718,15 +717,21 @@ Retoosh.Game.prototype = {
 	onBombermanInExplosion: function(bomberman, explosion){
 		console.log(bomberman.is_invincible, bomberman.is_dead, bomberman.is_dying, bomberman.is_infire);
 		//if(bomberman.is_invincible || bomberman.is_dead || bomberman.is_dying) return;
-        if(bomberman.is_invincible || bomberman.is_infire) return;
+        if(bomberman.is_invincible) return;
+		console.log(bomberman.serial," in explosion", bomberman.is_infire);
 
-		console.log(bomberman.serial," in explosion")
-		SOCKET.emit('player death', {
-			victim_serial: bomberman.serial,
-			killer_serial: explosion.owner.serial
-		});
-        bomberman.is_infire = true;
-        //bomberman.is_dying = true;
+        if (bomberman.is_infire == 0) {
+            bomberman.countInFire();    
+        }
+        
+        if (bomberman.is_infire > 20 && !bomberman.is_dying && !bomberman.is_dead) {
+		    SOCKET.emit('player death', {
+			    victim_serial: bomberman.serial,
+			    killer_serial: explosion.owner.serial
+		    });
+            bomberman.is_dying = true;
+        }
+        bomberman.is_infire++;
 		/*
 		if(!avatar.is_dying) SOCKET_CLIENT.emit('player death', {
 			victim_serial: avatar.serial,
@@ -860,7 +865,6 @@ Retoosh.Game.prototype = {
 			}
 
 			this.map.destroy();
-            		this.nextRound = true;
 		}
 
 		var map_data = this.room.map;
@@ -906,7 +910,6 @@ Retoosh.Game.prototype = {
 
 		this.game.world.bringToTop(this.chat_panel);
 		this.game.world.bringToTop(this.message_sender);
-        	if(this.nextRound) this.respawnAvatar();
 	},
 
 	stopBeingHost: function(){
