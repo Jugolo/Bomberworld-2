@@ -983,6 +983,7 @@ Retoosh.Game.prototype = {
 				var countdown_time_left = CONFIG.invincibility_time - (timestamp - bomberman.i_timestamp);
 				bomberman.startInvincibilityCountdown( countdown_time_left );
 			}
+	                if(bomberman.is_dead) bomberman.is_dying = false;
 		}
 
 		IS_HOST = true;
