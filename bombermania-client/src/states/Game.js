@@ -49,6 +49,7 @@ Retoosh.Game.prototype = {
 		this.is_game_started = false;
 		this.updateIterator = 0;
         this.isSpaceKeyPressed = false;
+        this.nextRound = false;
 
 		/*
 		-----------------------------------------------------
@@ -859,6 +860,7 @@ Retoosh.Game.prototype = {
 			}
 
 			this.map.destroy();
+            		this.nextRound = true;
 		}
 
 		var map_data = this.room.map;
@@ -904,6 +906,7 @@ Retoosh.Game.prototype = {
 
 		this.game.world.bringToTop(this.chat_panel);
 		this.game.world.bringToTop(this.message_sender);
+        	if(this.nextRound) this.respawnAvatar();
 	},
 
 	stopBeingHost: function(){
@@ -983,7 +986,6 @@ Retoosh.Game.prototype = {
 				var countdown_time_left = CONFIG.invincibility_time - (timestamp - bomberman.i_timestamp);
 				bomberman.startInvincibilityCountdown( countdown_time_left );
 			}
-	                if(bomberman.is_dead) bomberman.is_dying = false;
 		}
 
 		IS_HOST = true;
