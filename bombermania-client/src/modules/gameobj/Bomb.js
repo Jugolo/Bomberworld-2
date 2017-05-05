@@ -155,10 +155,13 @@ function ExplosionSprite(game, bomb, direction, fire_delay, extinction_delay, ex
 
 	this.animations.play('spark-center', 1, false);
 
+    	if(!this.game) return; 
 	this.game.time.events.add(fire_delay, function(){
 		this.animations.play('spark-edge', 1, false);
 
+    		if(!this.game) return; 
 		this.game.time.events.add(EXPANSION_TIME, function(){
+    			if(!this.game) return; 
 			this.animations.play(direction, 14, true);
 
 			game.physics.arcade.enable(this);
