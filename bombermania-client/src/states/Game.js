@@ -582,7 +582,7 @@ Retoosh.Game.prototype = {
             var object = this.map.objects[tiled_pos.col][tiled_pos.row];
 
             if (object.type == "bomb") {
-                if(this.avatar.serial > object.serial && keys_direction == object.dir) {
+                if(this.avatar.serial > object.serial && keys_direction == object.dir && (!(in_tile_x > 0.4 && in_tile_x < 0.6) || !(in_tile_y > 0.4 && in_tile_y < 0.6))) {
                     final_direction = "idle", keys_direction = "none";
                 }
             };
