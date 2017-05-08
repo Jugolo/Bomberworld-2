@@ -180,6 +180,8 @@ function PlayerPreview( game, id, name, serial, frags, color, self = false ){
     this.setColor = function( color ) {
         points_label.fill = color;
     }
+    this.setFrags(frags);
+    if (frags < 0) this.setColor("#ff0000");
 }
 
 PlayerPreview.prototype = Object.create(Phaser.Group.prototype);
