@@ -601,11 +601,6 @@ Retoosh.Game.prototype = {
                 }
             };
              
-	if(in_tile_x > c_area.left && in_tile_x < c_area.right )
-	this.avatar.x = (tiled_pos.col + 0.5) * TILE_SIZE;
-      
-	if(in_tile_y > c_area.top && in_tile_y < c_area.bottom )
-	this.avatar.y = (tiled_pos.row + 0.5) * TILE_SIZE;
 
 
 
