@@ -113,6 +113,7 @@ function Bomberman(game){
 
 	this.plantBomb = function( map, direction ){
 		if(this.is_dead || this.is_dying) return;
+        	if(this.is_invincible && this.is_infire > 0) return;
 
 		var tp = this.getTiledPosition();
 		if(map.objects[tp.col][tp.row] || this.bombs_planted >= this.bombs_capacity) return;
