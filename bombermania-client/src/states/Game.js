@@ -582,8 +582,22 @@ Retoosh.Game.prototype = {
             var object = this.map.objects[tiled_pos.col][tiled_pos.row];
 
             if (object.type == "bomb") {
-                if(this.avatar.serial > object.serial && keys_direction == object.dir && (!(in_tile_x > 0.4 && in_tile_x < 0.6) || !(in_tile_y > 0.4 && in_tile_y < 0.6))) {
-                    final_direction = "idle", keys_direction = "none";
+                if (keys_direction == "left") {
+                    if(this.avatar.serial > object.serial && keys_direction == object.dir && in_tile_x < 0.4) {
+                        final_direction = "idle", keys_direction = "none";
+                    }
+                } else if (keys_direction == "right") {
+                    if(this.avatar.serial > object.serial && keys_direction == object.dir && in_tile_x > 0.6) {
+                        final_direction = "idle", keys_direction = "none";
+                    }
+                } else if (keys_direction == "up") {
+                    if(this.avatar.serial > object.serial && keys_direction == object.dir && in_tile_y < 0.4) {
+                        final_direction = "idle", keys_direction = "none";
+                    }
+                } else if (keys_direction == "down") {
+                    if(this.avatar.serial > object.serial && keys_direction == object.dir && in_tile_y > 0.6) {
+                        final_direction = "idle", keys_direction = "none";
+                    }
                 }
             };
              
