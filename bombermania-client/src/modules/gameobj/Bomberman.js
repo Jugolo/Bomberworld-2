@@ -100,7 +100,7 @@ function Bomberman(game){
 
     
 	this.countInFire = function() {
-		game.time.events.add(1200, function() {
+		game.time.events.add(1300, function() {
 		    console.log("countInFire", this.is_infire);
 		    this.is_infire = 0;
 		}, this);
@@ -169,7 +169,8 @@ function Bomberman(game){
 
 	this.revive = function(col, row){
 		this.is_dead = false;
-        this.is_infire = 0;
+        	this.is_dying = false;
+        	this.is_infire = 0;
 		this.resetUpgrades();
 		this.reset(col * TILE_SIZE + TILE_SIZE / 2, row * TILE_SIZE + TILE_SIZE / 2);
 
