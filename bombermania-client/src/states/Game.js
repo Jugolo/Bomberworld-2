@@ -735,7 +735,7 @@ Retoosh.Game.prototype = {
         
         bomberman.is_infire++;
         if(bomberman.is_invincible) return;
-        if (bomberman.is_infire > 20 && !bomberman.is_dying && !bomberman.is_dead) {
+        if (bomberman.is_infire > 12 && !bomberman.is_dying && !bomberman.is_dead) {
 		    SOCKET.emit('player death', {
 			    victim_serial: bomberman.serial,
 			    killer_serial: explosion.owner.serial
