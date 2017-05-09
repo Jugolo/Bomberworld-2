@@ -583,19 +583,19 @@ Retoosh.Game.prototype = {
 
             if (object.type == "bomb") {
                 if (keys_direction == "left") {
-                    if(this.avatar.serial > object.serial && keys_direction == object.dir && in_tile_x < 0.4) {
+                    if(this.avatar.serial > object.serial && keys_direction == object.dir && in_tile_x > 0.9) {
                         final_direction = "idle", keys_direction = "none";
                     }
                 } else if (keys_direction == "right") {
-                    if(this.avatar.serial > object.serial && keys_direction == object.dir && in_tile_x > 0.6) {
+                    if(this.avatar.serial > object.serial && keys_direction == object.dir && in_tile_x < 0.1) {
                         final_direction = "idle", keys_direction = "none";
                     }
                 } else if (keys_direction == "up") {
-                    if(this.avatar.serial > object.serial && keys_direction == object.dir && in_tile_y < 0.4) {
+                    if(this.avatar.serial > object.serial && keys_direction == object.dir && in_tile_y > 0.9) {
                         final_direction = "idle", keys_direction = "none";
                     }
                 } else if (keys_direction == "down") {
-                    if(this.avatar.serial > object.serial && keys_direction == object.dir && in_tile_y > 0.6) {
+                    if(this.avatar.serial > object.serial && keys_direction == object.dir && in_tile_y < 0.1) {
                         final_direction = "idle", keys_direction = "none";
                     }
                 }
@@ -727,13 +727,14 @@ Retoosh.Game.prototype = {
 	onBombermanInExplosion: function(bomberman, explosion){
 		console.log(bomberman.is_invincible, bomberman.is_dead, bomberman.is_dying, bomberman.is_infire);
 		//if(bomberman.is_invincible || bomberman.is_dead || bomberman.is_dying) return;
-        if(bomberman.is_invincible) return;
 		console.log(bomberman.serial," in explosion", bomberman.is_infire);
 
         if (bomberman.is_infire == 0) {
             bomberman.countInFire();    
         }
         
+        bomberman.is_infire++;
+        if(bomberman.is_invincible) return;
         if (bomberman.is_infire > 20 && !bomberman.is_dying && !bomberman.is_dead) {
 		    SOCKET.emit('player death', {
 			    victim_serial: bomberman.serial,
@@ -741,7 +742,6 @@ Retoosh.Game.prototype = {
 		    });
             bomberman.is_dying = true;
         }
-        bomberman.is_infire++;
         //bomberman.is_dying = true;
 		/*
 		if(!avatar.is_dying) SOCKET_CLIENT.emit('player death', {
