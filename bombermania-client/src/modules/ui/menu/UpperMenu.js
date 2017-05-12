@@ -54,12 +54,12 @@ function UpperMenu( game ){
 
 	signip_btn.onPress = function(){ context.onSignipPress(); }
 
-	/*/ nickname fields
+	// nickname fields
 	var nickname_group = game.add.group();
 
 	font_style.fill = "#FFFFFF";
-	var nickname_lbl = game.add.text(0, 0, "NICKNAME", font_style);
-	nickname_group.add( nickname_lbl );
+	//var nickname_lbl = game.add.text(0, 0, "NICKNAME", font_style);
+	//nickname_group.add( nickname_lbl );
 
 	var nickname_tf = game.add.inputField(0, 0, {
 	    font: '23px CooperBlack', /*Luckiest* /
@@ -93,8 +93,12 @@ function UpperMenu( game ){
         this.updateCursor();
         this.updateSelection();
         evt.preventDefault();
-    }*/
-    
+    }
+
+    if(window.sessionStorage['nickname']) {
+        nickname_tf.visible = false;    
+    }
+
 	//nickname_tf.x = nickname_lbl.width + 20;
 	//nickname_lbl.y = ( nickname_tf.height - nickname_lbl.height ) * 0.5;
 	//nickname_group.add(nickname_tf);
