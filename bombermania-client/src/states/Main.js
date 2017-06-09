@@ -90,7 +90,7 @@ Retoosh.Main.prototype = {
         play_btn.y = ( Retoosh.HEIGHT - play_btn.height ) * 0.5 + 130;
 
         play_btn.onPress = function(){
-          USERNAME = "Guest"+ Math.floor(Math.random() * 90540) + 1 ;
+          USERNAME = "Guest"+ Math.floor(Math.random() * 90540) + 1 ; //nickname == "" ? upper_menu.getUsername() : nickname;
           var nickname = upper_menu.getUsername();
           USERNAME = nickname == "" ? "Guest" : nickname;
 
