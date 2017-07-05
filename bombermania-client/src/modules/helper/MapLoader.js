@@ -127,13 +127,13 @@ MapLoader.prototype.randomizePowerup = function(){
 	if(powerup_randomizer < 300){
 		return 4; // protection
 	}
-	else if(powerup_randomizer < 2300){
+	else if(powerup_randomizer < 1800){
 		return 2; // capacity
 	}
-	else if(powerup_randomizer < 3500){
+	else if(powerup_randomizer < 2000){
 		return 1; // blast
 	}
-	else if(powerup_randomizer < 2300){
+	else if(powerup_randomizer < 1800){
 		return 3; // speed
 	}
 	else return 0; // none
