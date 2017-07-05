@@ -4,7 +4,7 @@ var CONFIG = {
 
 	base_velocity: 100,
 
-	velocity_threshold: 163,
+	velocity_threshold: 162,
 
 	velocity_increment: 31,
 
